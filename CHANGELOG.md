@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.10.14
+
+### Patch Changes
+
+- 32bcae9: Add domain name to invitation interface
+
 ## 0.10.13
 
 ### Patch Changes
