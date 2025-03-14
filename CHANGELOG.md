@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.1
+
+### Patch Changes
+
+- 36f7ec4: Add status to pats
+
 ## 0.11.0
 
 ### Minor Changes
