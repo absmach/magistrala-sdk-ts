@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.3
+
+### Patch Changes
+
+- d2f19e4: update view entities to have view roles query param.
+
 ## 0.11.2
 
 ### Patch Changes
