@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.4
+
+### Patch Changes
+
+- 80fe6c3: updates the send message endpoint
+
 ## 0.11.3
 
 ### Patch Changes
