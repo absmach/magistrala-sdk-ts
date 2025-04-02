@@ -50,7 +50,7 @@ export default class Domains {
 
   /**
    * @method CreateDomain - Creates a new domain.
-   * @param {Domain} domain - Domain object containing details like name and alias.
+   * @param {Domain} domain - Domain object containing details like name and route.
    * @param {string} token - Authorization token.
    * @returns {Promise<Domain>} domain - The created domain object.
    * @throws {Error} - If the domain cannot be created.

@@ -174,7 +174,7 @@ export interface Token {
 export interface DomainBasicInfo {
   id?: string;
   name?: string;
-  alias?: string;
+  route?: string;
   status?: Status;
 }
 

@@ -13,7 +13,7 @@ const token = "<token>";
 const domainId = "<domainId>";
 
 mySdk.domains
-  .CreateDomain({ name: "<domainName>", alias: "<domainAlias>" }, token)
+  .CreateDomain({ name: "<domainName>", route: "<domainRoute>" }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
