@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.5
+
+### Patch Changes
+
+- 931c06c: Rename domain alias to route.
+
 ## 0.11.4
 
 ### Patch Changes
