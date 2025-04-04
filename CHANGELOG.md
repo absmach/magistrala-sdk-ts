@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.6
+
+### Patch Changes
+
+- c26c19d: This is a sync with a new messgaing API
+
 ## 0.11.5
 
 ### Patch Changes
