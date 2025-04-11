@@ -49,7 +49,7 @@ describe("Messages", () => {
       JSON.stringify({ status: 200, message: "Message sent successfully" }),
     );
 
-    const response = await sdk.messages.Send(domainId, topic, secret, msg);
+    const response = await sdk.messages.Send(domainId, topic, msg, secret);
     expect(response).toEqual({
       status: 200,
       message: "Message sent successfully",
@@ -60,10 +60,10 @@ describe("Messages", () => {
     fetchMock.mockResponseOnce(JSON.stringify(messagesPage));
 
     const response = await sdk.messages.Read(
-      queryParams,
-      channelId,
-      token,
       domainId,
+      channelId,
+      queryParams,
+      token,
     );
     expect(response).toEqual(messagesPage);
   });

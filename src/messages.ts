@@ -52,8 +52,8 @@ export default class Messages {
   public async Send(
     domainId: string,
     topic: string,
-    secret: string,
-    msg: string
+    msg: string,
+    secret: string
   ): Promise<Response> {
     const topicParts = topic.split(".");
     const chanId = topicParts.shift()!;
@@ -89,18 +89,18 @@ export default class Messages {
   /**
    *
    * @method Read - Read messages from a given channel.
-   * @param {MessagesPageMetadata} queryParams - Query parameters for the request.
-   * @param {string} channelId - The ID of the channel to read the message from.
-   * @param {string} token - Authorization token.
    * @param {string} domainId - The unique ID of the domain.
+   * @param {string} channelId - The ID of the channel to read the message from.
+   * @param {MessagesPageMetadata} queryParams - Query parameters for the request.
+   * @param {string} token - Authorization token.
    * @returns {Promise<MessagesPage>} messagesPage - A page of messages.
    * @throws {Error} - If the messages cannot be fetched.
    */
   public async Read(
-    pm: MessagesPageMetadata,
+    domainId: string,
     channelId: string,
-    token: string,
-    domainId: string
+    pm: MessagesPageMetadata,
+    token: string
   ): Promise<MessagesPage> {
     const stringParams: Record<string, string> = Object.fromEntries(
       Object.entries(pm).map(([key, value]) => [key, String(value)])

@@ -14,7 +14,7 @@ const token = "<token>";
 const domainId = "<domainId>";
 
 mySdk.messages
-  .Send(domainId, "<topic>", "<secret>", "<message>")
+  .Send(domainId, "<topic>", "<message>", "<secret>")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -23,7 +23,7 @@ mySdk.messages
   });
 
 mySdk.messages
-  .Read({ offset: 0, limit: 10 }, "<channelId>", token, domainId)
+  .Read(domainId, "<channelId>", { offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
