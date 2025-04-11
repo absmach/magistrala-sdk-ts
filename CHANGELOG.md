@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.11.10
+
+### Patch Changes
+
+- 0d9e1f3: reorder params
+
 ## 0.11.9
 
 ### Patch Changes
