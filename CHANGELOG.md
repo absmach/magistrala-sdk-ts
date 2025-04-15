@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.12.0
+
+### Minor Changes
+
+- a3e06d5: this adds the alarms service to the sdk. It allows users to create, update, view and delete alarms
+
 ## 0.11.10
 
 ### Patch Changes
