@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.12.1
+
+### Patch Changes
+
+- a116aa7: refactor rules engine service to add update scheduler as well as rename the methods.
+
 ## 0.12.0
 
 ### Minor Changes
