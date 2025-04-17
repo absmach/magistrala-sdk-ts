@@ -463,8 +463,11 @@ export interface MembersPage {
   limit: number;
 }
 
+
+export type ScriptKind = "channels" | "save_senml" | "alarms" | "email" | "save"
 export interface Script {
   type: number;
+  kind: ScriptKind;
   value: string;
 }
 
