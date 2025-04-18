@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.12.2
+
+### Patch Changes
+
+- 383a39c: Updates the schedule json stringify
+
 ## 0.12.1
 
 ### Patch Changes
