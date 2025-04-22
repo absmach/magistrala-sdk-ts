@@ -27,7 +27,7 @@ describe("Rules SDK", () => {
       recurring_period: 0,
     },
     logic: {
-      kind: "save_senml",
+      outputs: ["save_senml"],
       type: 0,
       value: "this is the logic",
     },
