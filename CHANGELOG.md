@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.12.3
+
+### Patch Changes
+
+- 375ea3a: Add Script Outputs to indicate the follow-up actions.
+
 ## 0.12.2
 
 ### Patch Changes
