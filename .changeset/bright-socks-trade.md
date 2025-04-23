@@ -1,5 +1,5 @@
 ---
-"@absmach/magistrala-sdk": minor
+"@absmach/magistrala-sdk": patch
 ---
 
-Add Script Kind to indicate the follow-up action
+Add Script Outputs to indicate the follow-up actions.

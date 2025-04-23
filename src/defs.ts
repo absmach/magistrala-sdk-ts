@@ -463,7 +463,7 @@ export interface MembersPage {
   limit: number;
 }
 
-export type ScriptOutput = "channels" | "save_senml" | "alarms" | "email" | "save";
+export type ScriptOutput = "channels" | "save_senml" | "alarms" | "email" | "save_remote_pg";
 export interface Script {
   type: number;
   outputs: ScriptOutput[];
