@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.12.4
+
+### Patch Changes
+
+- 2c760fe: Export unexported type.
+
 ## 0.12.3
 
 ### Patch Changes
