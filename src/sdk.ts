@@ -69,6 +69,7 @@ export type {
   Script,
   Recurring,
   Schedule,
+  ScriptOutput,
   RuleStatus,
   Rule,
   RulesPageMetadata,
