@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.0
+
+### Minor Changes
+
+- 9191285: Adds the reports class that allows the management of reports.This class handles interactions with the reports API.
+
 ## 0.12.4
 
 ### Patch Changes
