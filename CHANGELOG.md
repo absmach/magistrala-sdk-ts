@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.1
+
+### Patch Changes
+
+- 5aff18e: Fixes the update schedule function
+
 ## 0.13.0
 
 ### Minor Changes
