@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.2
+
+### Patch Changes
+
+- c5e145f: Move file_format to metrics from email
+
 ## 0.13.1
 
 ### Patch Changes
