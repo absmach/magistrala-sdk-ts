@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.6
+
+### Patch Changes
+
+- c5d4a3f: update reset password
+
 ## 0.13.5
 
 ### Patch Changes
