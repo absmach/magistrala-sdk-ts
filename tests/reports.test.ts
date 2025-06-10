@@ -13,8 +13,8 @@ import { ReqMetric, Schedule } from "../src/defs";
 
 enableFetchMocks();
 
-const rulesUrl = "http://localhost";
-const sdk = new SDK({ rulesUrl });
+const reportsUrl = "http://localhost";
+const sdk = new SDK({ reportsUrl });
 
 describe("Reports SDK", () => {
   const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9";

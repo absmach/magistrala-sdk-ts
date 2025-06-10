@@ -113,6 +113,7 @@ export interface SDKConfig {
   bootstrapUrl?: string;
   journalUrl?: string;
   rulesUrl?: string;
+  reportsUrl?: string;
   authUrl?: string;
   alarmsUrl?: string;
 }
@@ -158,6 +159,7 @@ class SDK {
     bootstrapUrl = defaultUrl,
     journalUrl = defaultUrl,
     rulesUrl = defaultUrl,
+    reportsUrl = defaultUrl,
     authUrl = defaultUrl,
     alarmsUrl = defaultUrl,
   }: SDKConfig = {}) {
@@ -184,7 +186,7 @@ class SDK {
       authUrl,
     });
     this.Rules = new Rules({ rulesUrl });
-    this.Reports = new Reports({ reportsUrl: rulesUrl });
+    this.Reports = new Reports({ reportsUrl });
     this.PATs = new PATs({ authUrl });
     this.Alarms = new Alarms({ alarmsUrl });
   }
