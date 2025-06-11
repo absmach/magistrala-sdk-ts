@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.8
+
+### Patch Changes
+
+- 363e23e: Separate Reports from Rules
+
 ## 0.13.7
 
 ### Patch Changes
