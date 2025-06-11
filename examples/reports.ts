@@ -6,7 +6,7 @@ import SDK from "../src/sdk";
 const defaultUrl = "http://localhost";
 
 const mgSdk = new SDK({
-  reportsUrl: `${defaultUrl}:9009`,
+  reportsUrl: `${defaultUrl}:9017`,
 });
 
 const token = "<token>";
