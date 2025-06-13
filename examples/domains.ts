@@ -229,7 +229,7 @@ mgSdk.Domains.ListDomainMembers(domainId, { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Domains.SendInvitation("<userId>", domainId, "<roleId>", token)
+mgSdk.Domains.SendInvitation("<userId>", domainId, "<roleId>", token, false)
   .then((response: any) => {
     console.log("response: ", response);
   })

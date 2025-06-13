@@ -793,7 +793,7 @@ export default class Domains {
    * @param {string} userId - The unique ID of the user.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @param {boolean} resend - If the request is a resend request.
+   * @param {boolean} resend - Option to resend an invitation if it has been rejected.
    * @returns {Promise<Response>} response - A promise that resolves when the invitation is sent.
    * @throws {Error} - If the invitation cannot be sent.
    */
