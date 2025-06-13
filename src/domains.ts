@@ -793,6 +793,7 @@ export default class Domains {
    * @param {string} userId - The unique ID of the user.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
+   * @param {boolean} resend - Is the request is a resend request.
    * @returns {Promise<Response>} response - A promise that resolves when the invitation is sent.
    * @throws {Error} - If the invitation cannot be sent.
    */
@@ -800,7 +801,8 @@ export default class Domains {
     userId: string,
     domainId: string,
     roleId: string,
-    token: string
+    token: string,
+    resend?: boolean
   ): Promise<Response> {
     const options: RequestInit = {
       method: "POST",
@@ -808,7 +810,11 @@ export default class Domains {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ invitee_user_id: userId, role_id: roleId }),
+      body: JSON.stringify({
+        invitee_user_id: userId,
+        role_id: roleId,
+        resend,
+      }),
     };
     try {
       const response = await fetch(
