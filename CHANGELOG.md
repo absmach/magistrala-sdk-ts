@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.9
+
+### Patch Changes
+
+- 7a7038b: Add a resend param to the send invitation function. This allows a user to resend an invitation that has already been rejected.
+
 ## 0.13.8
 
 ### Patch Changes
