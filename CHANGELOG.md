@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.10
+
+### Patch Changes
+
+- 8e44af9: This updates report config structs
+
 ## 0.13.9
 
 ### Patch Changes
