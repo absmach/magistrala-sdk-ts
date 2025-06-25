@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.11
+
+### Patch Changes
+
+- 77888f0: Update the rules outputs handling
+
 ## 0.13.10
 
 ### Patch Changes
