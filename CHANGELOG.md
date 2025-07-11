@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.12
+
+### Patch Changes
+
+- e59e198: Add report template
+
 ## 0.13.11
 
 ### Patch Changes
