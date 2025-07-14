@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.13
+
+### Patch Changes
+
+- 3a32172: This adds template interface
+
 ## 0.13.12
 
 ### Patch Changes
