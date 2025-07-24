@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.14
+
+### Patch Changes
+
+- 6159ab1: add tags implementation to rules
+
 ## 0.13.13
 
 ### Patch Changes
