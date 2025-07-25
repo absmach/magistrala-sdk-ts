@@ -538,6 +538,7 @@ export interface RulesPageMetadata {
   name?: string;
   input_channel?: string;
   status?: RuleStatus;
+  tag?: string
 }
 
 export interface RulesPage extends RulesPageMetadata {
