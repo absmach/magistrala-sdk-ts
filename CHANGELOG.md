@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.13.15
+
+### Patch Changes
+
+- b641cf7: add tags to rule metadata
+
 ## 0.13.14
 
 ### Patch Changes
