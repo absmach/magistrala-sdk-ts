@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.0
+
+### Minor Changes
+
+- 406e3b4: Align version to SuperMQ
+
 ## 0.13.15
 
 ### Patch Changes
