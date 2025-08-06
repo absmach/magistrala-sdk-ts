@@ -78,6 +78,8 @@ export type {
   EmailOutput,
   PostgresDBOutput,
   RulesPageMetadata,
+  OrderDirection,
+  OrderByField,
   RulesPage,
   EntityType,
   Operation,
