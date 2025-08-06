@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.1
+
+### Patch Changes
+
+- 5a5c741: Add order to rules page metadata
+
 ## 0.17.0
 
 ### Minor Changes
