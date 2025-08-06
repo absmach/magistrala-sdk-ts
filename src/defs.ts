@@ -530,11 +530,16 @@ export interface PostgresDBOutput extends Output {
   mapping?: string;
 }
 
+export type OrderDirection = "asc" | "desc";
+
+export type OrderByField = "name" | "created_at" | "updated_at";
+
 export interface RulesPageMetadata {
   total?: number;
   offset?: number;
   limit?: number;
-  dir?: string;
+  dir?: OrderDirection;
+  order?:OrderByField;
   name?: string;
   input_channel?: string;
   status?: RuleStatus;
