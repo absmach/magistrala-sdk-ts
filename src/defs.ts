@@ -26,6 +26,12 @@ export interface UsersPage {
   total: number;
   offset: number;
   limit: number;
+  order?: OrderByField;
+  dir?: OrderDirection;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
 }
 
 export interface UserCredentials {
@@ -75,6 +81,9 @@ export interface ClientsPage {
   total: number;
   offset: number;
   limit: number;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface GroupBasicInfo {
@@ -111,6 +120,9 @@ export interface GroupsPage {
   total: number;
   offset: number;
   limit: number;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface HierarchyPageMeta {
@@ -159,6 +171,9 @@ export interface ChannelsPage {
   total: number;
   offset: number;
   limit: number;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface Login {
@@ -198,6 +213,9 @@ export interface DomainsPage {
   total: number;
   offset: number;
   limit: number;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface Permissions {
@@ -409,6 +427,9 @@ export interface RolePage {
   total: number;
   offset: number;
   limit: number;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface MemberRoleActions {
@@ -687,6 +708,8 @@ export interface AlarmPageMeta extends BasicPageMeta {
   assigned_by?: string;
   acknowledged_by?: string;
   resolved_by?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface Report {
@@ -731,6 +754,9 @@ export interface ReportPage {
   aggregation?: AggConfig;
   reports: Report[];
   file?: ReportFile;
+  name?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export enum Aggregation {
