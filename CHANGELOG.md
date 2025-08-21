@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.2
+
+### Patch Changes
+
+- 0014526: Update entities sorting to include order and direction
+
 ## 0.17.1
 
 ### Patch Changes
