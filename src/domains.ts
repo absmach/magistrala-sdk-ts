@@ -1070,12 +1070,13 @@ export default class Domains {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ user_id: userId }),
     };
 
     try {
       const response = await fetch(
         new URL(
-          `${this.domainsEndpoint}/${domainId}/${this.invitationsEndpoint}/${userId}`,
+          `${this.domainsEndpoint}/${domainId}/${this.invitationsEndpoint}`,
           this.domainsUrl
         ).toString(),
         options
