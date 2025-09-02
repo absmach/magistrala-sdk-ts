@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.3
+
+### Patch Changes
+
+- ab391aa: Remove user id from delete invitation endpoint
+
 ## 0.17.2
 
 ### Patch Changes
