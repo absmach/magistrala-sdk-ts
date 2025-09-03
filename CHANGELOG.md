@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.4
+
+### Patch Changes
+
+- 9b0e0a2: add email verification functions
+
 ## 0.17.3
 
 ### Patch Changes
