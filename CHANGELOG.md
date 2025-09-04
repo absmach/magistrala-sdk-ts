@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.5
+
+### Patch Changes
+
+- 80ec31c: Fix verify email endpoint
+
 ## 0.17.4
 
 ### Patch Changes
