@@ -924,7 +924,7 @@ export default class Users {
     try {
       const response = await fetch(
         new URL(
-          `${this.usersEndpoint}/verify-email?token=${token}`,
+          `/verify-email?token=${token}`,
           this.usersUrl
         ).toString(),
         options
