@@ -242,8 +242,8 @@ export interface PageMetadata extends BasicPageMeta {
   total?: number;
   offset?: number;
   limit?: number;
-  order?: string;
-  dir?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
   level?: number;
   email?: string;
   username?: string;
@@ -534,7 +534,22 @@ export interface PostgresDBOutput extends Output {
 
 export type OrderDirection = "asc" | "desc";
 
-export type OrderByField = "name" | "created_at" | "updated_at";
+export type OrderByField =
+  | "name"
+  | "created_at"
+  | "updated_at"
+  | "first_name"
+  | "last_name"
+  | "username"
+  | "email"
+  | "time"
+  | "created"
+  | "value"
+  | "publisher"
+  | "protocol"
+  | "subtopic"
+  | "unit"
+  | "channel";
 
 export interface RulesPageMetadata {
   total?: number;
@@ -544,6 +559,8 @@ export interface RulesPageMetadata {
   input_channel?: string;
   status?: RuleStatus;
   tag?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface RulesPage extends RulesPageMetadata {
@@ -687,6 +704,8 @@ export interface AlarmPageMeta extends BasicPageMeta {
   assigned_by?: string;
   acknowledged_by?: string;
   resolved_by?: string;
+  order?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface Report {
