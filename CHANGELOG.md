@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.6
+
+### Patch Changes
+
+- 0d58bf0: Add Messaging Page ordering fields
+
 ## 0.17.5
 
 ### Patch Changes
