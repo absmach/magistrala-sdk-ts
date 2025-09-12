@@ -534,7 +534,7 @@ export interface PostgresDBOutput extends Output {
 
 export type OrderDirection = "asc" | "desc";
 
-export type OrderByField = "name" | "created_at" | "updated_at";
+export type OrderByField = "name" | "created_at" | "updated_at" | "first_name" | "last_name" | "username" | "email";
 
 export interface RulesPageMetadata {
   total?: number;
@@ -544,6 +544,8 @@ export interface RulesPageMetadata {
   input_channel?: string;
   status?: RuleStatus;
   tag?: string;
+  order_by?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface RulesPage extends RulesPageMetadata {
@@ -687,6 +689,8 @@ export interface AlarmPageMeta extends BasicPageMeta {
   assigned_by?: string;
   acknowledged_by?: string;
   resolved_by?: string;
+  order_by?: OrderByField;
+  dir?: OrderDirection;
 }
 
 export interface Report {
