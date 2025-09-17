@@ -77,6 +77,7 @@ export type {
   ChannelOutput,
   EmailOutput,
   PostgresDBOutput,
+  SlackOutput,
   RulesPageMetadata,
   OrderDirection,
   OrderByField,
