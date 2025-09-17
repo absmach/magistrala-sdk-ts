@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.7
+
+### Patch Changes
+
+- 6e88bb6: update rules engine output types to include slack
+
 ## 0.17.6
 
 ### Patch Changes
