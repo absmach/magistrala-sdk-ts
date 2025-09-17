@@ -282,7 +282,7 @@ export interface PageMetadata extends BasicPageMeta {
   channel?: string;
   connection_type?: string;
   root_group?: boolean;
-  verified?: boolean
+  verified?: boolean;
 }
 
 export interface MessagesPage {
@@ -472,6 +472,7 @@ export enum OutputType {
   ALARMS = "alarms",
   EMAIL = "email",
   SAVE_REMOTE_PG = "save_remote_pg",
+  SLACK = "slack",
 }
 
 export interface Script {
@@ -530,6 +531,11 @@ export interface PostgresDBOutput extends Output {
   database: string;
   table: string;
   mapping?: string;
+}
+
+export interface SlackOutput extends Output {
+  token: string;
+  channel_id: string;
 }
 
 export type OrderDirection = "asc" | "desc";
