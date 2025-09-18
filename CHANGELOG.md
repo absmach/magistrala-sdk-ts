@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.8
+
+### Patch Changes
+
+- 0e5c649: add message field to slack output interface
+
 ## 0.17.7
 
 ### Patch Changes
