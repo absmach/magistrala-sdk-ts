@@ -536,6 +536,7 @@ export interface PostgresDBOutput extends Output {
 export interface SlackOutput extends Output {
   token: string;
   channel_id: string;
+  message: string;
 }
 
 export type OrderDirection = "asc" | "desc";
