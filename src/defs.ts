@@ -779,6 +779,7 @@ export interface MetricConfig {
   to?: string;
   aggregation?: AggConfig;
   file_format?: Format;
+  timezone?: string;
 }
 
 export interface EmailSetting {
