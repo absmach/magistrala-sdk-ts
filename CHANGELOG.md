@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.9
+
+### Patch Changes
+
+- 27fe9e6: add support for timezone
+
 ## 0.17.8
 
 ### Patch Changes
