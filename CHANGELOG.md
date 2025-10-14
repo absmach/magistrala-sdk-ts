@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.10
+
+### Patch Changes
+
+- 67539fc: add auth provider field to the user interface. This is used to identify whether the user is created on supermq of fetched from one of the oAuth providers
+
 ## 0.17.9
 
 ### Patch Changes
