@@ -20,6 +20,7 @@ export interface User extends UserBasicInfo {
   updated_by?: string | UserBasicInfo;
   verified_at?: Date;
   permissions?: string[];
+  auth_provider?: string;
 }
 
 export interface UsersPage {
