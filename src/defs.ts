@@ -553,10 +553,14 @@ export type OrderByField =
   | "time"
   | "created"
   | "value"
+  | "bool_value"
+  | "string_value"
+  | "data_value"
   | "publisher"
   | "protocol"
   | "subtopic"
   | "unit"
+  | "sum"
   | "channel";
 
 export interface RulesPageMetadata {
