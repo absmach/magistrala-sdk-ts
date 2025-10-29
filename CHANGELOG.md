@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.11
+
+### Patch Changes
+
+- 3d57ed5: It adds more fields to senml ordering
+
 ## 0.17.10
 
 ### Patch Changes
