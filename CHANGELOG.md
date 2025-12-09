@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.12
+
+### Patch Changes
+
+- 929a48d: update alarms page metadata to add created from and to
+
 ## 0.17.11
 
 ### Patch Changes
