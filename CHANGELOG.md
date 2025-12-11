@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.13
+
+### Patch Changes
+
+- 9c6a7dc: allow string to be passed to created from and to as we support RFC339 format
+
 ## 0.17.12
 
 ### Patch Changes
