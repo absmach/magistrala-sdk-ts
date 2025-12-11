@@ -718,8 +718,8 @@ export interface AlarmPageMeta extends BasicPageMeta {
   resolved_by?: string;
   order?: OrderByField;
   dir?: OrderDirection;
-  created_from?: Date;
-  created_to?: Date;
+  created_from?: Date | string;
+  created_to?: Date | string;
 }
 
 export interface Report {
