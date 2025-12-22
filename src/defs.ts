@@ -494,19 +494,19 @@ export type RuleStatus = "enabled" | "disabled" | "deleted" | "all" | "unknown";
 export interface Rule {
   id?: string;
   name?: string;
-  domain?: string;
+  domain?: string | DomainBasicInfo;
   metadata?: Record<string, any>;
   tags?: string[];
-  input_channel?: string;
+  input_channel?: string | ChannelBasicInfo;
   input_topic?: string;
   logic?: Script;
   outputs?: Output[];
   schedule?: Schedule;
   status?: RuleStatus;
-  created_by?: string;
+  created_by?: string | UserBasicInfo;
   created_at?: Date;
   updated_at?: Date;
-  updated_by?: string;
+  updated_by?: string | UserBasicInfo;
 }
 
 export interface Output {
@@ -672,9 +672,9 @@ export type AlarmStatus = "active" | "cleared" | "all";
 export interface Alarm {
   id?: string;
   rule_id?: string;
-  domain_id?: string;
-  channel_id?: string;
-  client_id?: string;
+  domain_id?: string | DomainBasicInfo;
+  channel_id?: string | ChannelBasicInfo;
+  client_id?: string | ClientBasicInfo;
   subtopic?: string;
   measurement?: string;
   value?: string;
@@ -683,16 +683,16 @@ export interface Alarm {
   cause?: string;
   status?: AlarmStatus;
   severity?: number;
-  assignee_id?: string;
+  assignee_id?: string | UserBasicInfo;
   created_at?: Date;
   updated_at?: Date;
-  updated_by?: string;
+  updated_by?: string | UserBasicInfo;
   assigned_at?: Date;
-  assigned_by?: string;
+  assigned_by?: string | UserBasicInfo;
   acknowledged_at?: Date;
-  acknowledged_by?: string;
+  acknowledged_by?: string | UserBasicInfo;
   resolved_at?: Date;
-  resolved_by?: string;
+  resolved_by?: string | UserBasicInfo;
   metadata?: Record<string, any>;
 }
 
@@ -799,7 +799,7 @@ export interface ReportConfig {
   id?: string;
   name?: string;
   description?: string;
-  domain_id?: string;
+  domain_id?: string | DomainBasicInfo;
   schedule?: Schedule;
   config?: MetricConfig;
   email?: EmailSetting;
@@ -807,9 +807,9 @@ export interface ReportConfig {
   report_template?: string;
   status?: Status;
   created_at?: Date;
-  created_by?: string;
+  created_by?: string | UserBasicInfo;
   updated_at?: Date;
-  updated_by?: string;
+  updated_by?: string | UserBasicInfo;
 }
 
 export interface ReportConfigPage {
