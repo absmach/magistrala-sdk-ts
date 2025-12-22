@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.14
+
+### Patch Changes
+
+- 9ada4d5: Allow user id to be substituted by userbasic information. Same for clients, domains, channels
+
 ## 0.17.13
 
 ### Patch Changes
