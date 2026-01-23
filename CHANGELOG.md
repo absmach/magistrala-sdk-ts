@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.15
+
+### Patch Changes
+
+- 5ba9e6e: add private metadata to clients and users
+
 ## 0.17.14
 
 ### Patch Changes
