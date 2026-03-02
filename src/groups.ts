@@ -218,6 +218,47 @@ export default class Groups {
   }
 
   /**
+   * @method UpdateGroupTags - Updates an existing group's tags.
+   * @param {Group} group - Group object with updated tags.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Group>} group - The updated group object.
+   * @throws {Error} - If the group tags cannot be updated.
+   */
+  public async UpdateGroupTags(
+    group: Group,
+    domainId: string,
+    token: string
+  ): Promise<Group> {
+    const options: RequestInit = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(group),
+    };
+
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.groupsEndpoint}/${group.id}/tags`,
+          this.groupsUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const updatedGroup: Group = await response.json();
+      return updatedGroup;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * @method EnableGroup - Enables a disabled group by its ID.
    * @param {string} groupId - The unique identifier of the group.
    * @param {string} domainId - The unique identifier of the domain.

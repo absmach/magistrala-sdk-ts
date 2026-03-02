@@ -91,6 +91,7 @@ export interface GroupBasicInfo {
 }
 
 export interface Group extends GroupBasicInfo {
+  tags?: string[];
   domain_id?: string | DomainBasicInfo;
   parent_id?: string | GroupBasicInfo;
   metadata?: Metadata;
