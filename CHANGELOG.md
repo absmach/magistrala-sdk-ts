@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.16
+
+### Patch Changes
+
+- d646247: add group tags
+
 ## 0.17.15
 
 ### Patch Changes
