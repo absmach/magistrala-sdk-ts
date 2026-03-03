@@ -262,7 +262,7 @@ export interface PageMetadata extends BasicPageMeta {
   action?: string;
   subject?: string;
   object?: string;
-  tag?: string;
+  tags?: string;
   id?: string;
   tree?: boolean;
   owner?: string;
