@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.17
+
+### Patch Changes
+
+- 48b58e4: Updates tag filter in page metadata to tags as it accomodates filtering with multiple tags
+
 ## 0.17.16
 
 ### Patch Changes
