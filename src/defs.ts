@@ -612,22 +612,12 @@ export type EntityType =
   | "dashboards"
   | "messages";
 
-export type Operation =
-  | "create"
-  | "read"
-  | "list"
-  | "update"
-  | "delete"
-  | "share"
-  | "unshare"
-  | "publish"
-  | "subscribe";
 export interface Scope {
   id?: string;
   pat_id?: string;
   entity_type?: EntityType;
-  optional_domain_id?: string;
-  operation?: Operation;
+  domain_id?: string;
+  operation?: string;
   entity_id?: string;
 }
 

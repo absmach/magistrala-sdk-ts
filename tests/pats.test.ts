@@ -16,7 +16,7 @@ describe("PATs", () => {
   const scope: Scope = {
     id: "523e8d81-dca8-49ed-b836-e61988fa898c",
     pat_id: "6f5c5847-9331-4c34-b037-f51bf0abd4d6",
-    optional_domain_id: "8ef3ee89-1923-4d5b-97eb-ff3c5d211a6b",
+    domain_id: "8ef3ee89-1923-4d5b-97eb-ff3c5d211a6b",
     entity_id: "*",
     operation: "read"
   };
