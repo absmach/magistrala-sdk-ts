@@ -83,7 +83,6 @@ export type {
   OrderByField,
   RulesPage,
   EntityType,
-  Operation,
   Scope,
   PAT,
   PATsPage,

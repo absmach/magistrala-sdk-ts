@@ -87,7 +87,7 @@ mgSdk.PATs.RevokePAT(patId, token)
 mgSdk.PATs.AddScope(
   [
     {
-      optional_domain_id: "<domainId>",
+      domain_id: "<domainId>",
       entity_type: "groups",
       operation: "delete",
       entity_id: "*",
