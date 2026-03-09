@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.17.18
+
+### Patch Changes
+
+- 2193b6f: Update the operation field in PATs to use string instead of the Operation type, and rename optional_domain_id to domain_id.
+
 ## 0.17.17
 
 ### Patch Changes
