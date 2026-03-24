@@ -105,3 +105,164 @@ mgSdk.Rules.enable(domainId, "<ruleId>", token)
   .catch((error) => {
     console.error(error);
   });
+
+mgSdk.Rules.listRuleActions(domainId, token)
+  .then((response: any) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.createRuleRole("<ruleId>", "<roleName>", domainId, token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.listRuleRoles("<ruleId>", domainId, { offset: 0, limit: 10 }, token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.viewRuleRole("<ruleId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.updateRuleRole(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  { name: "<updatedRoleName>" },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.deleteRuleRole("<ruleId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.addRuleRoleActions(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  ["<action>", "<action>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.listRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.deleteRuleRoleActions(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  ["<action>", "<action>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.deleteAllRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.addRuleRoleMembers(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  ["<userId>", "<userId>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.listRuleRoleMembers(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  { offset: 0, limit: 10 },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.deleteRuleRoleMembers(
+  "<ruleId>",
+  domainId,
+  "<roleId>",
+  ["<userId>", "<userId>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.deleteAllRuleRoleMembers("<ruleId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Rules.listRuleMembers(
+  "<ruleId>",
+  domainId,
+  { offset: 0, limit: 10 },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
