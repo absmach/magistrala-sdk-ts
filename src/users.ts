@@ -12,6 +12,7 @@ import type {
   Token,
   Response,
   ChannelsPage,
+  RefreshToken,
 } from "./defs";
 
 /**
@@ -923,10 +924,7 @@ export default class Users {
     };
     try {
       const response = await fetch(
-        new URL(
-          `/verify-email?token=${token}`,
-          this.usersUrl
-        ).toString(),
+        new URL(`/verify-email?token=${token}`, this.usersUrl).toString(),
         options
       );
       if (!response.ok) {
@@ -938,6 +936,80 @@ export default class Users {
         message: "Email verified successfully",
       };
       return verifyEmailResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * @method RevokeRefreshToken - Revokes a specific refresh token.
+   * @param {string} tokenId - The ID of the refresh token to revoke.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} response - A promise that resolves when the refresh token is revoked.
+   * @throws {Error} - If the refresh token cannot be revoked.
+   */
+  public async RevokeRefreshToken(
+    tokenId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ token_id: tokenId }),
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${this.usersEndpoint}/tokens/revoke`,
+          this.usersUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const revokeResponse: Response = {
+        status: response.status,
+        message: "Refresh token revoked successfully",
+      };
+      return revokeResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * @method ListActiveRefreshTokens - Lists all active refresh tokens for the authenticated user.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<RefreshToken[]>} refreshTokens - A promise that resolves with an array of active refresh tokens.
+   * @throws {Error} - If the refresh tokens cannot be fetched.
+   */
+  public async ListActiveRefreshTokens(token: string): Promise<RefreshToken[]> {
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${this.usersEndpoint}/tokens/refresh-tokens`,
+          this.usersUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const data: { refresh_tokens: RefreshToken[] } = await response.json();
+      return data.refresh_tokens;
     } catch (error) {
       throw error;
     }

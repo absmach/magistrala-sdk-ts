@@ -237,3 +237,19 @@ mgSdk.Users.VerifyEmail(token)
   .catch((error) => {
     console.error(error);
   });
+
+mgSdk.Users.RevokeRefreshToken("<tokenId>", token)
+  .then((response: any) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Users.ListActiveRefreshTokens(token)
+  .then((response: any) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
