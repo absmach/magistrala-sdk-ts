@@ -182,3 +182,189 @@ mgSdk.Reports.deleteReportTemplate(domainId, "<reportId>", token)
   .catch((error) => {
     console.error(error);
   });
+
+mgSdk.Reports.listReportConfigActions(domainId, token)
+  .then((response: any) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.createReportConfigRole(
+  "<configId>",
+  "<roleName>",
+  domainId,
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.listReportConfigRoles(
+  "<configId>",
+  domainId,
+  { offset: 0, limit: 10 },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.viewReportConfigRole("<configId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.updateReportConfigRole(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  { name: "<updatedRoleName>" },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.deleteReportConfigRole("<configId>", domainId, "<roleId>", token)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.addReportConfigRoleActions(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  ["<action>", "<action>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.listReportConfigRoleActions(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.deleteReportConfigRoleActions(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  ["<action>", "<action>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.deleteAllReportConfigRoleActions(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.addReportConfigRoleMembers(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  ["<userId>", "<userId>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.listReportConfigRoleMembers(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  { offset: 0, limit: 10 },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.deleteReportConfigRoleMembers(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  ["<userId>", "<userId>"],
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.deleteAllReportConfigRoleMembers(
+  "<configId>",
+  domainId,
+  "<roleId>",
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Reports.listReportConfigMembers(
+  "<configId>",
+  domainId,
+  { offset: 0, limit: 10 },
+  token
+)
+  .then((response) => {
+    console.log("response: ", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
