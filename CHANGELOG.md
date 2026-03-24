@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.0
+
+### Minor Changes
+
+- 3cbbcf7: Adds access control functions to reports and rules engine services
+
 ## 0.17.18
 
 ### Patch Changes
