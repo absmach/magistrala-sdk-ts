@@ -55,26 +55,46 @@ export default class Messages {
     msg: string,
     secret: string
   ): Promise<Response> {
-    const topicParts = topic.split(".");
-    const chanId = topicParts.shift()!;
-    const subtopic = topicParts.join("/");
+    const dotIndex = topic.indexOf(".");
+    const chanId = dotIndex === -1 ? topic : topic.slice(0, dotIndex);
+    const subtopic = dotIndex === -1 ? "" : topic.slice(dotIndex + 1).replace(/\./g, "/");
+    let brokerTopic = `m/${domainId}/c/${chanId}`;
+    if (subtopic) {
+      brokerTopic = `${brokerTopic}/${subtopic}`;
+    }
 
+    const payload = typeof Buffer !== "undefined"
+      ? Buffer.from(msg).toString("base64")
+      : btoa(String.fromCharCode(...new TextEncoder().encode(msg)));
+
+    const publishRequest = {
+      topic: brokerTopic,
+      payload,
+      qos: 0,
+      retain: false,
+    };
+
+    const basicAuth = typeof Buffer !== "undefined"
+      ? Buffer.from(`${domainId}:${secret}`).toString("base64")
+      : btoa(`${domainId}:${secret}`);
+
+    const baseUrl = this.httpAdapterUrl.href.replace(/\/$/, "");
     const options: RequestInit = {
       method: "POST",
       headers: {
         "Content-Type": this.contentType,
-        Authorization: `Client ${secret}`,
+        Authorization: `Basic ${basicAuth}`,
       },
-      body: msg,
+      body: JSON.stringify(publishRequest),
     };
     try {
-      const response = await fetch(
-        new URL(`m/${domainId}/c/${chanId}/${subtopic}`, this.httpAdapterUrl).toString(),
-        options
-      );
+      const response = await fetch(`${baseUrl}/publish`, options);
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        const contentType = response.headers.get("content-type") ?? "";
+        const errorMsg = contentType.includes("application/json")
+          ? (await response.json()).message
+          : (await response.text()).trim();
+        throw Errors.HandleError(errorMsg, response.status);
       }
       const sendResponse: Response = {
         status: response.status,
@@ -91,7 +111,7 @@ export default class Messages {
    * @method Read - Read messages from a given channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} channelId - The ID of the channel to read the message from.
-   * @param {MessagesPageMetadata} queryParams - Query parameters for the request.
+   * @param {MessagesPageMetadata} pm - Query parameters for the request.
    * @param {string} token - Authorization token.
    * @returns {Promise<MessagesPage>} messagesPage - A page of messages.
    * @throws {Error} - If the messages cannot be fetched.
@@ -102,14 +122,15 @@ export default class Messages {
     pm: MessagesPageMetadata,
     token: string
   ): Promise<MessagesPage> {
-    const stringParams: Record<string, string> = Object.fromEntries(
+    const dotIndex = channelId.indexOf(".");
+    const chanId = dotIndex === -1 ? channelId : channelId.slice(0, dotIndex);
+    const subtopic = dotIndex === -1 ? "" : channelId.slice(dotIndex + 1).replace(/\./g, "/");
+
+    const queryParams: Record<string, string> = Object.fromEntries(
       Object.entries(pm).map(([key, value]) => [key, String(value)])
     );
-    const chanNameParts = channelId.split(".", 2);
-    const chanId = chanNameParts[0];
-    let subtopicPart = "";
-    if (chanNameParts.length === 2) {
-      subtopicPart = chanNameParts[1].replace(".", "/");
+    if (subtopic) {
+      queryParams.subtopic = subtopic;
     }
 
     const options: RequestInit = {
@@ -122,8 +143,8 @@ export default class Messages {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/channels/${chanId}/messages${subtopicPart}?${new URLSearchParams(
-            stringParams
+          `${domainId}/channels/${chanId}/messages?${new URLSearchParams(
+            queryParams
           ).toString()}`,
           this.readersUrl
         ).toString(),
