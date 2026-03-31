@@ -124,7 +124,7 @@ export default class Messages {
   ): Promise<MessagesPage> {
     const dotIndex = channelId.indexOf(".");
     const chanId = dotIndex === -1 ? channelId : channelId.slice(0, dotIndex);
-    const subtopic = dotIndex === -1 ? "" : channelId.slice(dotIndex + 1).replace(/\./g, "/");
+    const subtopic = dotIndex === -1 ? "" : channelId.slice(dotIndex + 1);
 
     const queryParams: Record<string, string> = Object.fromEntries(
       Object.entries(pm).map(([key, value]) => [key, String(value)])
