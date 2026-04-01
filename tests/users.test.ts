@@ -13,6 +13,7 @@ import type {
   ClientsPage,
   Channel,
   Token,
+  RefreshToken,
 } from "../src/sdk";
 
 enableFetchMocks();
@@ -324,5 +325,32 @@ describe("Users", () => {
 
     const response = await sdk.Users.VerifyEmail(token);
     expect(response).toEqual(verifyResponse);
+  });
+
+  test("revoke refresh token should revoke a specific refresh token", async () => {
+    const revokeResponse = {
+      status: 200,
+      message: "Refresh token revoked successfully",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(revokeResponse));
+
+    const response = await sdk.Users.RevokeRefreshToken(
+      "token_RYYW2unQ5K18jYgjRmb3lMFB",
+      token
+    );
+    expect(response).toEqual(revokeResponse);
+  });
+
+  test("list active refresh tokens should return all active refresh tokens", async () => {
+    const refreshTokens: RefreshToken[] = [
+      { id: "token_RYYW2unQ5K18jYgjRmb3lMFB", description: "my laptop" },
+      { id: "token_XZab3cdQ7M20kLhjSno4pNGC", description: "mobile app" },
+    ];
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ refresh_tokens: refreshTokens })
+    );
+
+    const response = await sdk.Users.ListActiveRefreshTokens(token);
+    expect(response).toEqual(refreshTokens);
   });
 });

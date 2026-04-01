@@ -817,3 +817,8 @@ export interface ReportConfigPage {
 export interface Template {
   html_template: string;
 }
+
+export interface RefreshToken {
+  id: string;
+  description?: string;
+}
