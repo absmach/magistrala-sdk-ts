@@ -58,7 +58,7 @@ export default class Messages {
     const topicParts = topic.split(".");
     const chanId = topicParts.shift()!;
     const brokerTopic = `m/${domainId}/c/${chanId}${topicParts.length ? `/${topicParts.join("/")}` : ""
-      }`;
+    }`;
 
     const payload = typeof Buffer !== "undefined"
       ? Buffer.from(msg).toString("base64")
