@@ -55,13 +55,11 @@ export default class Messages {
     msg: string,
     secret: string
   ): Promise<Response> {
-    const dotIndex = topic.indexOf(".");
-    const chanId = dotIndex === -1 ? topic : topic.slice(0, dotIndex);
-    const subtopic = dotIndex === -1 ? "" : topic.slice(dotIndex + 1).replace(/\./g, "/");
-    let brokerTopic = `m/${domainId}/c/${chanId}`;
-    if (subtopic) {
-      brokerTopic = `${brokerTopic}/${subtopic}`;
-    }
+    const topicParts = topic.split(".");
+    const chanId = topicParts.shift()!;
+    const brokerTopic = `m/${domainId}/c/${chanId}${
+      topicParts.length ? `/${topicParts.join("/")}` : ""
+    }`;
 
     const payload = typeof Buffer !== "undefined"
       ? Buffer.from(msg).toString("base64")
@@ -70,8 +68,6 @@ export default class Messages {
     const publishRequest = {
       topic: brokerTopic,
       payload,
-      qos: 0,
-      retain: false,
     };
 
     const basicAuth = typeof Buffer !== "undefined"
@@ -111,7 +107,7 @@ export default class Messages {
    * @method Read - Read messages from a given channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} channelId - The ID of the channel to read the message from.
-   * @param {MessagesPageMetadata} pm - Query parameters for the request.
+   * @param {MessagesPageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
    * @returns {Promise<MessagesPage>} messagesPage - A page of messages.
    * @throws {Error} - If the messages cannot be fetched.
@@ -122,15 +118,13 @@ export default class Messages {
     pm: MessagesPageMetadata,
     token: string
   ): Promise<MessagesPage> {
-    const dotIndex = channelId.indexOf(".");
-    const chanId = dotIndex === -1 ? channelId : channelId.slice(0, dotIndex);
-    const subtopic = dotIndex === -1 ? "" : channelId.slice(dotIndex + 1);
-
-    const queryParams: Record<string, string> = Object.fromEntries(
+    const stringParams: Record<string, string> = Object.fromEntries(
       Object.entries(pm).map(([key, value]) => [key, String(value)])
     );
+    const [chanId, subtopic] = channelId.split(".", 2);
+
     if (subtopic) {
-      queryParams.subtopic = subtopic;
+      stringParams.subtopic = subtopic;
     }
 
     const options: RequestInit = {
@@ -144,7 +138,7 @@ export default class Messages {
       const response = await fetch(
         new URL(
           `${domainId}/channels/${chanId}/messages?${new URLSearchParams(
-            queryParams
+            stringParams
           ).toString()}`,
           this.readersUrl
         ).toString(),
