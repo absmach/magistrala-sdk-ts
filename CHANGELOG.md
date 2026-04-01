@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.1
+
+### Patch Changes
+
+- 2f99f4b: add revoke and list refresh tokens
+
 ## 0.18.0
 
 ### Minor Changes
