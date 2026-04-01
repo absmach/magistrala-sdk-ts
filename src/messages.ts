@@ -57,9 +57,8 @@ export default class Messages {
   ): Promise<Response> {
     const topicParts = topic.split(".");
     const chanId = topicParts.shift()!;
-    const brokerTopic = `m/${domainId}/c/${chanId}${
-      topicParts.length ? `/${topicParts.join("/")}` : ""
-    }`;
+    const brokerTopic = `m/${domainId}/c/${chanId}${topicParts.length ? `/${topicParts.join("/")}` : ""
+      }`;
 
     const payload = typeof Buffer !== "undefined"
       ? Buffer.from(msg).toString("base64")
@@ -86,11 +85,8 @@ export default class Messages {
     try {
       const response = await fetch(`${baseUrl}/publish`, options);
       if (!response.ok) {
-        const contentType = response.headers.get("content-type") ?? "";
-        const errorMsg = contentType.includes("application/json")
-          ? (await response.json()).message
-          : (await response.text()).trim();
-        throw Errors.HandleError(errorMsg, response.status);
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
       }
       const sendResponse: Response = {
         status: response.status,
