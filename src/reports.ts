@@ -578,7 +578,7 @@ export default class Reports {
     try {
       const role: Role = await this.reportRoles.CreateRole(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleName,
         token,
@@ -609,7 +609,7 @@ export default class Reports {
     try {
       const rolesPage: RolePage = await this.reportRoles.ListRoles(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         queryParams,
         token
@@ -638,7 +638,7 @@ export default class Reports {
     try {
       const role: Role = await this.reportRoles.ViewRole(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         token
@@ -669,7 +669,7 @@ export default class Reports {
     try {
       const updatedRole: Role = await this.reportRoles.UpdateRole(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         role,
@@ -699,7 +699,7 @@ export default class Reports {
     try {
       const response: Response = await this.reportRoles.DeleteRole(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         token
@@ -730,7 +730,7 @@ export default class Reports {
     try {
       const response: string[] = await this.reportRoles.AddRoleActions(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         actions,
@@ -760,7 +760,7 @@ export default class Reports {
     try {
       const actions: string[] = await this.reportRoles.ListRoleActions(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         token
@@ -791,7 +791,7 @@ export default class Reports {
     try {
       const response: Response = await this.reportRoles.DeleteRoleActions(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         actions,
@@ -821,7 +821,7 @@ export default class Reports {
     try {
       const response: Response = await this.reportRoles.DeleteAllRoleActions(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         token
@@ -852,7 +852,7 @@ export default class Reports {
     try {
       const response: string[] = await this.reportRoles.AddRoleMembers(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         members,
@@ -884,7 +884,7 @@ export default class Reports {
     try {
       const membersPage: MembersPage = await this.reportRoles.ListRoleMembers(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         queryParams,
@@ -916,7 +916,7 @@ export default class Reports {
     try {
       const response: Response = await this.reportRoles.DeleteRoleMembers(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         members,
@@ -946,7 +946,7 @@ export default class Reports {
     try {
       const response: Response = await this.reportRoles.DeleteAllRoleMembers(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         roleId,
         token
@@ -975,7 +975,7 @@ export default class Reports {
     try {
       const members: MemberRolesPage = await this.reportRoles.ListEntityMembers(
         this.reportsUrl,
-        `${domainId}/${this.reportsEndpoint}`,
+        `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
         queryParams,
         token
