@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.2
+
+### Patch Changes
+
+- eb27ee6: This updates report roles urls
+
 ## 0.18.1
 
 ### Patch Changes
