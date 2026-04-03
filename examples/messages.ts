@@ -12,9 +12,17 @@ const mgSdk = new SDK({
 
 const token = "<token>";
 const domainId = "<domainId>";
+const topic = "<channel>/<subtopic>";
+const payload = '[{"n":"rest","bu":"m","u":"m","bt":1986694772310,"v":30}]';
+
 
 mgSdk.Messages
-  .Send(domainId, "<topic>", "<message>", "<secret>")
+  .Send(
+    domainId,
+    topic,
+    payload,
+    token
+  )
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -23,7 +31,7 @@ mgSdk.Messages
   });
 
 mgSdk.Messages
-  .Read(domainId, "<channelId>", { offset: 0, limit: 10 }, token)
+  .Read(domainId, topic, { offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
