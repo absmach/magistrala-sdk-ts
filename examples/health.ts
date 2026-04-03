@@ -10,7 +10,7 @@ const mgSdk = new SDK({
   clientsUrl: `${defaultUrl}:9006`,
   channelsUrl: `${defaultUrl}:9005`,
   journalUrl: `${defaultUrl}:9021`,
-  httpAdapterUrl: `${defaultUrl}:8008`,
+  httpAdapterUrl: `${defaultUrl}/http`,
   readersUrl: `${defaultUrl}:9011`,
   domainsUrl: `${defaultUrl}:9003`,
   certsUrl: `${defaultUrl}:9019`,

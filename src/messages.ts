@@ -57,21 +57,33 @@ export default class Messages {
   ): Promise<Response> {
     const topicParts = topic.split(".");
     const chanId = topicParts.shift()!;
-    const subtopic = topicParts.join("/");
+    const brokerTopic = `m/${domainId}/c/${chanId}${topicParts.length ? `/${topicParts.join("/")}` : ""
+    }`;
 
+    const payload = typeof Buffer !== "undefined"
+      ? Buffer.from(msg).toString("base64")
+      : btoa(String.fromCharCode(...new TextEncoder().encode(msg)));
+
+    const publishRequest = {
+      topic: brokerTopic,
+      payload,
+    };
+
+    const basicAuth = typeof Buffer !== "undefined"
+      ? Buffer.from(`${domainId}:${secret}`).toString("base64")
+      : btoa(`${domainId}:${secret}`);
+
+    const baseUrl = this.httpAdapterUrl.href.replace(/\/$/, "");
     const options: RequestInit = {
       method: "POST",
       headers: {
         "Content-Type": this.contentType,
-        Authorization: `Client ${secret}`,
+        Authorization: `Basic ${basicAuth}`,
       },
-      body: msg,
+      body: JSON.stringify(publishRequest),
     };
     try {
-      const response = await fetch(
-        new URL(`m/${domainId}/c/${chanId}/${subtopic}`, this.httpAdapterUrl).toString(),
-        options
-      );
+      const response = await fetch(`${baseUrl}/publish`, options);
       if (!response.ok) {
         const errorRes = await response.json();
         throw Errors.HandleError(errorRes.message, response.status);
@@ -105,11 +117,10 @@ export default class Messages {
     const stringParams: Record<string, string> = Object.fromEntries(
       Object.entries(pm).map(([key, value]) => [key, String(value)])
     );
-    const chanNameParts = channelId.split(".", 2);
-    const chanId = chanNameParts[0];
-    let subtopicPart = "";
-    if (chanNameParts.length === 2) {
-      subtopicPart = chanNameParts[1].replace(".", "/");
+    const [chanId, subtopic] = channelId.split(".", 2);
+
+    if (subtopic) {
+      stringParams.subtopic = subtopic;
     }
 
     const options: RequestInit = {
@@ -122,7 +133,7 @@ export default class Messages {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/channels/${chanId}/messages${subtopicPart}?${new URLSearchParams(
+          `${domainId}/channels/${chanId}/messages?${new URLSearchParams(
             stringParams
           ).toString()}`,
           this.readersUrl

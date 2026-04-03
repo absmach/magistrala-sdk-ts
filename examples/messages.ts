@@ -6,7 +6,7 @@ import SDK from "../src/sdk";
 const defaultUrl = "http://localhost";
 
 const mgSdk = new SDK({
-  httpAdapterUrl: `${defaultUrl}:8008`,
+  httpAdapterUrl: `${defaultUrl}/http`,
   readersUrl: `${defaultUrl}:9011`,
 });
 

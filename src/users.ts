@@ -775,7 +775,7 @@ export default class Users {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ password, confirm_password: confPass }),
+      body: JSON.stringify({ token, password, confirm_password: confPass }),
     };
     try {
       const response = await fetch(
