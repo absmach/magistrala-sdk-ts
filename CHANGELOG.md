@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.3
+
+### Patch Changes
+
+- c05fd2b: Update HTTP message publishing to use FluxMQ replacing the old http adapter format.
+
 ## 0.18.2
 
 ### Patch Changes
