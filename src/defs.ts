@@ -513,6 +513,15 @@ export interface Rule {
   created_at?: Date;
   updated_at?: Date;
   updated_by?: string | UserBasicInfo;
+  role_id?: string;
+  role_name?: string;
+  actions?: string[];
+  access_type?: string;
+  access_provider_id?: string;
+  access_provider_role_id?: string;
+  access_provider_role_name?: string;
+  access_provider_role_actions?: string[];
+  roles?: MemberRoleActions[];
 }
 
 export interface Output {
@@ -806,6 +815,15 @@ export interface ReportConfig {
   created_by?: string | UserBasicInfo;
   updated_at?: Date;
   updated_by?: string | UserBasicInfo;
+  role_id?: string;
+  role_name?: string;
+  actions?: string[];
+  access_type?: string;
+  access_provider_id?: string;
+  access_provider_role_id?: string;
+  access_provider_role_name?: string;
+  access_provider_role_actions?: string[];
+  roles?: MemberRoleActions[];
 }
 
 export interface ReportConfigPage {
