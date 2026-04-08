@@ -136,6 +136,7 @@ export default class Reports {
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} configId - The unique ID of the config.
    * @param {string} token - Authorization token.
+   * @param {boolean} [listRoles] - Whether to include roles in the response
    * @returns {Promise<ReportConfig>} - The requested report configuration.
    * @throws {Error} - If the configuration cannot be fetched.
    */

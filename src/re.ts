@@ -87,6 +87,7 @@ export default class Rules {
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The unique ID of the rule.
    * @param {string} token - Authorization token.
+   * @param {boolean} [listRoles] - Whether to include roles in the response
    * @returns {Promise<Rule>} rule - The requested rule object.
    * @throws {Error} - If the rule cannot be fetched.
    */
