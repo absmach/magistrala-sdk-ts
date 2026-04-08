@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.4
+
+### Patch Changes
+
+- c8ee9b7: Add RBAC-related fields to rules and reports structs
+
 ## 0.18.3
 
 ### Patch Changes
