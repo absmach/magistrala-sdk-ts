@@ -14,6 +14,7 @@ import {
   MemberRolesPage,
   MembersPage,
   MembersRolePageQuery,
+  QueryParamRoles,
 } from "./defs";
 import Errors from "./errors";
 import Roles from "./roles";
@@ -92,7 +93,8 @@ export default class Rules {
   public async view(
     domainId: string,
     ruleId: string,
-    token: string
+    token: string,
+    listRoles?: boolean
   ): Promise<Rule> {
     const options: RequestInit = {
       method: "GET",
@@ -102,11 +104,15 @@ export default class Rules {
       },
     };
     try {
+      const url = new URL(
+        `${domainId}/${this.rulesEndpoint}/${ruleId}`,
+        this.rulesUrl
+      );
+      if (listRoles) {
+        url.searchParams.append(QueryParamRoles, String(listRoles));
+      }
       const response = await fetch(
-        new URL(
-          `${domainId}/${this.rulesEndpoint}/${ruleId}`,
-          this.rulesUrl
-        ).toString(),
+        url.toString(),
         options
       );
       if (!response.ok) {
