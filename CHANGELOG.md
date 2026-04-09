@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.5
+
+### Patch Changes
+
+- e0dfeb7: Add optional listRoles flag to report and rule view functions.
+
 ## 0.18.4
 
 ### Patch Changes
