@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.18.6
+
+### Patch Changes
+
+- f71ad27: fix report page metadata
+
 ## 0.18.5
 
 ### Patch Changes
