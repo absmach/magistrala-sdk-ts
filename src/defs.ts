@@ -833,6 +833,11 @@ export interface ReportConfigPage {
   report_configs: ReportConfig[];
 }
 
+export interface ReportConfigPageMeta extends PageMetadata {
+  scheduled_before?: Date | string;
+  scheduled_after?: Date | string;
+}
+
 export interface Template {
   html_template: string;
 }

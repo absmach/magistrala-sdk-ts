@@ -6,7 +6,6 @@ import {
   ReportConfigPage,
   ReportPage,
   Response,
-  RulesPageMetadata,
   Schedule,
   Template,
   Role,
@@ -17,6 +16,7 @@ import {
   MembersPage,
   MembersRolePageQuery,
   QueryParamRoles,
+  ReportConfigPageMeta,
 } from "./defs";
 import Errors from "./errors";
 import Roles from "./roles";
@@ -176,14 +176,14 @@ export default class Reports {
   /**
    * Lists report configurations with optional query parameters.
    * @param {string} domainId - The unique ID of the domain.
-   * @param {RulesPageMetadata} queryParams - Query parameters for pagination and filtering.
+   * @param {ReportConfigPageMeta} queryParams - Query parameters for pagination and filtering.
    * @param {string} token - Authorization token.
    * @returns {Promise<ReportConfigPage>} - Paginated report configurations.
    * @throws {Error} - If configurations cannot be listed.
    */
   public async listReportConfigs(
     domainId: string,
-    queryParams: RulesPageMetadata,
+    queryParams: ReportConfigPageMeta,
     token: string
   ): Promise<ReportConfigPage> {
     const stringParams: Record<string, string> = Object.fromEntries(

@@ -103,6 +103,7 @@ export type {
   Aggregation,
   ReportConfig,
   ReportConfigPage,
+  ReportConfigPageMeta,
   ReqMetric,
   Format,
   ReportFile,
