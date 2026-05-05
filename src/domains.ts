@@ -49,13 +49,13 @@ export default class Domains {
   }
 
   /**
-   * @method CreateDomain - Creates a new domain.
+   * Creates a new domain.
    * @param {Domain} domain - Domain object containing details like name and route.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Domain>} domain - The created domain object.
+   * @returns {Promise<Domain>} The created domain object.
    * @throws {Error} - If the domain cannot be created.
    */
-  public async CreateDomain(domain: Domain, token: string): Promise<Domain> {
+  public async create(domain: Domain, token: string): Promise<Domain> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -82,13 +82,13 @@ export default class Domains {
   }
 
   /**
-   * @method UpdateDomain - Updates an existing domain's details.
+   * Updates an existing domain's details.
    * @param {Domain} domain - Domain object with updated properties.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Domain>} domain - The updated domain object.
+   * @returns {Promise<Domain>} The updated domain object.
    * @throws {Error} - If the domain cannot be updated.
    */
-  public async UpdateDomain(domain: Domain, token: string): Promise<Domain> {
+  public async update(domain: Domain, token: string): Promise<Domain> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -118,14 +118,14 @@ export default class Domains {
   }
 
   /**
-   * @method Domain - Retrieves a domain by its ID.
+   * Retrieves a domain by its ID.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @param {boolean} [listRoles] - Whether to include roles in the response
    * @returns {Promise<Domain>} The requested domain object.
    * @throws {Error} - If the domain cannot be fetched.
    */
-  public async Domain(
+  public async get(
     domainId: string,
     token: string,
     listRoles?: boolean
@@ -159,13 +159,13 @@ export default class Domains {
   }
 
   /**
-   * @method Domains - Retrieves all domains matching the provided query parameters.
+   * Retrieves all domains matching the provided query parameters.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<DomainsPage>} domainsPage - A page of domains.
+   * @returns {Promise<DomainsPage>} A page of domains.
    * @throws {Error} - If the domains cannot be fetched.
    */
-  public async Domains(
+  public async list(
     queryParams: PageMetadata,
     token: string
   ): Promise<DomainsPage> {
@@ -202,14 +202,14 @@ export default class Domains {
   }
 
   /**
-   * @method ListUserDomains - Retrieves all domains associated with a specific user.
+   * Retrieves all domains associated with a specific user.
    * @param {string} userId - The ID of the user.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<DomainsPage>} domainsPage - A page of domains associated with the user.
+   * @returns {Promise<DomainsPage>} A page of domains associated with the user.
    * @throws {Error} - If the domains of a user cannot be fetched.
    */
-  public async ListUserDomains(
+  public async listByUser(
     userId: string,
     queryParams: PageMetadata,
     token: string
@@ -247,13 +247,13 @@ export default class Domains {
   }
 
   /**
-   * @method EnableDomain - Enables a specific domain, making it active and accessible.
+   * Enables a specific domain, making it active and accessible.
    * @param {string} domainId - The unique identifier of the domain to enable.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the domain is enabled.
+   * @returns {Promise<Response>} A promise that resolves when the domain is enabled.
    * @throws {Error} - If the domain cannot be enabled.
    */
-  public async EnableDomain(
+  public async enable(
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -288,13 +288,13 @@ export default class Domains {
   }
 
   /**
-   * @method DisableDomain - Disables a specific domain, making it inactive and inaccessible.
+   * Disables a specific domain, making it inactive and inaccessible.
    * @param {string} domainId - The unique identifier of the domain to disable.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the domain is disabled.
+   * @returns {Promise<Response>} A promise that resolves when the domain is disabled.
    * @throws {Error} - If the domain cannot be disabled.
    */
-  public async DisableDomain(
+  public async disable(
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -329,13 +329,13 @@ export default class Domains {
   }
 
   /**
-   * @method FreezeDomain - Freezes the specified domain.
-   * @param {string} domainId - The unique identifier of the domain to disable.
+   * Freezes the specified domain.
+   * @param {string} domainId - The unique identifier of the domain to freeze.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the domain is frozen.
+   * @returns {Promise<Response>} A promise that resolves when the domain is frozen.
    * @throws {Error} - If the domain cannot be frozen.
    */
-  public async FreezeDomain(
+  public async freeze(
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -370,14 +370,14 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainActions - Lists all actions available in a specific domain.
+   * Lists all actions available in a specific domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If domain actions cannot be fetched.
    */
-  public async ListDomainActions(token: string): Promise<string[]> {
+  public async listActions(token: string): Promise<string[]> {
     try {
-      const actions: string[] = await this.domainRoles.ListAvailableActions(
+      const actions: string[] = await this.domainRoles.listAvailableActions(
         this.domainsUrl,
         this.domainsEndpoint,
         token
@@ -389,16 +389,16 @@ export default class Domains {
   }
 
   /**
-   * @method CreateDomainRole - Creates a new role within a specific domain.
+   * Creates a new role within a specific domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleName - The name of the role to create.
    * @param {string} token - Authorization token.
    * @param {string[]} optionalActions - Optional actions assigned to the role.
    * @param {string[]} optionalMembers - Optional members assigned to the role.
-   * @returns {Promise<Role>} role - A promise that resolves with the role created.
+   * @returns {Promise<Role>} A promise that resolves with the role created.
    * @throws {Error} - If the role cannot be created or already exists.
    */
-  public async CreateDomainRole(
+  public async createRole(
     domainId: string,
     roleName: string,
     token: string,
@@ -406,7 +406,7 @@ export default class Domains {
     optionalMembers?: string[]
   ): Promise<Role> {
     try {
-      const role: Role = await this.domainRoles.CreateRole(
+      const role: Role = await this.domainRoles.createRole(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -422,20 +422,20 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainRoles - Lists all roles within a specific domain.
+   * Lists all roles within a specific domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RolePage>} rolesPage - A promise that resolves with a page of roles in the domain.
+   * @returns {Promise<RolePage>} A promise that resolves with a page of roles in the domain.
    * @throws {Error} - If the domainId is invalid or roles cannot be fetched.
    */
-  public async ListDomainRoles(
+  public async listRoles(
     domainId: string,
     queryParams: PageMetadata,
     token: string
   ): Promise<RolePage> {
     try {
-      const rolesPage: RolePage = await this.domainRoles.ListRoles(
+      const rolesPage: RolePage = await this.domainRoles.listRoles(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -449,20 +449,20 @@ export default class Domains {
   }
 
   /**
-   * @method ViewDomainRole - Retrieves details about a specific role in a domain.
+   * Retrieves details about a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the role details.
+   * @returns {Promise<Role>} A promise that resolves with the role details.
    * @throws {Error} - If the role does not exist or cannot be retrieved.
    */
-  public async ViewDomainRole(
+  public async getRole(
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Role> {
     try {
-      const role = await this.domainRoles.ViewRole(
+      const role = await this.domainRoles.viewRole(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -476,22 +476,22 @@ export default class Domains {
   }
 
   /**
-   * @method UpdateDomainRole - Updates the details of a specific role in a domain.
+   * Updates the details of a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {Role} role - The role to be updated.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the updated role.
+   * @returns {Promise<Role>} A promise that resolves with the updated role.
    * @throws {Error} - If the role cannot be updated.
    */
-  public async UpdateDomainRole(
+  public async updateRole(
     domainId: string,
     roleId: string,
     role: Role,
     token: string
   ): Promise<Role> {
     try {
-      const updatedRole = await this.domainRoles.UpdateRole(
+      const updatedRole = await this.domainRoles.updateRole(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -506,20 +506,20 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteDomainRole - Deletes a specific role from a domain.
+   * Deletes a specific role from a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the role is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the role is deleted.
    * @throws {Error} - If the role cannot be deleted.
    */
-  public async DeleteDomainRole(
+  public async deleteRole(
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.domainRoles.DeleteRole(
+      const response = await this.domainRoles.deleteRole(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -533,22 +533,22 @@ export default class Domains {
   }
 
   /**
-   * @method AddDomainRoleActions - Adds actions to a specific role in a domain.
+   * Adds actions to a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
-   * @param {string} token - Authorization token.
    * @param {string[]} actions - The actions to add to the role.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If the actions cannot be added.
    */
-  public async AddDomainRoleActions(
+  public async addRoleActions(
     domainId: string,
     roleId: string,
     actions: string[],
     token: string
   ) {
     try {
-      const response = await this.domainRoles.AddRoleActions(
+      const response = await this.domainRoles.addRoleActions(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -563,20 +563,20 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainRoleActions - Lists all actions associated with a specific role in a domain.
+   * Lists all actions associated with a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If actions cannot be retrieved.
    */
-  public async ListDomainRoleActions(
+  public async listRoleActions(
     domainId: string,
     roleId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const updatedRole = await this.domainRoles.ListRoleActions(
+      const updatedRole = await this.domainRoles.listRoleActions(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -590,22 +590,22 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteDomainRoleActions - Deletes specific actions from a role in a domain.
+   * Deletes specific actions from a role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to delete from the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async DeleteDomainRoleActions(
+  public async deleteRoleActions(
     domainId: string,
     roleId: string,
     actions: string[],
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.domainRoles.DeleteRoleActions(
+      const response = await this.domainRoles.deleteRoleActions(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -620,20 +620,20 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteAllDomainRoleActions - Deletes all actions associated with a specific role in a domain.
+   * Deletes all actions associated with a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async DeleteAllDomainRoleActions(
+  public async deleteAllRoleActions(
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.domainRoles.DeleteAllRoleActions(
+      const response = await this.domainRoles.deleteAllRoleActions(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -647,22 +647,22 @@ export default class Domains {
   }
 
   /**
-   * @method AddDomainRoleMembers - Adds members to a specific role in a domain.
+   * Adds members to a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to add.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} members - A promise that resolves with an array of member ids.
+   * @returns {Promise<string[]>} A promise that resolves with an array of member ids.
    * @throws {Error} - If the members cannot be added.
    */
-  public async AddDomainRoleMembers(
+  public async addRoleMembers(
     domainId: string,
     roleId: string,
     members: string[],
     token: string
   ): Promise<string[]> {
     try {
-      const response = await this.domainRoles.AddRoleMembers(
+      const response = await this.domainRoles.addRoleMembers(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -677,21 +677,22 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainRoleMembers - Lists all members associated with a specific role in a domain.
+   * Lists all members associated with a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
+   * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MembersPage>} members - A promise that resolves with an array of member ids.
+   * @returns {Promise<MembersPage>} A promise that resolves with an array of member ids.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async ListDomainRoleMembers(
+  public async listRoleMembers(
     domainId: string,
     roleId: string,
     queryParams: BasicPageMeta,
     token: string
   ): Promise<MembersPage> {
     try {
-      const updatedRole = await this.domainRoles.ListRoleMembers(
+      const updatedRole = await this.domainRoles.listRoleMembers(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -706,22 +707,22 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteDomainRoleMembers - Deletes specific members from a role in a domain.
+   * Deletes specific members from a role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to delete.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async DeleteDomainRoleMembers(
+  public async deleteRoleMembers(
     domainId: string,
     roleId: string,
     members: string[],
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.domainRoles.DeleteRoleMembers(
+      const response = await this.domainRoles.deleteRoleMembers(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -736,20 +737,20 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteAllDomainRoleMembers - Deletes all members associated with a specific role in a domain.
+   * Deletes all members associated with a specific role in a domain.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} roleId - The unique identifier of the role.
-   *  @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all members are deleted.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when all members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async DeleteAllDomainRoleMembers(
+  public async deleteAllRoleMembers(
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.domainRoles.DeleteAllRoleMembers(
+      const response = await this.domainRoles.deleteAllRoleMembers(
         this.domainsUrl,
         this.domainsEndpoint,
         domainId,
@@ -763,19 +764,20 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainMembers - Lists all members associated with a domain.
+   * Lists all members associated with a domain.
    * @param {string} domainId - The unique identifier of the domain.
+   * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MemberRolePage>} members - A promise that resolves with a page of members.
+   * @returns {Promise<MemberRolesPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async ListDomainMembers(
+  public async listMembers(
     domainId: string,
     queryParams: BasicPageMeta,
     token: string
   ): Promise<MemberRolesPage> {
     try {
-      const members = await this.domainRoles.ListEntityMembers(
+      const members = await this.domainRoles.listEntityMembers(
         this.domainsUrl,
         `${this.domainsEndpoint}`,
         domainId,
@@ -789,15 +791,16 @@ export default class Domains {
   }
 
   /**
-   * @method SendInvitation - Sends an invitation to a given user.
+   * Sends an invitation to a given user.
    * @param {string} userId - The unique ID of the user.
    * @param {string} domainId - The unique ID of the domain.
+   * @param {string} roleId - The unique ID of the role.
    * @param {string} token - Authorization token.
    * @param {boolean} resend - Option to resend an invitation if it has been rejected.
-   * @returns {Promise<Response>} response - A promise that resolves when the invitation is sent.
+   * @returns {Promise<Response>} A promise that resolves when the invitation is sent.
    * @throws {Error} - If the invitation cannot be sent.
    */
-  public async SendInvitation(
+  public async sendInvitation(
     userId: string,
     domainId: string,
     roleId: string,
@@ -839,14 +842,14 @@ export default class Domains {
   }
 
   /**
-   * @method ViewInvitation - Retrieves the invitation for the given user to a given domain.
+   * Retrieves the invitation for the given user to a given domain.
    * @param {string} userId - The unique ID of the user.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Invitation>} invitation - The invitation object.
+   * @returns {Promise<Invitation>} The invitation object.
    * @throws {Error} - If the invitation cannot be fetched.
    */
-  public async ViewInvitation(
+  public async getInvitation(
     userId: string,
     domainId: string,
     token: string
@@ -878,14 +881,14 @@ export default class Domains {
   }
 
   /**
-   * @method ListDomainInvitations - Retrieves all domain invitations matching the provided query parameters.
+   * Retrieves all domain invitations matching the provided query parameters.
    * @param {InvitationPageMeta} queryParams - Query parameters for the request.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<InvitationsPage>} invitationsPage - A page of domain invitations.
+   * @returns {Promise<InvitationsPage>} A page of domain invitations.
    * @throws {Error} - If the domain invitations cannot be fetched.
    */
-  public async ListDomainInvitations(
+  public async listInvitations(
     queryParams: InvitationPageMeta,
     domainId: string,
     token: string
@@ -924,13 +927,13 @@ export default class Domains {
   }
 
   /**
-   * @method ListUserInvitations - Retrieves all user invitations matching the provided query parameters.
+   * Retrieves all user invitations matching the provided query parameters.
    * @param {PageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<InvitationsPage>} invitationsPage - A page of user invitations.
+   * @returns {Promise<InvitationsPage>} A page of user invitations.
    * @throws {Error} - If the user invitations cannot be fetched.
    */
-  public async ListUserInvitations(
+  public async listUserInvitations(
     queryParams: PageMetadata,
     token: string
   ): Promise<InvitationsPage> {
@@ -968,13 +971,13 @@ export default class Domains {
   }
 
   /**
-   * @method AcceptInvitation - Accepts an invitation by adding the user to the domain that they were invited to.
-   *  @param {string} domainId - The unique ID of the domain.
+   * Accepts an invitation by adding the user to the domain that they were invited to.
+   * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the invitation is accepted.
+   * @returns {Promise<Response>} A promise that resolves when the invitation is accepted.
    * @throws {Error} - If the invitations cannot be accepted.
    */
-  public async AcceptInvitation(
+  public async acceptInvitation(
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -1010,13 +1013,13 @@ export default class Domains {
   }
 
   /**
-   * @method RejectInvitation - Rejects an invitation.
-   *  @param {string} domainId - The unique ID of the domain.
+   * Rejects an invitation.
+   * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the invitation is rejected.
+   * @returns {Promise<Response>} A promise that resolves when the invitation is rejected.
    * @throws {Error} - If the invitations cannot be rejected.
    */
-  public async RejectInvitation(
+  public async rejectInvitation(
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -1052,14 +1055,14 @@ export default class Domains {
   }
 
   /**
-   * @method DeleteInvitation - Deletes an invitation.
+   * Deletes an invitation.
    * @param {string} userId - The unique ID of the user.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the invitation is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the invitation is deleted.
    * @throws {Error} - If the invitations cannot be deleted.
    */
-  public async DeleteInvitation(
+  public async deleteInvitation(
     userId: string,
     domainId: string,
     token: string

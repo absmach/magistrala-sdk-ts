@@ -19,7 +19,7 @@ export default class Roles {
     this.contentType = "application/json";
   }
 
-  public async ListAvailableActions(url: URL, endpoint: string, token: string) {
+  public async listAvailableActions(url: URL, endpoint: string, token: string) {
     const options: RequestInit = {
       method: "GET",
       headers: {
@@ -44,7 +44,7 @@ export default class Roles {
     }
   }
 
-  public async CreateRole(
+  public async createRole(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -81,7 +81,7 @@ export default class Roles {
     }
   }
 
-  public async ListRoles(
+  public async listRoles(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -119,7 +119,7 @@ export default class Roles {
     }
   }
 
-  public async ViewRole(
+  public async viewRole(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -150,7 +150,7 @@ export default class Roles {
     }
   }
 
-  public async UpdateRole(
+  public async updateRole(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -183,7 +183,7 @@ export default class Roles {
     }
   }
 
-  public async DeleteRole(
+  public async deleteRole(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -217,7 +217,7 @@ export default class Roles {
     }
   }
 
-  public async AddRoleActions(
+  public async addRoleActions(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -253,7 +253,7 @@ export default class Roles {
     }
   }
 
-  public async ListRoleActions(
+  public async listRoleActions(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -287,7 +287,7 @@ export default class Roles {
     }
   }
 
-  public async DeleteRoleActions(
+  public async deleteRoleActions(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -326,7 +326,7 @@ export default class Roles {
     }
   }
 
-  public async DeleteAllRoleActions(
+  public async deleteAllRoleActions(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -363,7 +363,7 @@ export default class Roles {
     }
   }
 
-  public async AddRoleMembers(
+  public async addRoleMembers(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -399,7 +399,7 @@ export default class Roles {
     }
   }
 
-  public async ListRoleMembers(
+  public async listRoleMembers(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -440,7 +440,7 @@ export default class Roles {
     }
   }
 
-  public async DeleteRoleMembers(
+  public async deleteRoleMembers(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -479,7 +479,7 @@ export default class Roles {
     }
   }
 
-  public async DeleteAllRoleMembers(
+  public async deleteAllRoleMembers(
     url: URL,
     endpoint: string,
     entityId: string,
@@ -516,7 +516,7 @@ export default class Roles {
     }
   }
 
-  public async ListEntityMembers(
+  public async listEntityMembers(
     url: URL,
     endpoint: string,
     entityId: string,

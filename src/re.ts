@@ -46,11 +46,11 @@ export default class Rules {
   }
 
   /**
-   * @method create - Creates a new rule
+   * Creates a new rule
    * @param {string} domainId - The unique ID of the domain.
    * @param {Rule} rule - Rule object with a containing details like name, input_channel, input_topic and logic.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The created rule object.
+   * @returns {Promise<Rule>} The created rule object.
    * @throws {Error} - If the rule cannot be created.
    */
   public async create(
@@ -83,12 +83,12 @@ export default class Rules {
   }
 
   /**
-   * @method view - Retrieves a rule by its id.
+   * Retrieves a rule by its id.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The unique ID of the rule.
    * @param {string} token - Authorization token.
    * @param {boolean} [listRoles] - Whether to include roles in the response
-   * @returns {Promise<Rule>} rule - The requested rule object.
+   * @returns {Promise<Rule>} The requested rule object.
    * @throws {Error} - If the rule cannot be fetched.
    */
   public async view(
@@ -128,11 +128,11 @@ export default class Rules {
   }
 
   /**
-   * @method list - Retrieves all rules matching the provided query parameters.
+   * Retrieves all rules matching the provided query parameters.
    * @param {string} domainId - The unique ID of the domain.
    * @param {RulesPageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RulesPage>} rulesPage - A page of rules.
+   * @returns {Promise<RulesPage>} A page of rules.
    * @throws {Error} - If the rules cannot be fetched.
    */
   public async list(
@@ -172,11 +172,11 @@ export default class Rules {
   }
 
   /**
-   * @method update - Updates an existing rule.
+   * Updates an existing rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {Rule} rule - rule object with updated properties.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The updated rule object.
+   * @returns {Promise<Rule>} The updated rule object.
    * @throws {Error} - If the rule cannot be updated.
    */
   public async update(
@@ -212,12 +212,12 @@ export default class Rules {
   }
 
   /**
-   * @method updateTags - Updates an existing rule's tags.
+   * Updates an existing rule's tags.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The unique ID of the rule.
    * @param {string[]} tags - The updated tags for the rule.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The updated rule object.
+   * @returns {Promise<Rule>} The updated rule object.
    * @throws {Error} - If the rule cannot be updated.
    */
   public async updateTags(
@@ -254,12 +254,12 @@ export default class Rules {
   }
 
   /**
-   * @method updateSchedule - Updates the schedule for a specific rule.
+   * Updates the schedule for a specific rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The ID of the rule whose schedule is to be updated.
    * @param {Schedule} schedule - The updated schedule object.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The updated rule object.
+   * @returns {Promise<Rule>} The updated rule object.
    * @throws {Error} - If the schedule cannot be updated.
    */
   public async updateSchedule(
@@ -297,11 +297,11 @@ export default class Rules {
   }
 
   /**
-   * @method delete - Deletes a rule.
+   * Deletes a rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The  unique ID of the rule.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the rule is successfully deleted.
+   * @returns {Promise<Response>} A promise that resolves when the rule is successfully deleted.
    * @throws {Error} - If the rule cannot be deleted.
    */
   public async delete(
@@ -339,11 +339,11 @@ export default class Rules {
   }
 
   /**
-   * @method enable - Enables a previously disabled rule.
+   * Enables a previously disabled rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The  unique ID of the rule.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The enabled rule object.
+   * @returns {Promise<Rule>} The enabled rule object.
    * @throws {Error} - If the rule cannot be enabled.
    */
   public async enable(
@@ -378,11 +378,11 @@ export default class Rules {
   }
 
   /**
-   * @method disable - Disables a specific rule.
+   * Disables a specific rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} ruleId - The  unique ID of the rule.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Rule>} rule - The disabled rule object.
+   * @returns {Promise<Rule>} The disabled rule object.
    * @throws {Error} - If the rule cannot be disabled.
    */
   public async disable(
@@ -417,18 +417,18 @@ export default class Rules {
   }
 
   /**
-   * @method listRuleActions - Lists all actions available for the rules entity type.
+   * Lists all actions available for the rules entity type.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of available actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of available actions.
    * @throws {Error} - If rule actions cannot be fetched.
    */
-  public async listRuleActions(
+  public async listActions(
     domainId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const actions: string[] = await this.reRoles.ListAvailableActions(
+      const actions: string[] = await this.reRoles.listAvailableActions(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         token
@@ -440,17 +440,17 @@ export default class Rules {
   }
 
   /**
-   * @method createRuleRole - Creates a new role within a specific rule.
+   * Creates a new role within a specific rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} roleName - The name of the role to create.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @param {string[]} optionalActions - Optional actions assigned to the role.
    * @param {string[]} optionalMembers - Optional members assigned to the role.
-   * @returns {Promise<Role>} role - A promise that resolves with the created role.
+   * @returns {Promise<Role>} A promise that resolves with the created role.
    * @throws {Error} - If the role cannot be created.
    */
-  public async createRuleRole(
+  public async createRole(
     ruleId: string,
     roleName: string,
     domainId: string,
@@ -459,7 +459,7 @@ export default class Rules {
     optionalMembers?: string[]
   ): Promise<Role> {
     try {
-      const role: Role = await this.reRoles.CreateRole(
+      const role: Role = await this.reRoles.createRole(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -475,22 +475,22 @@ export default class Rules {
   }
 
   /**
-   * @method listRuleRoles - Lists all roles within a specific rule.
+   * Lists all roles within a specific rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RolePage>} rolePage - A promise that resolves with a page of roles.
+   * @returns {Promise<RolePage>} A promise that resolves with a page of roles.
    * @throws {Error} - If the roles cannot be fetched.
    */
-  public async listRuleRoles(
+  public async listRoles(
     ruleId: string,
     domainId: string,
     queryParams: PageMetadata,
     token: string
   ): Promise<RolePage> {
     try {
-      const rolesPage: RolePage = await this.reRoles.ListRoles(
+      const rolesPage: RolePage = await this.reRoles.listRoles(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -504,22 +504,22 @@ export default class Rules {
   }
 
   /**
-   * @method viewRuleRole - Retrieves details about a specific role in a rule.
+   * Retrieves details about a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the role details.
+   * @returns {Promise<Role>} A promise that resolves with the role details.
    * @throws {Error} - If the role cannot be retrieved.
    */
-  public async viewRuleRole(
+  public async getRole(
     ruleId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Role> {
     try {
-      const role: Role = await this.reRoles.ViewRole(
+      const role: Role = await this.reRoles.viewRole(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -533,16 +533,16 @@ export default class Rules {
   }
 
   /**
-   * @method updateRuleRole - Updates the details of a specific role in a rule.
+   * Updates the details of a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {Role} role - The role object with updated properties.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the updated role.
+   * @returns {Promise<Role>} A promise that resolves with the updated role.
    * @throws {Error} - If the role cannot be updated.
    */
-  public async updateRuleRole(
+  public async updateRole(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -550,7 +550,7 @@ export default class Rules {
     token: string
   ): Promise<Role> {
     try {
-      const updatedRole: Role = await this.reRoles.UpdateRole(
+      const updatedRole: Role = await this.reRoles.updateRole(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -565,22 +565,22 @@ export default class Rules {
   }
 
   /**
-   * @method deleteRuleRole - Deletes a specific role from a rule.
+   * Deletes a specific role from a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the role is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the role is deleted.
    * @throws {Error} - If the role cannot be deleted.
    */
-  public async deleteRuleRole(
+  public async deleteRole(
     ruleId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reRoles.DeleteRole(
+      const response: Response = await this.reRoles.deleteRole(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -594,16 +594,16 @@ export default class Rules {
   }
 
   /**
-   * @method addRuleRoleActions - Adds actions to a specific role in a rule.
+   * Adds actions to a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to add to the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If the actions cannot be added.
    */
-  public async addRuleRoleActions(
+  public async addRoleActions(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -611,7 +611,7 @@ export default class Rules {
     token: string
   ): Promise<string[]> {
     try {
-      const response: string[] = await this.reRoles.AddRoleActions(
+      const response: string[] = await this.reRoles.addRoleActions(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -626,22 +626,22 @@ export default class Rules {
   }
 
   /**
-   * @method listRuleRoleActions - Lists all actions associated with a specific role in a rule.
+   * Lists all actions associated with a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If actions cannot be retrieved.
    */
-  public async listRuleRoleActions(
+  public async listRoleActions(
     ruleId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const actions: string[] = await this.reRoles.ListRoleActions(
+      const actions: string[] = await this.reRoles.listRoleActions(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -655,16 +655,16 @@ export default class Rules {
   }
 
   /**
-   * @method deleteRuleRoleActions - Deletes specific actions from a role in a rule.
+   * Deletes specific actions from a role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to delete from the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async deleteRuleRoleActions(
+  public async deleteRoleActions(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -672,7 +672,7 @@ export default class Rules {
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reRoles.DeleteRoleActions(
+      const response: Response = await this.reRoles.deleteRoleActions(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -687,22 +687,22 @@ export default class Rules {
   }
 
   /**
-   * @method deleteAllRuleRoleActions - Deletes all actions associated with a specific role in a rule.
+   * Deletes all actions associated with a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async deleteAllRuleRoleActions(
+  public async deleteAllRoleActions(
     ruleId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reRoles.DeleteAllRoleActions(
+      const response: Response = await this.reRoles.deleteAllRoleActions(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -716,16 +716,16 @@ export default class Rules {
   }
 
   /**
-   * @method addRuleRoleMembers - Adds members to a specific role in a rule.
+   * Adds members to a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to add.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} members - A promise that resolves with an array of member IDs.
+   * @returns {Promise<string[]>} A promise that resolves with an array of member IDs.
    * @throws {Error} - If the members cannot be added.
    */
-  public async addRuleRoleMembers(
+  public async addRoleMembers(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -733,7 +733,7 @@ export default class Rules {
     token: string
   ): Promise<string[]> {
     try {
-      const response: string[] = await this.reRoles.AddRoleMembers(
+      const response: string[] = await this.reRoles.addRoleMembers(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -748,16 +748,16 @@ export default class Rules {
   }
 
   /**
-   * @method listRuleRoleMembers - Lists all members associated with a specific role in a rule.
+   * Lists all members associated with a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MembersPage>} membersPage - A promise that resolves with a page of members.
+   * @returns {Promise<MembersPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async listRuleRoleMembers(
+  public async listRoleMembers(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -765,7 +765,7 @@ export default class Rules {
     token: string
   ): Promise<MembersPage> {
     try {
-      const membersPage: MembersPage = await this.reRoles.ListRoleMembers(
+      const membersPage: MembersPage = await this.reRoles.listRoleMembers(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -780,16 +780,16 @@ export default class Rules {
   }
 
   /**
-   * @method deleteRuleRoleMembers - Deletes specific members from a role in a rule.
+   * Deletes specific members from a role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to delete.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async deleteRuleRoleMembers(
+  public async deleteRoleMembers(
     ruleId: string,
     domainId: string,
     roleId: string,
@@ -797,7 +797,7 @@ export default class Rules {
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reRoles.DeleteRoleMembers(
+      const response: Response = await this.reRoles.deleteRoleMembers(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -812,22 +812,22 @@ export default class Rules {
   }
 
   /**
-   * @method deleteAllRuleRoleMembers - Deletes all members associated with a specific role in a rule.
+   * Deletes all members associated with a specific role in a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async deleteAllRuleRoleMembers(
+  public async deleteAllRoleMembers(
     ruleId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reRoles.DeleteAllRoleMembers(
+      const response: Response = await this.reRoles.deleteAllRoleMembers(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,
@@ -841,22 +841,22 @@ export default class Rules {
   }
 
   /**
-   * @method listRuleMembers - Lists all members associated with a rule.
+   * Lists all members associated with a rule.
    * @param {string} ruleId - The unique identifier of the rule.
    * @param {string} domainId - The unique ID of the domain.
    * @param {MembersRolePageQuery} queryParams - Pagination and filter parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MemberRolesPage>} members - A promise that resolves with a page of members.
+   * @returns {Promise<MemberRolesPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async listRuleMembers(
+  public async listMembers(
     ruleId: string,
     domainId: string,
     queryParams: MembersRolePageQuery,
     token: string
   ): Promise<MemberRolesPage> {
     try {
-      const members: MemberRolesPage = await this.reRoles.ListEntityMembers(
+      const members: MemberRolesPage = await this.reRoles.listEntityMembers(
         this.rulesUrl,
         `${domainId}/${this.rulesEndpoint}`,
         ruleId,

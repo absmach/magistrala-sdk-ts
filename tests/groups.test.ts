@@ -120,42 +120,42 @@ describe("Groups", () => {
   test("Create group should create a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(group));
 
-    const response = await sdk.Groups.CreateGroup(group, domainId, token);
+    const response = await sdk.Groups.create(group, domainId, token);
     expect(response).toEqual(group);
   });
 
   test("Group should get a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(group));
 
-    const response = await sdk.Groups.Group(groupId, domainId, token);
+    const response = await sdk.Groups.get(groupId, domainId, token);
     expect(response).toEqual(group);
   });
 
   test("Groups should get all groups", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(groupsPage));
 
-    const response = await sdk.Groups.Groups(queryParams, domainId, token);
+    const response = await sdk.Groups.list(queryParams, domainId, token);
     expect(response).toEqual(groupsPage);
   });
 
   test("Update group should update a groups name and metadata", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(group));
 
-    const response = await sdk.Groups.UpdateGroup(group, domainId, token);
+    const response = await sdk.Groups.update(group, domainId, token);
     expect(response).toEqual(group);
   });
 
   test("Enable group should enable a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(group));
 
-    const response = await sdk.Groups.EnableGroup(groupId, domainId, token);
+    const response = await sdk.Groups.enable(groupId, domainId, token);
     expect(response).toEqual(group);
   });
 
   test("Disable group should disable a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(group));
 
-    const response = await sdk.Groups.DisableGroup(groupId, domainId, token);
+    const response = await sdk.Groups.disable(groupId, domainId, token);
     expect(response).toEqual(group);
   });
 
@@ -166,14 +166,14 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(deleteGroupResponse));
 
-    const response = await sdk.Groups.DeleteGroup(groupId, domainId, token);
+    const response = await sdk.Groups.delete(groupId, domainId, token);
     expect(response).toEqual(deleteGroupResponse);
   });
 
   test("List children groups should get all of a groups children", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(groupsPage));
 
-    const response = await sdk.Groups.ListChildrenGroups(
+    const response = await sdk.Groups.listChildren(
       groupId,
       domainId,
       queryParams,
@@ -185,7 +185,7 @@ describe("Groups", () => {
   test("Retrieve group hierarchy should get the hierarchical structure of a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(hierarchyPage));
 
-    const response = await sdk.Groups.RetrieveGroupHierarchy(
+    const response = await sdk.Groups.getHierarchy(
       groupId,
       domainId,
       { level: 0, direction: 1 },
@@ -202,7 +202,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(addParentResponse));
 
-    const response = await sdk.Groups.AddParentGroup(
+    const response = await sdk.Groups.addParent(
       groupId,
       domainId,
       parentId,
@@ -218,7 +218,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(removeParentResponse));
 
-    const response = await sdk.Groups.RemoveParentGroup(
+    const response = await sdk.Groups.removeParent(
       groupId,
       domainId,
       token
@@ -233,7 +233,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(removeParentResponse));
 
-    const response = await sdk.Groups.AddChildrenGroups(
+    const response = await sdk.Groups.addChildren(
       groupId,
       domainId,
       [
@@ -252,7 +252,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(removeParentResponse));
 
-    const response = await sdk.Groups.RemoveChildrenGroups(
+    const response = await sdk.Groups.removeChildren(
       groupId,
       domainId,
       [
@@ -271,7 +271,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(removeParentResponse));
 
-    const response = await sdk.Groups.RemoveAllChildrenGroups(
+    const response = await sdk.Groups.removeAllChildren(
       groupId,
       domainId,
       token
@@ -282,7 +282,7 @@ describe("Groups", () => {
   test("List children groups should get all children of a group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(groupsPage));
 
-    const response = await sdk.Groups.ListChildrenGroups(
+    const response = await sdk.Groups.listChildren(
       groupId,
       domainId,
       { offset: 0, limit: 10 },
@@ -294,7 +294,7 @@ describe("Groups", () => {
 
   test("List group actions should return all available actions for a domain", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ available_actions: actions }));
-    const response = await sdk.Groups.ListGroupActions(domainId, token);
+    const response = await sdk.Groups.listActions(domainId, token);
 
     expect(response).toEqual(actions);
   });
@@ -302,7 +302,7 @@ describe("Groups", () => {
   test("Create group role should create a new role with optional actions and members", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await sdk.Groups.CreateGroupRole(
+    const response = await sdk.Groups.createRole(
       groupId,
       domainId,
       "editor",
@@ -315,7 +315,7 @@ describe("Groups", () => {
   test("List group roles should return a paginated list of roles", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(rolesPage));
 
-    const response = await sdk.Groups.ListGroupRoles(
+    const response = await sdk.Groups.listRoles(
       groupId,
       domainId,
       { offset: 0, limit: 10 },
@@ -328,7 +328,7 @@ describe("Groups", () => {
   test("View group role should return role details", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await sdk.Groups.ViewGroupRole(
+    const response = await sdk.Groups.getRole(
       groupId,
       domainId,
       roleId,
@@ -343,7 +343,7 @@ describe("Groups", () => {
     updatedRole.name = "group_editor";
     fetchMock.mockResponseOnce(JSON.stringify(updatedRole));
 
-    const response = await sdk.Groups.UpdateGroupRole(
+    const response = await sdk.Groups.updateRole(
       groupId,
       domainId,
       roleId,
@@ -361,7 +361,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(removeParentResponse));
 
-    const response = await sdk.Groups.DeleteGroupRole(
+    const response = await sdk.Groups.deleteRole(
       groupId,
       domainId,
       roleId,
@@ -373,7 +373,7 @@ describe("Groups", () => {
   test("Add group role actions should return updated actions", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ actions }));
 
-    const response = await sdk.Groups.AddGroupRoleActions(
+    const response = await sdk.Groups.addRoleActions(
       groupId,
       domainId,
       roleId,
@@ -387,7 +387,7 @@ describe("Groups", () => {
   test("List group role actions should return a list of actions", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ actions }));
 
-    const response = await sdk.Groups.ListGroupRoleActions(
+    const response = await sdk.Groups.listRoleActions(
       groupId,
       domainId,
       roleId,
@@ -404,7 +404,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(deleteRoleActionResponse));
 
-    const response = await sdk.Groups.DeleteGroupRoleActions(
+    const response = await sdk.Groups.deleteRoleActions(
       groupId,
       domainId,
       roleId,
@@ -422,7 +422,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(deleteRoleActionResponse));
 
-    const response = await sdk.Groups.DeleteAllGroupRoleActions(
+    const response = await sdk.Groups.deleteAllRoleActions(
       groupId,
       domainId,
       roleId,
@@ -434,7 +434,7 @@ describe("Groups", () => {
   test("Add group role members should return created members", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ members }));
 
-    const response = await sdk.Groups.AddGroupRoleMembers(
+    const response = await sdk.Groups.addRoleMembers(
       groupId,
       domainId,
       roleId,
@@ -448,7 +448,7 @@ describe("Groups", () => {
   test("List group role members should return members", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersPage));
 
-    const response = await sdk.Groups.ListGroupRoleMembers(
+    const response = await sdk.Groups.listRoleMembers(
       groupId,
       domainId,
       roleId,
@@ -468,7 +468,7 @@ describe("Groups", () => {
 
     const remMembers = ["886b4266-77d1-4258-abae-2931fb4f16ie"];
 
-    const response = await sdk.Groups.DeleteGroupRoleMembers(
+    const response = await sdk.Groups.deleteRoleMembers(
       groupId,
       domainId,
       roleId,
@@ -486,7 +486,7 @@ describe("Groups", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(deleteMembersResponse));
 
-    const response = await sdk.Groups.DeleteAllGroupRoleMembers(
+    const response = await sdk.Groups.deleteAllRoleMembers(
       groupId,
       domainId,
       roleId,
@@ -499,7 +499,7 @@ describe("Groups", () => {
   test("List group members should return members of a specific group", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersRolePage));
 
-    const response = await sdk.Groups.ListGroupMembers(
+    const response = await sdk.Groups.listMembers(
       groupId,
       domainId,
       { offset: 0, limit: 10 },

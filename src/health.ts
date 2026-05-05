@@ -97,7 +97,7 @@ export default class Health {
     this.healthEndpoint = "health";
   }
 
-  public async Health(service: string): Promise<HealthInfo> {
+  public async check(service: string): Promise<HealthInfo> {
     let url: URL | undefined;
     switch (service) {
       case "clients": {

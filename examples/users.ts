@@ -11,7 +11,7 @@ const mgSdk = new SDK({
 });
 const token = "<token>";
 
-mgSdk.Users.Create({
+mgSdk.Users.create({
   first_name: "<firstName>",
   last_name: "<lastName>",
   email: "<email>",
@@ -27,7 +27,7 @@ mgSdk.Users.Create({
     console.error(error);
   });
 
-mgSdk.Users.User("<userId>", token)
+mgSdk.Users.get("<userId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -35,7 +35,7 @@ mgSdk.Users.User("<userId>", token)
     console.error(error);
   });
 
-mgSdk.Users.UserProfile(token)
+mgSdk.Users.getProfile(token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -43,7 +43,7 @@ mgSdk.Users.UserProfile(token)
     console.error(error);
   });
 
-mgSdk.Users.CreateToken({
+mgSdk.Users.createToken({
   username: "<username | email>",
   password: "<password>",
 })
@@ -54,7 +54,7 @@ mgSdk.Users.CreateToken({
     console.error(error);
   });
 
-mgSdk.Users.RefreshToken("<refreshToken>")
+mgSdk.Users.refreshToken("<refreshToken>")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -62,7 +62,7 @@ mgSdk.Users.RefreshToken("<refreshToken>")
     console.error(error);
   });
 
-mgSdk.Users.Update(
+mgSdk.Users.update(
   { id: "<userId>", first_name: "<firstName>", last_name: "<lastName>" },
   token
 )
@@ -73,7 +73,7 @@ mgSdk.Users.Update(
     console.error(error);
   });
 
-mgSdk.Users.UpdateEmail({ id: "<userId>", email: "<email>" }, token)
+mgSdk.Users.updateEmail({ id: "<userId>", email: "<email>" }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -81,7 +81,7 @@ mgSdk.Users.UpdateEmail({ id: "<userId>", email: "<email>" }, token)
     console.error(error);
   });
 
-mgSdk.Users.UpdateUsername(
+mgSdk.Users.updateUsername(
   { id: "<userId>", credentials: { username: "<username>" } },
   token
 )
@@ -92,7 +92,7 @@ mgSdk.Users.UpdateUsername(
     console.error(error);
   });
 
-mgSdk.Users.UpdateProfilePicture(
+mgSdk.Users.updateProfilePicture(
   { id: "<userId>", profile_picture: "<profilePicture>" },
   token
 )
@@ -103,7 +103,7 @@ mgSdk.Users.UpdateProfilePicture(
     console.error(error);
   });
 
-mgSdk.Users.UpdateUserTags({ id: "<userId>", tags: ["<tag>", "<tag>"] }, token)
+mgSdk.Users.updateTags({ id: "<userId>", tags: ["<tag>", "<tag>"] }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -111,7 +111,7 @@ mgSdk.Users.UpdateUserTags({ id: "<userId>", tags: ["<tag>", "<tag>"] }, token)
     console.error(error);
   });
 
-mgSdk.Users.UpdateUserRole({ id: "<userId>", role: "<role>" }, token)
+mgSdk.Users.updateRole({ id: "<userId>", role: "<role>" }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -119,7 +119,7 @@ mgSdk.Users.UpdateUserRole({ id: "<userId>", role: "<role>" }, token)
     console.error(error);
   });
 
-mgSdk.Users.Disable("<userId>", token)
+mgSdk.Users.disable("<userId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -127,7 +127,7 @@ mgSdk.Users.Disable("<userId>", token)
     console.error(error);
   });
 
-mgSdk.Users.Enable("<userId>", token)
+mgSdk.Users.enable("<userId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -135,7 +135,7 @@ mgSdk.Users.Enable("<userId>", token)
     console.error(error);
   });
 
-mgSdk.Users.Users({ offset: 0, limit: 10 }, token)
+mgSdk.Users.list({ offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -143,7 +143,7 @@ mgSdk.Users.Users({ offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Users.UpdateUserPassword("<oldSecret>", "<newSecret>", token)
+mgSdk.Users.updatePassword("<oldSecret>", "<newSecret>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -151,7 +151,7 @@ mgSdk.Users.UpdateUserPassword("<oldSecret>", "<newSecret>", token)
     console.error(error);
   });
 
-mgSdk.Users.ListUserChannels(
+mgSdk.Users.listChannels(
   "<domainId>",
   "<userId>",
   { offset: 0, limit: 10 },
@@ -164,7 +164,7 @@ mgSdk.Users.ListUserChannels(
     console.error(error);
   });
 
-mgSdk.Users.ListUserClients(
+mgSdk.Users.listClients(
   "<domainId>",
   "<userId>",
   { offset: 0, limit: 10 },
@@ -177,7 +177,7 @@ mgSdk.Users.ListUserClients(
     console.error(error);
   });
 
-mgSdk.Users.ListUserGroups(
+mgSdk.Users.listGroups(
   "<domainId>",
   "<userId>",
   { offset: 0, limit: 10 },
@@ -190,7 +190,7 @@ mgSdk.Users.ListUserGroups(
     console.error(error);
   });
 
-mgSdk.Users.ResetPasswordRequest("<email>", "<hostUrl>")
+mgSdk.Users.resetPasswordRequest("<email>", "<hostUrl>")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -198,7 +198,7 @@ mgSdk.Users.ResetPasswordRequest("<email>", "<hostUrl>")
     console.error(error);
   });
 
-mgSdk.Users.ResetPassword("<password>", "<confPass>", token)
+mgSdk.Users.resetPassword("<password>", "<confPass>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -206,7 +206,7 @@ mgSdk.Users.ResetPassword("<password>", "<confPass>", token)
     console.error(error);
   });
 
-mgSdk.Users.DeleteUser("<userId>", token)
+mgSdk.Users.delete("<userId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -214,7 +214,7 @@ mgSdk.Users.DeleteUser("<userId>", token)
     console.error(error);
   });
 
-mgSdk.Users.SearchUsers({ username: "<username>" }, token)
+mgSdk.Users.search({ username: "<username>" }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -222,7 +222,7 @@ mgSdk.Users.SearchUsers({ username: "<username>" }, token)
     console.error(error);
   });
 
-mgSdk.Users.SendVerification(token)
+mgSdk.Users.sendVerification(token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -230,7 +230,7 @@ mgSdk.Users.SendVerification(token)
     console.error(error);
   });
 
-mgSdk.Users.VerifyEmail(token)
+mgSdk.Users.verifyEmail(token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -238,7 +238,7 @@ mgSdk.Users.VerifyEmail(token)
     console.error(error);
   });
 
-mgSdk.Users.RevokeRefreshToken("<tokenId>", token)
+mgSdk.Users.revokeRefreshToken("<tokenId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -246,7 +246,7 @@ mgSdk.Users.RevokeRefreshToken("<tokenId>", token)
     console.error(error);
   });
 
-mgSdk.Users.ListActiveRefreshTokens(token)
+mgSdk.Users.listActiveRefreshTokens(token)
   .then((response: any) => {
     console.log("response: ", response);
   })

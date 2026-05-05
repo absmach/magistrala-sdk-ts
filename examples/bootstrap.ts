@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Bootstrap.AddBootstrap(
+mgSdk.Bootstrap.add(
   {
     external_id: "<externalId>",
     external_key: "externalKey",
@@ -29,7 +29,7 @@ mgSdk.Bootstrap.AddBootstrap(
     console.error(error);
   });
 
-mgSdk.Bootstrap.Whitelist(
+mgSdk.Bootstrap.whitelist(
   {
     external_id: "<externalId>",
     external_key: "<externalKey>",
@@ -46,7 +46,7 @@ mgSdk.Bootstrap.Whitelist(
     console.error(error);
   });
 
-mgSdk.Bootstrap.UpdateBootstrap(
+mgSdk.Bootstrap.update(
   {
     name: "<updatedBootstrapName>",
     client_id: "<clientId>",
@@ -61,7 +61,7 @@ mgSdk.Bootstrap.UpdateBootstrap(
     console.error(error);
   });
 
-mgSdk.Bootstrap.ViewBootstrap("<clientId>", domainId, token)
+mgSdk.Bootstrap.get("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -69,7 +69,7 @@ mgSdk.Bootstrap.ViewBootstrap("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Bootstrap.UpdateBootstrapCerts(
+mgSdk.Bootstrap.updateCerts(
   {
     client_id: "<clientId>",
     client_cert: "<clientCert>",
@@ -86,7 +86,7 @@ mgSdk.Bootstrap.UpdateBootstrapCerts(
     console.error(error);
   });
 
-mgSdk.Bootstrap.DeleteBootstrap("<clientId>", domainId, token)
+mgSdk.Bootstrap.delete("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -94,7 +94,7 @@ mgSdk.Bootstrap.DeleteBootstrap("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Bootstrap.Bootstrap("externalId", "externalKey")
+mgSdk.Bootstrap.getByExternalId("externalId", "externalKey")
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -102,7 +102,7 @@ mgSdk.Bootstrap.Bootstrap("externalId", "externalKey")
     console.error(error);
   });
 
-mgSdk.Bootstrap.Bootstraps({ offset: 0, limit: 10 }, domainId, token)
+mgSdk.Bootstrap.list({ offset: 0, limit: 10 }, domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -110,7 +110,7 @@ mgSdk.Bootstrap.Bootstraps({ offset: 0, limit: 10 }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Bootstrap.UpdateBootstrapConnection(
+mgSdk.Bootstrap.updateConnection(
   "<clientId>",
   domainId,
   ["<channelId>", "<channelId2>"],
@@ -123,7 +123,7 @@ mgSdk.Bootstrap.UpdateBootstrapConnection(
     console.error(error);
   });
 
-mgSdk.Bootstrap.SecureBootstrap("<externalId>", "<externalKey>", "<cryptoKey>")
+mgSdk.Bootstrap.getSecure("<externalId>", "<externalKey>", "<cryptoKey>")
   .then((response: any) => {
     console.log("response:", response);
   })

@@ -32,16 +32,16 @@ export default class Journal {
   }
 
   /**
-   * @method EntityJournals - Retrieve entity journals by entity id matching the provided query parameters.
+   * Retrieves journals for an entity by entity ID matching the provided query parameters.
    * @param {string} entityType - Entity type i.e client, channel or group.
    * @param {string} entityId - The unique ID of the entity.
    * @param {string} domainId - The unique ID of the domain.
    * @param {JournalsPageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<JournalsPage>} journalsPage - A page of journals.
+   * @returns {Promise<JournalsPage>} A page of journals.
    * @throws {Error} - If the journals cannot be fetched.
    */
-  public async EntityJournals(
+  public async listByEntity(
     entityType: string,
     entityId: string,
     domainId: string,
@@ -83,14 +83,14 @@ export default class Journal {
   }
 
   /**
-   * @method UserJournals - Retrieve user journals by user id matching the provided query parameters.
+   * Retrieves journals for a user by user ID matching the provided query parameters.
    * @param {string} userId - The unique ID of the user.
    * @param {JournalsPageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<JournalsPage>} journalsPage - A page of journals.
+   * @returns {Promise<JournalsPage>} A page of journals.
    * @throws {Error} - If the journals cannot be fetched.
    */
-  public async UserJournals(
+  public async listByUser(
     userId: string,
     queryParams: JournalsPageMetadata,
     token: string
@@ -128,14 +128,14 @@ export default class Journal {
   }
 
   /**
-   * @method ClientTelemetry - Retrieves client telemetry.
+   * Retrieves client telemetry.
    * @param {string} clientId - The unique ID of the client.
-   * @param {string} token - Authorization token.
    * @param {string} domainId - The unique ID of the domain.
-   * @returns {Promise<ClientTelemetry>} clientTelemetry - A client telemetry interface.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<ClientTelemetry>} A client telemetry object.
    * @throws {Error} - If client telemetry cannot be fetched.
    */
-  public async ClientTelemetry(
+  public async clientTelemetry(
     clientId: string,
     domainId: string,
     token: string

@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Clients.CreateClient({ name: "<clientName>" }, domainId, token)
+mgSdk.Clients.create({ name: "<clientName>" }, domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -20,7 +20,7 @@ mgSdk.Clients.CreateClient({ name: "<clientName>" }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.Disable("<clientId>", domainId, token)
+mgSdk.Clients.disable("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -28,7 +28,7 @@ mgSdk.Clients.Disable("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.Enable("<clientId>", domainId, token)
+mgSdk.Clients.enable("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -36,7 +36,7 @@ mgSdk.Clients.Enable("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.UpdateClient(
+mgSdk.Clients.update(
   { id: "<clientId>", name: "<clientName>" },
   domainId,
   token
@@ -48,7 +48,7 @@ mgSdk.Clients.UpdateClient(
     console.error(error);
   });
 
-mgSdk.Clients.UpdateClientSecret(
+mgSdk.Clients.updateSecret(
   { id: "<clientId>", credentials: { secret: "newSecret" } },
   domainId,
   token
@@ -60,7 +60,7 @@ mgSdk.Clients.UpdateClientSecret(
     console.error(error);
   });
 
-mgSdk.Clients.UpdateClientTags(
+mgSdk.Clients.updateTags(
   { id: "<clientId>", tags: ["<tag1>", "<tag2>"] },
   domainId,
   token
@@ -72,7 +72,7 @@ mgSdk.Clients.UpdateClientTags(
     console.error(error);
   });
 
-mgSdk.Clients.Clients({ offset: 0, limit: 10 }, domainId, token)
+mgSdk.Clients.list({ offset: 0, limit: 10 }, domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -80,7 +80,7 @@ mgSdk.Clients.Clients({ offset: 0, limit: 10 }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.Client("<clientId>", domainId, token, false)
+mgSdk.Clients.get("<clientId>", domainId, token, false)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -88,7 +88,7 @@ mgSdk.Clients.Client("<clientId>", domainId, token, false)
     console.error(error);
   });
 
-mgSdk.Clients.DeleteClient("<clientId>", domainId, token)
+mgSdk.Clients.delete("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -96,7 +96,7 @@ mgSdk.Clients.DeleteClient("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.setClientParentGroup(
+mgSdk.Clients.setParentGroup(
   domainId,
   "<clientId>",
   "<parentGroupId>",
@@ -109,7 +109,7 @@ mgSdk.Clients.setClientParentGroup(
     console.error(error);
   });
 
-mgSdk.Clients.DeleteClientParentGroup(domainId, "<clientId>", token)
+mgSdk.Clients.deleteParentGroup(domainId, "<clientId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -117,7 +117,7 @@ mgSdk.Clients.DeleteClientParentGroup(domainId, "<clientId>", token)
     console.error(error);
   });
 
-mgSdk.Clients.CreateClients(
+mgSdk.Clients.createBulk(
   [{ name: "<clientName1>" }, { name: "<clientName2>" }],
   domainId,
   token
@@ -129,7 +129,7 @@ mgSdk.Clients.CreateClients(
     console.error(error);
   });
 
-mgSdk.Clients.ListClientActions(domainId, token)
+mgSdk.Clients.listActions(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -137,7 +137,7 @@ mgSdk.Clients.ListClientActions(domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.CreateClientRole("<clientId>", "<roleName>", domainId, token)
+mgSdk.Clients.createRole("<clientId>", "<roleName>", domainId, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -145,7 +145,7 @@ mgSdk.Clients.CreateClientRole("<clientId>", "<roleName>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Clients.ListClientRoles(
+mgSdk.Clients.listRoles(
   "<clientId>",
   domainId,
   { offset: 0, limit: 10 },
@@ -158,7 +158,7 @@ mgSdk.Clients.ListClientRoles(
     console.error(error);
   });
 
-mgSdk.Clients.ViewClientRole("<clientId>", domainId, "<roleId>", token)
+mgSdk.Clients.getRole("<clientId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -166,7 +166,7 @@ mgSdk.Clients.ViewClientRole("<clientId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Clients.UpdateClientRole(
+mgSdk.Clients.updateRole(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -180,7 +180,7 @@ mgSdk.Clients.UpdateClientRole(
     console.error(error);
   });
 
-mgSdk.Clients.DeleteClientRole("<clientId>", domainId, "<roleId>", token)
+mgSdk.Clients.deleteRole("<clientId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -188,7 +188,7 @@ mgSdk.Clients.DeleteClientRole("<clientId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Clients.AddClientRoleActions(
+mgSdk.Clients.addRoleActions(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -202,7 +202,7 @@ mgSdk.Clients.AddClientRoleActions(
     console.error(error);
   });
 
-mgSdk.Clients.ListClientRoleActions("<clientId>", domainId, "<roleId>", token)
+mgSdk.Clients.listRoleActions("<clientId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -210,7 +210,7 @@ mgSdk.Clients.ListClientRoleActions("<clientId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Clients.DeleteClientRoleActions(
+mgSdk.Clients.deleteRoleActions(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -224,7 +224,7 @@ mgSdk.Clients.DeleteClientRoleActions(
     console.error(error);
   });
 
-mgSdk.Clients.DeleteAllClientRoleActions(
+mgSdk.Clients.deleteAllRoleActions(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -237,7 +237,7 @@ mgSdk.Clients.DeleteAllClientRoleActions(
     console.error(error);
   });
 
-mgSdk.Clients.AddClientRoleMembers(
+mgSdk.Clients.addRoleMembers(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -251,7 +251,7 @@ mgSdk.Clients.AddClientRoleMembers(
     console.error(error);
   });
 
-mgSdk.Clients.ListClientRoleMembers(
+mgSdk.Clients.listRoleMembers(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -265,7 +265,7 @@ mgSdk.Clients.ListClientRoleMembers(
     console.error(error);
   });
 
-mgSdk.Clients.DeleteClientRoleMembers(
+mgSdk.Clients.deleteRoleMembers(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -279,7 +279,7 @@ mgSdk.Clients.DeleteClientRoleMembers(
     console.error(error);
   });
 
-mgSdk.Clients.DeleteAllClientRoleMembers(
+mgSdk.Clients.deleteAllRoleMembers(
   "<clientId>",
   domainId,
   "<roleId>",
@@ -292,7 +292,7 @@ mgSdk.Clients.DeleteAllClientRoleMembers(
     console.error(error);
   });
 
-mgSdk.Clients.ListClientMembers(
+mgSdk.Clients.listMembers(
   "<clientId>",
   domainId,
   { offset: 0, limit: 10 },

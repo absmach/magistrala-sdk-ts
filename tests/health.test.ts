@@ -137,84 +137,84 @@ describe("Health", () => {
   test("fetch users service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(usersServiceHealthInfo));
 
-    const response = await sdk.Health.Health("users");
+    const response = await sdk.Health.check("users");
     expect(response).toEqual(usersServiceHealthInfo);
   });
 
   test("fetch clients service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(clientsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("clients");
+    const response = await sdk.Health.check("clients");
     expect(response).toEqual(clientsServiceHealthInfo);
   });
 
   test("fetch channels service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(channelsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("channels");
+    const response = await sdk.Health.check("channels");
     expect(response).toEqual(channelsServiceHealthInfo);
   });
 
   test("fetch channels service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(channelsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("channels");
+    const response = await sdk.Health.check("channels");
     expect(response).toEqual(channelsServiceHealthInfo);
   });
 
   test("fetch certs service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(certsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("certs");
+    const response = await sdk.Health.check("certs");
     expect(response).toEqual(certsServiceHealthInfo);
   });
 
   test("fetch journal service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(journalServiceHealthInfo));
 
-    const response = await sdk.Health.Health("journal");
+    const response = await sdk.Health.check("journal");
     expect(response).toEqual(journalServiceHealthInfo);
   });
 
   test("fetch bootstrap service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(bootstrapServiceHealthInfo));
 
-    const response = await sdk.Health.Health("bootstrap");
+    const response = await sdk.Health.check("bootstrap");
     expect(response).toEqual(bootstrapServiceHealthInfo);
   });
 
   test("fetch reader service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(readerServiceHealthInfo));
 
-    const response = await sdk.Health.Health("reader");
+    const response = await sdk.Health.check("reader");
     expect(response).toEqual(readerServiceHealthInfo);
   });
 
   test("fetch http adapter service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(httpAdapterServiceHealthInfo));
 
-    const response = await sdk.Health.Health("http-adapter");
+    const response = await sdk.Health.check("http-adapter");
     expect(response).toEqual(httpAdapterServiceHealthInfo);
   });
 
   test("fetch domains service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(domainsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("domains");
+    const response = await sdk.Health.check("domains");
     expect(response).toEqual(domainsServiceHealthInfo);
   });
 
   test("fetch groups service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(groupsServiceHealthInfo));
 
-    const response = await sdk.Health.Health("groups");
+    const response = await sdk.Health.check("groups");
     expect(response).toEqual(groupsServiceHealthInfo);
   });
 
   test("fetch auth service health information", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(authServiceHealthInfo));
 
-    const response = await sdk.Health.Health("pats");
+    const response = await sdk.Health.check("pats");
     expect(response).toEqual(authServiceHealthInfo);
   });
 });

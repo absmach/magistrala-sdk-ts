@@ -66,14 +66,14 @@ describe("Roles", () => {
       JSON.stringify({ available_actions: availableActions })
     );
 
-    const response = await roles.ListAvailableActions(baseUrl, endpoint, token);
+    const response = await roles.listAvailableActions(baseUrl, endpoint, token);
     expect(response).toEqual(availableActions);
   });
 
   test("Create role should create a new role and return it", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await roles.CreateRole(
+    const response = await roles.createRole(
       baseUrl,
       endpoint,
       entityId,
@@ -89,7 +89,7 @@ describe("Roles", () => {
     const rolesPage = { roles: [role], total: 1, offset: 0, limit: 10 };
     fetchMock.mockResponseOnce(JSON.stringify(rolesPage));
 
-    const response = await roles.ListRoles(
+    const response = await roles.listRoles(
       baseUrl,
       endpoint,
       entityId,
@@ -102,7 +102,7 @@ describe("Roles", () => {
   test("View role should return details of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await roles.ViewRole(
+    const response = await roles.viewRole(
       baseUrl,
       endpoint,
       entityId,
@@ -116,7 +116,7 @@ describe("Roles", () => {
     const updatedRole = { ...role, actions: [...actions, "execute"] };
     fetchMock.mockResponseOnce(JSON.stringify(updatedRole));
 
-    const response = await roles.UpdateRole(
+    const response = await roles.updateRole(
       baseUrl,
       endpoint,
       entityId,
@@ -134,7 +134,7 @@ describe("Roles", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await roles.DeleteRole(
+    const response = await roles.deleteRole(
       baseUrl,
       endpoint,
       entityId,
@@ -148,7 +148,7 @@ describe("Roles", () => {
     const updatedActions = [...actions, "execute"];
     fetchMock.mockResponseOnce(JSON.stringify({ actions: updatedActions }));
 
-    const response = await roles.AddRoleActions(
+    const response = await roles.addRoleActions(
       baseUrl,
       endpoint,
       entityId,
@@ -162,7 +162,7 @@ describe("Roles", () => {
   test("List role actions should return actions of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ actions }));
 
-    const response = await roles.ListRoleActions(
+    const response = await roles.listRoleActions(
       baseUrl,
       endpoint,
       entityId,
@@ -179,7 +179,7 @@ describe("Roles", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await roles.DeleteRoleActions(
+    const response = await roles.deleteRoleActions(
       baseUrl,
       endpoint,
       entityId,
@@ -197,7 +197,7 @@ describe("Roles", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await roles.DeleteAllRoleActions(
+    const response = await roles.deleteAllRoleActions(
       baseUrl,
       endpoint,
       entityId,
@@ -211,7 +211,7 @@ describe("Roles", () => {
     const updatedMembers = [...members, "user3"];
     fetchMock.mockResponseOnce(JSON.stringify({ members: updatedMembers }));
 
-    const response = await roles.AddRoleMembers(
+    const response = await roles.addRoleMembers(
       baseUrl,
       endpoint,
       entityId,
@@ -225,7 +225,7 @@ describe("Roles", () => {
   test("List role members should return members of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersPage));
 
-    const response = await roles.ListRoleMembers(
+    const response = await roles.listRoleMembers(
       baseUrl,
       endpoint,
       entityId,
@@ -243,7 +243,7 @@ describe("Roles", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await roles.DeleteRoleMembers(
+    const response = await roles.deleteRoleMembers(
       baseUrl,
       endpoint,
       entityId,
@@ -261,7 +261,7 @@ describe("Roles", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await roles.DeleteAllRoleMembers(
+    const response = await roles.deleteAllRoleMembers(
       baseUrl,
       endpoint,
       entityId,
@@ -274,7 +274,7 @@ describe("Roles", () => {
   test("List entity members should return members of a specific entity", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersRolePage));
 
-    const response = await roles.ListEntityMembers(
+    const response = await roles.listEntityMembers(
       baseUrl,
       endpoint,
       entityId,

@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Domains.CreateDomain(
+mgSdk.Domains.create(
   { name: "<domainName>", route: "<domainRoute>" },
   token
 )
@@ -23,7 +23,7 @@ mgSdk.Domains.CreateDomain(
     console.error(error);
   });
 
-mgSdk.Domains.UpdateDomain({ name: "<domainName>", id: domainId }, token)
+mgSdk.Domains.update({ name: "<domainName>", id: domainId }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -31,7 +31,7 @@ mgSdk.Domains.UpdateDomain({ name: "<domainName>", id: domainId }, token)
     console.error(error);
   });
 
-mgSdk.Domains.Domain(domainId, token, false)
+mgSdk.Domains.get(domainId, token, false)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -39,7 +39,7 @@ mgSdk.Domains.Domain(domainId, token, false)
     console.error(error);
   });
 
-mgSdk.Domains.Domains({ offset: 0, limit: 10 }, token)
+mgSdk.Domains.list({ offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -47,7 +47,7 @@ mgSdk.Domains.Domains({ offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Domains.ListUserDomains("<userId>", { offset: 0, limit: 10 }, token)
+mgSdk.Domains.listByUser("<userId>", { offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -55,7 +55,7 @@ mgSdk.Domains.ListUserDomains("<userId>", { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Domains.EnableDomain(domainId, token)
+mgSdk.Domains.enable(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -63,7 +63,7 @@ mgSdk.Domains.EnableDomain(domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.DisableDomain(domainId, token)
+mgSdk.Domains.disable(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -71,7 +71,7 @@ mgSdk.Domains.DisableDomain(domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.FreezeDomain(domainId, token)
+mgSdk.Domains.freeze(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -79,7 +79,7 @@ mgSdk.Domains.FreezeDomain(domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainActions(token)
+mgSdk.Domains.listActions(token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -87,7 +87,7 @@ mgSdk.Domains.ListDomainActions(token)
     console.error(error);
   });
 
-mgSdk.Domains.CreateDomainRole(domainId, "<roleName>", token)
+mgSdk.Domains.createRole(domainId, "<roleName>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -95,7 +95,7 @@ mgSdk.Domains.CreateDomainRole(domainId, "<roleName>", token)
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainRoles(domainId, { offset: 0, limit: 10 }, token)
+mgSdk.Domains.listRoles(domainId, { offset: 0, limit: 10 }, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -103,7 +103,7 @@ mgSdk.Domains.ListDomainRoles(domainId, { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Domains.ViewDomainRole(domainId, "<roleId>", token)
+mgSdk.Domains.getRole(domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -111,7 +111,7 @@ mgSdk.Domains.ViewDomainRole(domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Domains.UpdateDomainRole(
+mgSdk.Domains.updateRole(
   domainId,
   "<roleId>",
   { name: "<updatedRoleName>" },
@@ -124,7 +124,7 @@ mgSdk.Domains.UpdateDomainRole(
     console.error(error);
   });
 
-mgSdk.Domains.DeleteDomainRole(domainId, "<roleId>", token)
+mgSdk.Domains.deleteRole(domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -132,7 +132,7 @@ mgSdk.Domains.DeleteDomainRole(domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Domains.AddDomainRoleActions(
+mgSdk.Domains.addRoleActions(
   domainId,
   "<roleId>",
   ["<action>", "<action>"],
@@ -145,7 +145,7 @@ mgSdk.Domains.AddDomainRoleActions(
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainRoleActions(domainId, "<roleId>", token)
+mgSdk.Domains.listRoleActions(domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -153,7 +153,7 @@ mgSdk.Domains.ListDomainRoleActions(domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Domains.DeleteDomainRoleActions(
+mgSdk.Domains.deleteRoleActions(
   domainId,
   "<roleId>",
   ["<action>", "<action>"],
@@ -166,7 +166,7 @@ mgSdk.Domains.DeleteDomainRoleActions(
     console.error(error);
   });
 
-mgSdk.Domains.DeleteAllDomainRoleActions(domainId, "<roleId>", token)
+mgSdk.Domains.deleteAllRoleActions(domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -174,7 +174,7 @@ mgSdk.Domains.DeleteAllDomainRoleActions(domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Domains.AddDomainRoleMembers(
+mgSdk.Domains.addRoleMembers(
   domainId,
   "<roleId>",
   ["<userId>", "<userId>"],
@@ -187,7 +187,7 @@ mgSdk.Domains.AddDomainRoleMembers(
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainRoleMembers(
+mgSdk.Domains.listRoleMembers(
   domainId,
   "<roleId>",
   { offset: 0, limit: 10 },
@@ -200,7 +200,7 @@ mgSdk.Domains.ListDomainRoleMembers(
     console.error(error);
   });
 
-mgSdk.Domains.DeleteDomainRoleMembers(
+mgSdk.Domains.deleteRoleMembers(
   domainId,
   "<roleId>",
   ["<userId>", "<userId>"],
@@ -213,7 +213,7 @@ mgSdk.Domains.DeleteDomainRoleMembers(
     console.error(error);
   });
 
-mgSdk.Domains.DeleteAllDomainRoleMembers(domainId, "<roleId>", token)
+mgSdk.Domains.deleteAllRoleMembers(domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -221,7 +221,7 @@ mgSdk.Domains.DeleteAllDomainRoleMembers(domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainMembers(domainId, { offset: 0, limit: 10 }, token)
+mgSdk.Domains.listMembers(domainId, { offset: 0, limit: 10 }, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -229,7 +229,7 @@ mgSdk.Domains.ListDomainMembers(domainId, { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Domains.SendInvitation("<userId>", domainId, "<roleId>", token, false)
+mgSdk.Domains.sendInvitation("<userId>", domainId, "<roleId>", token, false)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -237,7 +237,7 @@ mgSdk.Domains.SendInvitation("<userId>", domainId, "<roleId>", token, false)
     console.error(error);
   });
 
-mgSdk.Domains.ViewInvitation("<userId>", domainId, token)
+mgSdk.Domains.getInvitation("<userId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -245,7 +245,7 @@ mgSdk.Domains.ViewInvitation("<userId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.ListDomainInvitations(
+mgSdk.Domains.listInvitations(
   {
     limit: 10,
     offset: 0,
@@ -260,7 +260,7 @@ mgSdk.Domains.ListDomainInvitations(
     console.error(error);
   });
 
-mgSdk.Domains.ListUserInvitations(
+mgSdk.Domains.listUserInvitations(
   {
     limit: 10,
     offset: 0,
@@ -274,7 +274,7 @@ mgSdk.Domains.ListUserInvitations(
     console.error(error);
   });
 
-mgSdk.Domains.AcceptInvitation(domainId, token)
+mgSdk.Domains.acceptInvitation(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -282,7 +282,7 @@ mgSdk.Domains.AcceptInvitation(domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.RejectInvitation(domainId, token)
+mgSdk.Domains.rejectInvitation(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -290,7 +290,7 @@ mgSdk.Domains.RejectInvitation(domainId, token)
     console.error(error);
   });
 
-mgSdk.Domains.DeleteInvitation("<userId>", domainId, token)
+mgSdk.Domains.deleteInvitation("<userId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })

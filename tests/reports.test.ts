@@ -124,7 +124,7 @@ describe("Reports SDK", () => {
   test("Generate report should generate a reports page", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(reportsPage));
 
-    const response = await sdk.Reports.generateReport(
+    const response = await sdk.Reports.generate(
       domainId,
       reportConfig,
       token
@@ -135,7 +135,7 @@ describe("Reports SDK", () => {
   test("Add report config should add a new report configuration", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(reportConfig));
 
-    const response = await sdk.Reports.addReportConfig(
+    const response = await sdk.Reports.addConfig(
       domainId,
       reportConfig,
       token
@@ -146,7 +146,7 @@ describe("Reports SDK", () => {
   test("View report config should return a report configuration", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(reportConfig));
 
-    const response = await sdk.Reports.viewReportConfig(
+    const response = await sdk.Reports.getConfig(
       domainId,
       reportConfig.id as string,
       token
@@ -157,7 +157,7 @@ describe("Reports SDK", () => {
 
   test("List report configs should return a list of report configurations", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(reportConfigPage));
-    const response = await sdk.Reports.listReportConfigs(
+    const response = await sdk.Reports.listConfigs(
       domainId,
       queryParams,
       token
@@ -173,7 +173,7 @@ describe("Reports SDK", () => {
 
     fetchMock.mockResponseOnce(JSON.stringify(updatedConfig));
 
-    const response = await sdk.Reports.updateReportConfig(
+    const response = await sdk.Reports.updateConfig(
       domainId,
       updatedConfig,
       token
@@ -191,7 +191,7 @@ describe("Reports SDK", () => {
 
     fetchMock.mockResponseOnce(JSON.stringify(reportConfig));
 
-    const response = await sdk.Reports.updateReportSchedule(
+    const response = await sdk.Reports.updateSchedule(
       domainId,
       reportConfig.id as string,
       updatedSchedule,
@@ -208,7 +208,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteReportConfig(
+    const response = await sdk.Reports.deleteConfig(
       domainId,
       reportConfig.id as string,
       token
@@ -221,7 +221,7 @@ describe("Reports SDK", () => {
     reportConfig.status = "enabled";
     fetchMock.mockResponseOnce(JSON.stringify(reportConfig));
 
-    const response = await sdk.Reports.enableReportConfig(
+    const response = await sdk.Reports.enableConfig(
       domainId,
       reportConfig.id as string,
       token
@@ -233,7 +233,7 @@ describe("Reports SDK", () => {
     reportConfig.status = "disabled";
     fetchMock.mockResponseOnce(JSON.stringify(reportConfig));
 
-    const response = await sdk.Reports.disableReportConfig(
+    const response = await sdk.Reports.disableConfig(
       domainId,
       reportConfig.id as string,
       token
@@ -242,7 +242,7 @@ describe("Reports SDK", () => {
   });
 
   test("Update report template should update a report template", async () => {
-    const response = await sdk.Reports.updateReportTemplate(
+    const response = await sdk.Reports.updateTemplate(
       domainId,
       reportConfig.id as string,
       htmlTemplate,
@@ -254,7 +254,7 @@ describe("Reports SDK", () => {
   test("View report template should return a report template", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(template));
 
-    const response = await sdk.Reports.viewReportTemplate(
+    const response = await sdk.Reports.getTemplate(
       domainId,
       reportConfig.id as string,
       token
@@ -263,7 +263,7 @@ describe("Reports SDK", () => {
   });
 
   test("Delete report template should delete a report template", async () => {
-    const response = await sdk.Reports.deleteReportTemplate(
+    const response = await sdk.Reports.deleteTemplate(
       domainId,
       reportConfig.id as string,
       token
@@ -277,14 +277,14 @@ describe("Reports SDK", () => {
       JSON.stringify({ available_actions: availableActions })
     );
 
-    const response = await sdk.Reports.listReportConfigActions(domainId, token);
+    const response = await sdk.Reports.listActions(domainId, token);
     expect(response).toEqual(availableActions);
   });
 
   test("Create report config role should create a new role and return it", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await sdk.Reports.createReportConfigRole(
+    const response = await sdk.Reports.createRole(
       reportConfig.id as string,
       roleName,
       domainId,
@@ -298,7 +298,7 @@ describe("Reports SDK", () => {
   test("List report config roles should return a page of roles", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(rolesPage));
 
-    const response = await sdk.Reports.listReportConfigRoles(
+    const response = await sdk.Reports.listRoles(
       reportConfig.id as string,
       domainId,
       { offset: 0, limit: 10 },
@@ -310,7 +310,7 @@ describe("Reports SDK", () => {
   test("View report config role should return details of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(role));
 
-    const response = await sdk.Reports.viewReportConfigRole(
+    const response = await sdk.Reports.getRole(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -323,7 +323,7 @@ describe("Reports SDK", () => {
     const updatedRole = { ...role, actions: [...role.actions, "execute"] };
     fetchMock.mockResponseOnce(JSON.stringify(updatedRole));
 
-    const response = await sdk.Reports.updateReportConfigRole(
+    const response = await sdk.Reports.updateRole(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -340,7 +340,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteReportConfigRole(
+    const response = await sdk.Reports.deleteRole(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -353,7 +353,7 @@ describe("Reports SDK", () => {
     const updatedActions = [...actions, "execute"];
     fetchMock.mockResponseOnce(JSON.stringify({ actions: updatedActions }));
 
-    const response = await sdk.Reports.addReportConfigRoleActions(
+    const response = await sdk.Reports.addRoleActions(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -366,7 +366,7 @@ describe("Reports SDK", () => {
   test("List report config role actions should return actions of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ actions }));
 
-    const response = await sdk.Reports.listReportConfigRoleActions(
+    const response = await sdk.Reports.listRoleActions(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -382,7 +382,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteReportConfigRoleActions(
+    const response = await sdk.Reports.deleteRoleActions(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -399,7 +399,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteAllReportConfigRoleActions(
+    const response = await sdk.Reports.deleteAllRoleActions(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -412,7 +412,7 @@ describe("Reports SDK", () => {
     const updatedMembers = [...members, "user3"];
     fetchMock.mockResponseOnce(JSON.stringify({ members: updatedMembers }));
 
-    const response = await sdk.Reports.addReportConfigRoleMembers(
+    const response = await sdk.Reports.addRoleMembers(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -425,7 +425,7 @@ describe("Reports SDK", () => {
   test("List report config role members should return members of a specific role", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersPage));
 
-    const response = await sdk.Reports.listReportConfigRoleMembers(
+    const response = await sdk.Reports.listRoleMembers(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -442,7 +442,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteReportConfigRoleMembers(
+    const response = await sdk.Reports.deleteRoleMembers(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -459,7 +459,7 @@ describe("Reports SDK", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.Reports.deleteAllReportConfigRoleMembers(
+    const response = await sdk.Reports.deleteAllRoleMembers(
       reportConfig.id as string,
       domainId,
       roleId,
@@ -471,7 +471,7 @@ describe("Reports SDK", () => {
   test("List report config members should return members of a specific report config", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(membersRolePage));
 
-    const response = await sdk.Reports.listReportConfigMembers(
+    const response = await sdk.Reports.listMembers(
       reportConfig.id as string,
       domainId,
       { offset: 0, limit: 10 },

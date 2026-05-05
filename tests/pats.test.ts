@@ -60,75 +60,75 @@ describe("PATs", () => {
   test("Create should create a PAT", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(pat));
 
-    const response = await sdk.PATs.CreatePAT(name, duration, token);
+    const response = await sdk.PATs.create(name, duration, token);
     expect(response).toEqual(pat);
   });
 
-  test("ListPATS should return a list of PATs", async () => {
+  test("list should return a list of PATs", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(patsPage));
 
-    const response = await sdk.PATs.ListPATS(queryParams, token);
+    const response = await sdk.PATs.list(queryParams, token);
     expect(response).toEqual(patsPage);
   });
 
-  test("ViewPAT should return a PAT", async () => {
+  test("get should return a PAT", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(pat));
 
-    const response = await sdk.PATs.ViewPAT(patId, token);
+    const response = await sdk.PATs.get(patId, token);
     expect(response).toEqual(pat);
   });
 
-  test("DeleteAllPATs should delete all PATs", async () => {
+  test("deleteAll should delete all PATs", async () => {
     const successResponse = {
       status: 200,
       message: "PATs deleted successfully",
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.DeleteAllPATs(token);
+    const response = await sdk.PATs.deleteAll(token);
     expect(response).toEqual(successResponse);
   });
 
   test("UpdateName should update PAT name", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(name));
 
-    const response = await sdk.PATs.UpdateName(name, patId, token);
+    const response = await sdk.PATs.updateName(name, patId, token);
     expect(response).toEqual(name);
   });
 
   test("UpdateDescription should update PAT description", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(description));
 
-    const response = await sdk.PATs.UpdateDescription(description, patId, token);
+    const response = await sdk.PATs.updateDescription(description, patId, token);
     expect(response).toEqual(description);
   });
 
-  test("DeletePAT should delete a PAT", async () => {
+  test("delete should delete a PAT", async () => {
     const successResponse = {
       status: 200,
       message: "PAT deleted successfully",
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.DeletePAT(patId, token);
+    const response = await sdk.PATs.delete(patId, token);
     expect(response).toEqual(successResponse);
   });
 
   test("ResetSecret should reset PAT secret", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(pat));
 
-    const response = await sdk.PATs.ResetSecret(duration, patId, token);
+    const response = await sdk.PATs.resetSecret(duration, patId, token);
     expect(response).toEqual(pat);
   });
 
-  test("RevokePAT should revoke a PAT", async () => {
+  test("revoke should revoke a PAT", async () => {
     const successResponse = {
       status: 200,
       message: "PAT revoked successfully",
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.RevokePAT(patId, token);
+    const response = await sdk.PATs.revoke(patId, token);
     expect(response).toEqual(successResponse);
   });
 
@@ -139,14 +139,14 @@ describe("PATs", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.AddScope(scopes, patId, token);
+    const response = await sdk.PATs.addScope(scopes, patId, token);
     expect(response).toEqual(successResponse);
   });
 
   test("ListScopes should return a list of scopes", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(scopesPage));
 
-    const response = await sdk.PATs.ListScopes(patId, queryParams, token);
+    const response = await sdk.PATs.listScopes(patId, queryParams, token);
     expect(response).toEqual(scopesPage);
   });
 
@@ -157,7 +157,7 @@ describe("PATs", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.DeleteScopes(patId, scopeIds, token);
+    const response = await sdk.PATs.deleteScopes(patId, scopeIds, token);
     expect(response).toEqual(successResponse);
   });
 
@@ -168,7 +168,7 @@ describe("PATs", () => {
     };
     fetchMock.mockResponseOnce(JSON.stringify(successResponse));
 
-    const response = await sdk.PATs.DeleteAllScopes(patId, token);
+    const response = await sdk.PATs.deleteAllScopes(patId, token);
     expect(response).toEqual(successResponse);
   });
 });

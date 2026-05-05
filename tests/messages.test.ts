@@ -46,22 +46,22 @@ describe("Messages", () => {
     fetchMock.resetMocks();
   });
 
-  test("Send should send a message", async () => {
+  test("send should send a message", async () => {
     fetchMock.mockResponseOnce(
       JSON.stringify({ status: 200, message: "Message sent successfully" }),
     );
 
-    const response = await sdk.Messages.Send(domainId, topic, msg, secret);
+    const response = await sdk.Messages.send(domainId, topic, msg, secret);
     expect(response).toEqual({
       status: 200,
       message: "Message sent successfully",
     });
   });
 
-  test("Read should read messages", async () => {
+  test("read should read messages", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(messagesPage));
 
-    const response = await sdk.Messages.Read(
+    const response = await sdk.Messages.read(
       domainId,
       channelId,
       queryParams,

@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Certs.IssueCert("<clientId>", "<valid>", domainId, token)
+mgSdk.Certs.issue("<clientId>", "<valid>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -20,7 +20,7 @@ mgSdk.Certs.IssueCert("<clientId>", "<valid>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Certs.ViewCertByClient("<clientId>", domainId, token)
+mgSdk.Certs.listByClient("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -28,7 +28,7 @@ mgSdk.Certs.ViewCertByClient("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Certs.ViewCert("<certID>", domainId, token)
+mgSdk.Certs.get("<certID>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -36,7 +36,7 @@ mgSdk.Certs.ViewCert("<certID>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Certs.RevokeCert("<clientId>", domainId, token)
+mgSdk.Certs.revoke("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })

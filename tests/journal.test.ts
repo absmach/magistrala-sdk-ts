@@ -47,7 +47,7 @@ describe("Journal", () => {
     fetchMock.resetMocks();
   });
 
-  describe("EntityJournals", () => {
+  describe("listByEntity", () => {
     const entities = [
       {
         entityType: "client",
@@ -100,10 +100,10 @@ describe("Journal", () => {
     ];
 
     test.each(entities)(
-      "Entity journals should return a list of entity journals for entityType",
+      "listByEntity should return a list of entity journals for entityType",
       async ({ entityType, entityId, domainId, expectedResponse }) => {
         fetchMock.mockResponseOnce(JSON.stringify(expectedResponse));
-        const response = await sdk.Journal.EntityJournals(
+        const response = await sdk.Journal.listByEntity(
           entityType,
           entityId,
           domainId,
@@ -115,10 +115,10 @@ describe("Journal", () => {
     );
   });
 
-  test("User journals should return a list of user journals", async () => {
+  test("listByUser should return a list of user journals", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(userJournalsPage));
 
-    const response = await sdk.Journal.UserJournals(
+    const response = await sdk.Journal.listByUser(
       userId,
       queryParams,
       token,
@@ -126,10 +126,10 @@ describe("Journal", () => {
     expect(response).toEqual(userJournalsPage);
   });
 
-  test("Client telemetry should return client telemetry", async () => {
+  test("clientTelemetry should return client telemetry", async () => {
     fetchMock.mockResponseOnce(JSON.stringify(clientTelemetry));
     const domainId = "e61d04fc-50ce-45e9-b461-8913f4c0cfbe";
-    const response = await sdk.Journal.ClientTelemetry(
+    const response = await sdk.Journal.clientTelemetry(
       clientId,
       domainId,
       token,

@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Channels.CreateChannel({ name: "<channelName>" }, domainId, token)
+mgSdk.Channels.create({ name: "<channelName>" }, domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -20,7 +20,7 @@ mgSdk.Channels.CreateChannel({ name: "<channelName>" }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.Channel("<channelId>", domainId, token, false)
+mgSdk.Channels.get("<channelId>", domainId, token, false)
   .then((response: any) => {
     console.log(response);
   })
@@ -28,7 +28,7 @@ mgSdk.Channels.Channel("<channelId>", domainId, token, false)
     console.error(error);
   });
 
-mgSdk.Channels.CreateChannels(
+mgSdk.Channels.createBulk(
   [{ name: "<channelName1>" }, { name: "<channelName2>" }],
   domainId,
   token
@@ -40,7 +40,7 @@ mgSdk.Channels.CreateChannels(
     console.error(error);
   });
 
-mgSdk.Channels.Channels({ offset: 0, limit: 10 }, domainId, token)
+mgSdk.Channels.list({ offset: 0, limit: 10 }, domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -48,7 +48,7 @@ mgSdk.Channels.Channels({ offset: 0, limit: 10 }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.UpdateChannelNameAndMetadata(
+mgSdk.Channels.update(
   { id: "<channelId>", name: "<channelName>", metadata: { key: "value" } },
   domainId,
   token
@@ -60,7 +60,7 @@ mgSdk.Channels.UpdateChannelNameAndMetadata(
     console.error(error);
   });
 
-mgSdk.Channels.UpdateChannelTags(
+mgSdk.Channels.updateTags(
   { id: "<channelId>", tags: ["tag1", "tag2"] },
   domainId,
   token
@@ -72,7 +72,7 @@ mgSdk.Channels.UpdateChannelTags(
     console.error(error);
   });
 
-mgSdk.Channels.DisableChannel("<channelId>", domainId, token)
+mgSdk.Channels.disable("<channelId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -80,7 +80,7 @@ mgSdk.Channels.DisableChannel("<channelId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.EnableChannel("<channelId>", domainId, token)
+mgSdk.Channels.enable("<channelId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -88,7 +88,7 @@ mgSdk.Channels.EnableChannel("<channelId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.ConnectClient(
+mgSdk.Channels.connectClient(
   ["<clientId1>", "<clientId2>"],
   "<channelId>",
   ["publish"],
@@ -102,7 +102,7 @@ mgSdk.Channels.ConnectClient(
     console.error(error);
   });
 
-mgSdk.Channels.DisconnectClient(
+mgSdk.Channels.disconnectClient(
   ["<clientId1>", "<clientId2>"],
   "<channelId>",
   ["publish"],
@@ -116,7 +116,7 @@ mgSdk.Channels.DisconnectClient(
     console.error(error);
   });
 
-mgSdk.Channels.Connect(
+mgSdk.Channels.connect(
   ["<clientId1>", "<clientId2>"],
   ["<channelId1>", "<channelId1>"],
   ["publish"],
@@ -130,7 +130,7 @@ mgSdk.Channels.Connect(
     console.error(error);
   });
 
-mgSdk.Channels.Disconnect(
+mgSdk.Channels.disconnect(
   ["<clientId1>", "<clientId2>"],
   ["<channelId1>", "<channelId1>"],
   ["publish"],
@@ -144,7 +144,7 @@ mgSdk.Channels.Disconnect(
     console.error(error);
   });
 
-mgSdk.Channels.SetChannelParentGroup(
+mgSdk.Channels.setParentGroup(
   domainId,
   "<channelId>",
   "<parentGroupId>",
@@ -157,7 +157,7 @@ mgSdk.Channels.SetChannelParentGroup(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteChannelParentGroup(domainId, "<channelId>", token)
+mgSdk.Channels.deleteParentGroup(domainId, "<channelId>", token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -165,7 +165,7 @@ mgSdk.Channels.DeleteChannelParentGroup(domainId, "<channelId>", token)
     console.error(error);
   });
 
-mgSdk.Channels.DeleteChannel("<channelId>", domainId, token)
+mgSdk.Channels.delete("<channelId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -173,7 +173,7 @@ mgSdk.Channels.DeleteChannel("<channelId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.ListChannelActions(domainId, token)
+mgSdk.Channels.listActions(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -181,7 +181,7 @@ mgSdk.Channels.ListChannelActions(domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.CreateChannelRole("<channelId>", "<roleName>", domainId, token)
+mgSdk.Channels.createRole("<channelId>", "<roleName>", domainId, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -189,7 +189,7 @@ mgSdk.Channels.CreateChannelRole("<channelId>", "<roleName>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Channels.ListChannelRoles(
+mgSdk.Channels.listRoles(
   "<channelId>",
   domainId,
   { offset: 0, limit: 10 },
@@ -202,7 +202,7 @@ mgSdk.Channels.ListChannelRoles(
     console.error(error);
   });
 
-mgSdk.Channels.ViewChannelRole("<channelId>", domainId, "<roleId>", token)
+mgSdk.Channels.getRole("<channelId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -210,7 +210,7 @@ mgSdk.Channels.ViewChannelRole("<channelId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Channels.UpdateChannelRole(
+mgSdk.Channels.updateRole(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -224,7 +224,7 @@ mgSdk.Channels.UpdateChannelRole(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteChannelRole("<channelId>", domainId, "<roleId>", token)
+mgSdk.Channels.deleteRole("<channelId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -232,7 +232,7 @@ mgSdk.Channels.DeleteChannelRole("<channelId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Channels.AddChannelRoleActions(
+mgSdk.Channels.addRoleActions(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -246,7 +246,7 @@ mgSdk.Channels.AddChannelRoleActions(
     console.error(error);
   });
 
-mgSdk.Channels.ListChannelRoleActions(
+mgSdk.Channels.listRoleActions(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -259,7 +259,7 @@ mgSdk.Channels.ListChannelRoleActions(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteChannelRoleActions(
+mgSdk.Channels.deleteRoleActions(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -273,7 +273,7 @@ mgSdk.Channels.DeleteChannelRoleActions(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteAllChannelRoleActions(
+mgSdk.Channels.deleteAllRoleActions(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -286,7 +286,7 @@ mgSdk.Channels.DeleteAllChannelRoleActions(
     console.error(error);
   });
 
-mgSdk.Channels.AddChannelRoleMembers(
+mgSdk.Channels.addRoleMembers(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -300,7 +300,7 @@ mgSdk.Channels.AddChannelRoleMembers(
     console.error(error);
   });
 
-mgSdk.Channels.ListChannelRoleMembers(
+mgSdk.Channels.listRoleMembers(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -314,7 +314,7 @@ mgSdk.Channels.ListChannelRoleMembers(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteChannelRoleMembers(
+mgSdk.Channels.deleteRoleMembers(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -328,7 +328,7 @@ mgSdk.Channels.DeleteChannelRoleMembers(
     console.error(error);
   });
 
-mgSdk.Channels.DeleteAllChannelRoleMembers(
+mgSdk.Channels.deleteAllRoleMembers(
   "<channelId>",
   domainId,
   "<roleId>",
@@ -341,7 +341,7 @@ mgSdk.Channels.DeleteAllChannelRoleMembers(
     console.error(error);
   });
 
-mgSdk.Channels.ListChannelMembers(
+mgSdk.Channels.listMembers(
   "<channelId>",
   domainId,
   { offset: 0, limit: 10 },

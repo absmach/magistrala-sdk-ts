@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Journal.EntityJournals(
+mgSdk.Journal.listByEntity(
   "<entityType>",
   "<entityId>",
   domainId,
@@ -26,7 +26,7 @@ mgSdk.Journal.EntityJournals(
     console.error(error);
   });
 
-mgSdk.Journal.UserJournals("<userId>", { offset: 0, limit: 10 }, token)
+mgSdk.Journal.listByUser("<userId>", { offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -34,7 +34,7 @@ mgSdk.Journal.UserJournals("<userId>", { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Journal.ClientTelemetry("<clientId>", domainId, token)
+mgSdk.Journal.clientTelemetry("<clientId>", domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })

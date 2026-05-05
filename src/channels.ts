@@ -45,14 +45,14 @@ export default class Channels {
   }
 
   /**
-   * @method CreateChannel - Creates a new channel
+   * Creates a new channel.
    * @param {Channel} channel - Channel object with a containing details like name, metadata and tags.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @returns {Promise<Channel>} The created channel object.
    * @throws {Error} - If the channel cannot be created.
    */
-  public async CreateChannel(
+  public async create(
     channel: Channel,
     domainId: string,
     token: string
@@ -85,15 +85,15 @@ export default class Channels {
   }
 
   /**
-   * @method Channel - Retrieves a channel by its id.
+   * Retrieves a channel by its id.
    * @param {string} channelId - The unique ID of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @param {boolean} [listRoles] - Whether to include roles in the response
-   * @returns {Promise<Channel>} channel - The requested channel object.
+   * @returns {Promise<Channel>} The requested channel object.
    * @throws {Error} - If the channel cannot be fetched.
    */
-  public async Channel(
+  public async get(
     channelId: string,
     domainId: string,
     token: string,
@@ -127,14 +127,14 @@ export default class Channels {
   }
 
   /**
-   * @method CreateChannels - Creates multiple new channels.
+   * Creates multiple new channels.
    * @param {Channel[]} channels - An array of channel objects, each containing details like name, metadata, and tags.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<ChannelsPage>} channelsPage - A page of channels.
+   * @returns {Promise<ChannelsPage>} A page of channels.
    * @throws {Error} - If the channels cannot be created.
    */
-  public async CreateChannels(
+  public async createBulk(
     channels: Channel[],
     domainId: string,
     token: string
@@ -167,14 +167,14 @@ export default class Channels {
   }
 
   /**
-   * @method Channels - Retrieves all channels matching the provided query parameters.
+   * Retrieves all channels matching the provided query parameters.
    * @param {PageMetadata} queryParams - Query parameters for the request.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<ChannelsPage>} channelsPage - A page of channels.
+   * @returns {Promise<ChannelsPage>} A page of channels.
    * @throws {Error} - If the channels cannot be fetched.
    */
-  public async Channels(
+  public async list(
     queryParams: PageMetadata,
     domainId: string,
     token: string
@@ -211,14 +211,14 @@ export default class Channels {
   }
 
   /**
-   * @method UpdateChannelNameAndMetadata - Updates an existing channel's metadata and name.
+   * Updates an existing channel's metadata and name.
    * @param {Channel} channel - Channel object with updated properties.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Channel>} channel - The updated channel object.
+   * @returns {Promise<Channel>} The updated channel object.
    * @throws {Error} - If the channel cannot be updated.
    */
-  public async UpdateChannelNameAndMetadata(
+  public async update(
     channel: Channel,
     domainId: string,
     token: string
@@ -251,14 +251,14 @@ export default class Channels {
   }
 
   /**
-   * @method UpdateChannelTags - Updates an existing channel's tags.
+   * Updates an existing channel's tags.
    * @param {Channel} channel - Channel object with updated properties.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Channel>} channel - The updated channel object.
+   * @returns {Promise<Channel>} The updated channel object.
    * @throws {Error} - If the channel tags cannot be updated.
    */
-  public async UpdateChannelTags(
+  public async updateTags(
     channel: Channel,
     domainId: string,
     token: string
@@ -291,14 +291,14 @@ export default class Channels {
   }
 
   /**
-   * @method DisableChannel - Disables a specific channel.
+   * Disables a specific channel.
    * @param {string} channelId - The unique ID of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Channel>} channel - The disabled channel object.
+   * @returns {Promise<Channel>} The disabled channel object.
    * @throws {Error} - If the channel cannot be disabled.
    */
-  public async DisableChannel(
+  public async disable(
     channelId: string,
     domainId: string,
     token: string
@@ -330,14 +330,14 @@ export default class Channels {
   }
 
   /**
-   * @method EnableChannel - Enables a previously disabled channel.
+   * Enables a previously disabled channel.
    * @param {string} channelId - The unique ID of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Channel>} channel - The enabled channel object.
+   * @returns {Promise<Channel>} The enabled channel object.
    * @throws {Error} - If the channel cannot be enabled.
    */
-  public async EnableChannel(
+  public async enable(
     channelId: string,
     domainId: string,
     token: string
@@ -369,14 +369,14 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteChannel - Deletes channel with specified id.
+   * Deletes channel with specified id.
    * @param {string} channelId - The unique ID of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the channel is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the channel is deleted.
    * @throws {Error} - If the channel cannot be deleted.
    */
-  public async DeleteChannel(
+  public async delete(
     channelId: string,
     domainId: string,
     token: string
@@ -411,16 +411,16 @@ export default class Channels {
   }
 
   /**
-   * @method ConnectClient - Connects multiple clients to a channel.
+   * Connects multiple clients to a channel.
    * @param {string[]} clientIds - An array of unique clients IDs to be connected.
    * @param {string} channelId - The unique ID of the channel to which the clients will connect.
-   * @param {string[]}connectionTypes - Connection types can be 'publish', 'subscribe' or both.
+   * @param {string[]} connectionTypes - Connection types can be 'publish', 'subscribe' or both.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the clients are connected to the channel.
+   * @returns {Promise<Response>} A promise that resolves when the clients are connected to the channel.
    * @throws {Error} - If the clients cannot be connected to the channel.
    */
-  public async ConnectClient(
+  public async connectClient(
     clientIds: string[],
     channelId: string,
     connectionTypes: string[],
@@ -462,16 +462,16 @@ export default class Channels {
   }
 
   /**
-   * @method Connect - Connects multiple clients to multple channels.
+   * Connects multiple clients to multiple channels.
    * @param {string[]} clientIds - An array of unique clients IDs to be connected.
    * @param {string[]} channelIds - An array of unique channels IDs to which the clients will connect.
-   * @param {string[]} connectionTypes - Connection types can be publish, subscribe or both publish and subscribe
+   * @param {string[]} connectionTypes - Connection types can be publish, subscribe or both publish and subscribe.
    * @param {string} domainId - The unique ID of the channel.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the clients are connected to the channels.
+   * @returns {Promise<Response>} A promise that resolves when the clients are connected to the channels.
    * @throws {Error} - If the clients cannot be connected to the channel.
    */
-  public async Connect(
+  public async connect(
     clientIds: string[],
     channelIds: string[],
     connectionTypes: string[],
@@ -513,16 +513,16 @@ export default class Channels {
   }
 
   /**
-   * @method Disconnect - Disconnects clients from channels.
+   * Disconnects clients from channels.
    * @param {string[]} clientIds - An array of unique clients IDs to be disconnected.
-   * @param {string[]} channelIds -  An array of unique channels IDs to which the clients will disconnect.
-   * @param {string[]}connectionTypes - Connection types can be publish, subscribe or both publish and subscribe.
+   * @param {string[]} channelIds - An array of unique channels IDs to which the clients will disconnect.
+   * @param {string[]} connectionTypes - Connection types can be publish, subscribe or both publish and subscribe.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the clients are disconnected from the channels.
+   * @returns {Promise<Response>} A promise that resolves when the clients are disconnected from the channels.
    * @throws {Error} - If the clients cannot be disconnected from the channels.
    */
-  public async Disconnect(
+  public async disconnect(
     clientIds: string[],
     channelIds: string[],
     connectionTypes: string[],
@@ -564,16 +564,16 @@ export default class Channels {
   }
 
   /**
-   * @method DisconnectClient - Disconnects clients from channel.
+   * Disconnects clients from channel.
    * @param {string[]} clientIds - An array of unique clients IDs to be disconnected.
    * @param {string} channelId - The unique ID of the channel from which the clients will be disconnected.
-   * @param {string[]} connectionTypes - connection types can be publish, subscribe or both publish and subscribe.
+   * @param {string[]} connectionTypes - Connection types can be publish, subscribe or both publish and subscribe.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the clients are disconnected from the channel.
+   * @returns {Promise<Response>} A promise that resolves when the clients are disconnected from the channel.
    * @throws {Error} - If the clients cannot be disconnected from the channel.
    */
-  public async DisconnectClient(
+  public async disconnectClient(
     clientIds: string[],
     channelId: string,
     connectionTypes: string[],
@@ -615,15 +615,15 @@ export default class Channels {
   }
 
   /**
-   * @method SetChannelParentGroup - Sets parent to a channel.
+   * Sets parent to a channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} channelId - The unique ID of the channel to be updated.
    * @param {string} parentGroupId - The unique ID of the group to be set as the parent.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the parent group is successfully set for the specified channel.
+   * @returns {Promise<Response>} A promise that resolves when the parent group is successfully set for the specified channel.
    * @throws {Error} - If the parent group cannot be set for the channel.
    */
-  public async SetChannelParentGroup(
+  public async setParentGroup(
     domainId: string,
     channelId: string,
     parentGroupId: string,
@@ -660,14 +660,14 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteChannelParentGroup - Removes the parent group from a specified channel.
+   * Removes the parent group from a specified channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} channelId - The unique ID of the channel.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the parent group is successfully removed from the specified channel.
+   * @returns {Promise<Response>} A promise that resolves when the parent group is successfully removed from the specified channel.
    * @throws {Error} - If the parent group cannot be removed from the channel.
    */
-  public async DeleteChannelParentGroup(
+  public async deleteParentGroup(
     domainId: string,
     channelId: string,
     token: string
@@ -702,18 +702,18 @@ export default class Channels {
   }
 
   /**
-   * @method ListChannelActions - Lists all actions available to a specific channel.
+   * Lists all actions available to a specific channel.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If channel actions cannot be fetched.
    */
-  public async ListChannelActions(
+  public async listActions(
     domainId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const actions: string[] = await this.channelRoles.ListAvailableActions(
+      const actions: string[] = await this.channelRoles.listAvailableActions(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         token
@@ -725,17 +725,17 @@ export default class Channels {
   }
 
   /**
-   * @method CreateChannelRole - Creates a new role within a specific channel.
+   * Creates a new role within a specific channel.
    * @param {string} channelId - The unique identifier of the channel.
-   * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleName - The name of the role to create.
+   * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @param {string[]} optionalActions - Optional actions assigned to the role.
    * @param {string[]} optionalMembers - Optional members assigned to the role.
-   * @returns {Promise<Role>} role - A promise that resolves with the role created.
+   * @returns {Promise<Role>} A promise that resolves with the role created.
    * @throws {Error} - If the role cannot be created or already exists.
    */
-  public async CreateChannelRole(
+  public async createRole(
     channelId: string,
     roleName: string,
     domainId: string,
@@ -744,7 +744,7 @@ export default class Channels {
     optionalMembers?: string[]
   ): Promise<Role> {
     try {
-      const role: Role = await this.channelRoles.CreateRole(
+      const role: Role = await this.channelRoles.createRole(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -760,22 +760,22 @@ export default class Channels {
   }
 
   /**
-   * @method ListChannelRoles - Lists all roles within a specific channel.
+   * Lists all roles within a specific channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RolePage>} rolePage - A promise that resolves with a page of roles in the domain.
+   * @returns {Promise<RolePage>} A promise that resolves with a page of roles in the domain.
    * @throws {Error} - If the channel is invalid or roles cannot be fetched.
    */
-  public async ListChannelRoles(
+  public async listRoles(
     channelId: string,
     domainId: string,
     queryParams: PageMetadata,
     token: string
   ): Promise<RolePage> {
     try {
-      const rolesPage: RolePage = await this.channelRoles.ListRoles(
+      const rolesPage: RolePage = await this.channelRoles.listRoles(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -789,22 +789,22 @@ export default class Channels {
   }
 
   /**
-   * @method ViewChannelRole - Retrieves details about a specific role in a channel.
+   * Retrieves details about a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the role details.
+   * @returns {Promise<Role>} A promise that resolves with the role details.
    * @throws {Error} - If the role does not exist or cannot be retrieved.
    */
-  public async ViewChannelRole(
+  public async getRole(
     channelId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Role> {
     try {
-      const role = await this.channelRoles.ViewRole(
+      const role = await this.channelRoles.viewRole(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -818,16 +818,16 @@ export default class Channels {
   }
 
   /**
-   * @method UpdateChannelRole - Updates the details of a specific role in a channel.
+   * Updates the details of a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {Role} role - The role to be updated.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the updated role.
+   * @returns {Promise<Role>} A promise that resolves with the updated role.
    * @throws {Error} - If the role cannot be updated.
    */
-  public async UpdateChannelRole(
+  public async updateRole(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -835,7 +835,7 @@ export default class Channels {
     token: string
   ): Promise<Role> {
     try {
-      const updatedRole = await this.channelRoles.UpdateRole(
+      const updatedRole = await this.channelRoles.updateRole(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -850,22 +850,22 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteChannelRole - Deletes a specific role from a channel.
+   * Deletes a specific role from a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the role is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the role is deleted.
    * @throws {Error} - If the role cannot be deleted.
    */
-  public async DeleteChannelRole(
+  public async deleteRole(
     channelId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.channelRoles.DeleteRole(
+      const response = await this.channelRoles.deleteRole(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -879,16 +879,16 @@ export default class Channels {
   }
 
   /**
-   * @method AddChannelRoleActions - Adds actions to a specific role in a channel.
+   * Adds actions to a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
-   * @param {string} token - Authorization token.
    * @param {string[]} actions - The actions to add to the role.
-   * @returns {Promise<string[]>} role actions- A promise that resolves with an array of actions.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If the actions cannot be added.
    */
-  public async AddChannelRoleActions(
+  public async addRoleActions(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -896,7 +896,7 @@ export default class Channels {
     token: string
   ): Promise<string[]> {
     try {
-      const response = await this.channelRoles.AddRoleActions(
+      const response = await this.channelRoles.addRoleActions(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -911,22 +911,22 @@ export default class Channels {
   }
 
   /**
-   * @method ListChannelRoleActions - Lists all actions associated with a specific role in a channel.
+   * Lists all actions associated with a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} role actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If actions cannot be retrieved.
    */
-  public async ListChannelRoleActions(
+  public async listRoleActions(
     channelId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const updatedRole = await this.channelRoles.ListRoleActions(
+      const updatedRole = await this.channelRoles.listRoleActions(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -940,16 +940,16 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteChannelRoleActions - Deletes specific actions from a role in a channel.
+   * Deletes specific actions from a role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to delete from the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async DeleteChannelRoleActions(
+  public async deleteRoleActions(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -957,7 +957,7 @@ export default class Channels {
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.channelRoles.DeleteRoleActions(
+      const response = await this.channelRoles.deleteRoleActions(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -972,22 +972,22 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteAllChannelRoleActions - Deletes all actions associated with a specific role in a channel.
+   * Deletes all actions associated with a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async DeleteAllChannelRoleActions(
+  public async deleteAllRoleActions(
     channelId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.channelRoles.DeleteAllRoleActions(
+      const response = await this.channelRoles.deleteAllRoleActions(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -1001,16 +1001,16 @@ export default class Channels {
   }
 
   /**
-   * @method AddChannelRoleMembers - Adds members to a specific role in a channel.
+   * Adds members to a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to add.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} members - A promise that resolves with an array of member ids.
+   * @returns {Promise<string[]>} A promise that resolves with an array of member ids.
    * @throws {Error} - If the members cannot be added.
    */
-  public async AddChannelRoleMembers(
+  public async addRoleMembers(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -1018,7 +1018,7 @@ export default class Channels {
     token: string
   ): Promise<string[]> {
     try {
-      const response = await this.channelRoles.AddRoleMembers(
+      const response = await this.channelRoles.addRoleMembers(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -1033,15 +1033,16 @@ export default class Channels {
   }
 
   /**
-   * @method ListChannelRoleMembers - Lists all members associated with a specific role in a channel.
+   * Lists all members associated with a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
+   * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MembersPage>} members - A promise that resolves with an array of member ids.
+   * @returns {Promise<MembersPage>} A promise that resolves with an array of member ids.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async ListChannelRoleMembers(
+  public async listRoleMembers(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -1049,7 +1050,7 @@ export default class Channels {
     token: string
   ): Promise<MembersPage> {
     try {
-      const members = await this.channelRoles.ListRoleMembers(
+      const members = await this.channelRoles.listRoleMembers(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -1064,16 +1065,16 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteChannelRoleMembers - Deletes specific members from a role in a channel.
+   * Deletes specific members from a role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to delete.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async DeleteChannelRoleMembers(
+  public async deleteRoleMembers(
     channelId: string,
     domainId: string,
     roleId: string,
@@ -1081,7 +1082,7 @@ export default class Channels {
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.channelRoles.DeleteRoleMembers(
+      const response = await this.channelRoles.deleteRoleMembers(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -1096,22 +1097,22 @@ export default class Channels {
   }
 
   /**
-   * @method DeleteAllChannelRoleMembers - Deletes all members associated with a specific role in a channel.
+   * Deletes all members associated with a specific role in a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async DeleteAllChannelRoleMembers(
+  public async deleteAllRoleMembers(
     channelId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response = await this.channelRoles.DeleteAllRoleMembers(
+      const response = await this.channelRoles.deleteAllRoleMembers(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,
@@ -1125,21 +1126,22 @@ export default class Channels {
   }
 
   /**
-   * @method ListChannelMembers - Lists all members associated with a channel.
+   * Lists all members associated with a channel.
    * @param {string} channelId - The unique identifier of the channel.
    * @param {string} domainId - The unique ID of the domain.
+   * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MemberRolePage>} members - A promise that resolves with a page of members.
+   * @returns {Promise<MemberRolesPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async ListChannelMembers(
+  public async listMembers(
     channelId: string,
     domainId: string,
     queryParams: BasicPageMeta,
     token: string
   ): Promise<MemberRolesPage> {
     try {
-      const members = await this.channelRoles.ListEntityMembers(
+      const members = await this.channelRoles.listEntityMembers(
         this.channelsUrl,
         `${domainId}/${this.channelsEndpoint}`,
         channelId,

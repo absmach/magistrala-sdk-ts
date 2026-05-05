@@ -106,7 +106,7 @@ mgSdk.Rules.enable(domainId, "<ruleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.listRuleActions(domainId, token)
+mgSdk.Rules.listActions(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -114,7 +114,7 @@ mgSdk.Rules.listRuleActions(domainId, token)
     console.error(error);
   });
 
-mgSdk.Rules.createRuleRole("<ruleId>", "<roleName>", domainId, token)
+mgSdk.Rules.createRole("<ruleId>", "<roleName>", domainId, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -122,7 +122,7 @@ mgSdk.Rules.createRuleRole("<ruleId>", "<roleName>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Rules.listRuleRoles("<ruleId>", domainId, { offset: 0, limit: 10 }, token)
+mgSdk.Rules.listRoles("<ruleId>", domainId, { offset: 0, limit: 10 }, token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -130,7 +130,7 @@ mgSdk.Rules.listRuleRoles("<ruleId>", domainId, { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Rules.viewRuleRole("<ruleId>", domainId, "<roleId>", token)
+mgSdk.Rules.getRole("<ruleId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -138,7 +138,7 @@ mgSdk.Rules.viewRuleRole("<ruleId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.updateRuleRole(
+mgSdk.Rules.updateRole(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -152,7 +152,7 @@ mgSdk.Rules.updateRuleRole(
     console.error(error);
   });
 
-mgSdk.Rules.deleteRuleRole("<ruleId>", domainId, "<roleId>", token)
+mgSdk.Rules.deleteRole("<ruleId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -160,7 +160,7 @@ mgSdk.Rules.deleteRuleRole("<ruleId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.addRuleRoleActions(
+mgSdk.Rules.addRoleActions(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -174,7 +174,7 @@ mgSdk.Rules.addRuleRoleActions(
     console.error(error);
   });
 
-mgSdk.Rules.listRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
+mgSdk.Rules.listRoleActions("<ruleId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -182,7 +182,7 @@ mgSdk.Rules.listRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.deleteRuleRoleActions(
+mgSdk.Rules.deleteRoleActions(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -196,7 +196,7 @@ mgSdk.Rules.deleteRuleRoleActions(
     console.error(error);
   });
 
-mgSdk.Rules.deleteAllRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
+mgSdk.Rules.deleteAllRoleActions("<ruleId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -204,7 +204,7 @@ mgSdk.Rules.deleteAllRuleRoleActions("<ruleId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.addRuleRoleMembers(
+mgSdk.Rules.addRoleMembers(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -218,7 +218,7 @@ mgSdk.Rules.addRuleRoleMembers(
     console.error(error);
   });
 
-mgSdk.Rules.listRuleRoleMembers(
+mgSdk.Rules.listRoleMembers(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -232,7 +232,7 @@ mgSdk.Rules.listRuleRoleMembers(
     console.error(error);
   });
 
-mgSdk.Rules.deleteRuleRoleMembers(
+mgSdk.Rules.deleteRoleMembers(
   "<ruleId>",
   domainId,
   "<roleId>",
@@ -246,7 +246,7 @@ mgSdk.Rules.deleteRuleRoleMembers(
     console.error(error);
   });
 
-mgSdk.Rules.deleteAllRuleRoleMembers("<ruleId>", domainId, "<roleId>", token)
+mgSdk.Rules.deleteAllRoleMembers("<ruleId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -254,7 +254,7 @@ mgSdk.Rules.deleteAllRuleRoleMembers("<ruleId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Rules.listRuleMembers(
+mgSdk.Rules.listMembers(
   "<ruleId>",
   domainId,
   { offset: 0, limit: 10 },

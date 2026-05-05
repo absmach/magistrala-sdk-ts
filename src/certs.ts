@@ -22,15 +22,15 @@ export default class Certs {
   }
 
   /**
-   * @method IssueCert - Issues a certificate to a client.
+   * Issues a certificate to a client.
    * @param {string} clientId - The unique ID of the client to be issued a certificate.
    * @param {string} valid - The time in hours for which the certificate is valid such as '10h'
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Cert>} cert - A promise that resolves with the certificate issued.
+   * @returns {Promise<Cert>} A promise that resolves with the certificate issued.
    * @throws {Error} - If the certificate cannot be issued.
    */
-  public async IssueCert(
+  public async issue(
     clientId: string,
     valid: string,
     domainId: string,
@@ -62,14 +62,14 @@ export default class Certs {
   }
 
   /**
-   * @method ViewCertByClient -  Retrieves all certs matching the provided client Id.
+   *  Retrieves all certs matching the provided client Id.
    * @param {string} clientId - The unique ID of the client.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<CertsPage>} certsPage - A page of certs.
+   * @returns {Promise<CertsPage>} A page of certs.
    * @throws {Error} - If the certs cannot be fetched.
    */
-  public async ViewCertByClient(
+  public async listByClient(
     clientId: string,
     domainId: string,
     token: string
@@ -98,14 +98,14 @@ export default class Certs {
   }
 
   /**
-   * @method ViewCert - Retrieves a certificate by its id.
+   * Retrieves a certificate by its id.
    * @param {string} certId - The  unique ID of the certificate.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Cert>} cert - The requested cert object.
+   * @returns {Promise<Cert>} The requested cert object.
    * @throws {Error} - If the cert cannot be fetched.
    */
-  public async ViewCert(
+  public async get(
     certId: string,
     domainId: string,
     token: string
@@ -138,14 +138,14 @@ export default class Certs {
   }
 
   /**
-   * @method RevokeCert - Revokes and deletes a certificate with specified id.
+   * Revokes and deletes a certificate with specified id.
    * @param {string} certId - The  unique ID of the certificate to be revoked.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the cert is revoked.
+   * @returns {Promise<Response>} A promise that resolves when the cert is revoked.
    * @throws {Error} - If the cert cannot be revoked.
    */
-  public async RevokeCert(
+  public async revoke(
     certId: string,
     domainId: string,
     token: string

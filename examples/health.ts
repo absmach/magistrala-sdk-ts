@@ -19,7 +19,7 @@ const mgSdk = new SDK({
 });
 
 // Clients service Health
-mgSdk.Health.Health("clients")
+mgSdk.Health.check("clients")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -28,7 +28,7 @@ mgSdk.Health.Health("clients")
   });
 
 // Users service Health
-mgSdk.Health.Health("users")
+mgSdk.Health.check("users")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -37,7 +37,7 @@ mgSdk.Health.Health("users")
   });
 
 // Channels service Health
-mgSdk.Health.Health("channels")
+mgSdk.Health.check("channels")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -46,7 +46,7 @@ mgSdk.Health.Health("channels")
   });
 
 // Bootstrap service Health
-mgSdk.Health.Health("bootstrap")
+mgSdk.Health.check("bootstrap")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -55,7 +55,7 @@ mgSdk.Health.Health("bootstrap")
   });
 
 // Certs service Health
-mgSdk.Health.Health("certs")
+mgSdk.Health.check("certs")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -64,7 +64,7 @@ mgSdk.Health.Health("certs")
   });
 
 // Reader service Health
-mgSdk.Health.Health("reader")
+mgSdk.Health.check("reader")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -73,7 +73,7 @@ mgSdk.Health.Health("reader")
   });
 
 // Http Adapter service Health
-mgSdk.Health.Health("http-adapter")
+mgSdk.Health.check("http-adapter")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -82,7 +82,7 @@ mgSdk.Health.Health("http-adapter")
   });
 
 // Journal service Health
-mgSdk.Health.Health("journal")
+mgSdk.Health.check("journal")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -91,7 +91,7 @@ mgSdk.Health.Health("journal")
   });
 
 // Invitations service Health
-mgSdk.Health.Health("invitations")
+mgSdk.Health.check("invitations")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -100,7 +100,7 @@ mgSdk.Health.Health("invitations")
   });
 
 // Domains service Health
-mgSdk.Health.Health("domains")
+mgSdk.Health.check("domains")
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -109,7 +109,7 @@ mgSdk.Health.Health("domains")
   });
 
 // Groups service Health
-mgSdk.Health.Health("groups")
+mgSdk.Health.check("groups")
   .then((response: any) => {
     console.log("response: ", response);
   })

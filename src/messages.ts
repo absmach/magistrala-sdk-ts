@@ -10,16 +10,6 @@ import {
 } from "./defs";
 
 export default class Messages {
-  // Messages API Client
-  /**
-   * @method Messages - Messages is used for sending and reading messages.
-   * It provides methods for sending and reading messages.
-   * @param {string} readersUrl - The url of the readers service.
-   * @param {string} httpAdapterUrl - The URL of the Magistrala Messages adapter.
-   * @param {string} contentType - The content type of the request.
-   * @returns {Messages} - Returns a Messages object.
-   */
-
   private readonly readersUrl: URL;
 
   private readonly httpAdapterUrl: URL;
@@ -39,17 +29,17 @@ export default class Messages {
   }
 
   /**
-   * @method Send- Sends message to a given Channel via HTTP adapter. The client and Channel must exist and the client connected to the Channel.
+   * Sends a message to a given channel via HTTP adapter. The client and channel must exist and the client must be connected to the channel.
    * @param {string} domainId - The unique ID of the domain of the channel and the client.
    * @param {string} topic - The topic to send the message to.
-   * @param {string} msg - Message to send to the Channel that should be in encoded into
+   * @param {string} msg - Message to send to the channel that should be encoded into
    *       bytes format for example:
    *       [{"bn":"demo", "bu":"V", "n":"voltage", "u":"V", "v":5}]
    * @param {string} secret - The secret of the client sending the message.
-   * @returns {Promise<Response>} response - A promise that resolves when the message is sent.
+   * @returns {Promise<Response>} A promise that resolves when the message is sent.
    * @throws {Error} - If the message cannot be sent.
    */
-  public async Send(
+  public async send(
     domainId: string,
     topic: string,
     msg: string,
@@ -99,16 +89,15 @@ export default class Messages {
   }
 
   /**
-   *
-   * @method Read - Read messages from a given channel.
+   * Reads messages from a given channel.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} channelId - The ID of the channel to read the message from.
    * @param {MessagesPageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MessagesPage>} messagesPage - A page of messages.
+   * @returns {Promise<MessagesPage>} A page of messages.
    * @throws {Error} - If the messages cannot be fetched.
    */
-  public async Read(
+  public async read(
     domainId: string,
     channelId: string,
     pm: MessagesPageMetadata,

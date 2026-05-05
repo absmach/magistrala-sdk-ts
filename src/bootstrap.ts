@@ -50,14 +50,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method AddBootstrap - Creates a new bootstrap configuration.
+   * Creates a new bootstrap configuration.
    * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the bootstrap configuration is created.
+   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is created.
    * @throws {Error} - If the bootstrap configuration cannot be created.
    */
-  public async AddBootstrap(
+  public async add(
     bootstrapConfig: BootstrapConfig,
     domainId: string,
     token: string
@@ -93,14 +93,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method Whitelist - Updates a bootstrap configuration and changes the status of the config to whitelisted.
+   * Updates a bootstrap configuration and changes the status of the config to whitelisted.
    * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the bootstrap configuration is whitelisted.
+   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is whitelisted.
    * @throws {Error} - If the bootstrap configuration cannot be whitelisted.
    */
-  public async Whitelist(
+  public async whitelist(
     bootstrapConfig: BootstrapConfig,
     domainId: string,
     token: string
@@ -136,14 +136,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method UpdateBootstrap - Updates an existing bootstrap configuration's details.
+   * Updates an existing bootstrap configuration's details.
    * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the bootstrap configuration is updated.
+   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is updated.
    * @throws {Error} - If the bootstrap configuration cannot be updated.
    */
-  public async UpdateBootstrap(
+  public async update(
     bootstrapConfig: BootstrapConfig,
     domainId: string,
     token: string
@@ -179,15 +179,15 @@ export default class Bootstrap {
   }
 
   /**
-   * @method ViewBootstrap - Retrieves a bootstrap config by its ID.
+   * Retrieves a bootstrap config by its ID.
    * @param {string} clientId - The unique identifier of the client.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<BootstrapConfig>} bootstrapConfig - The requested bootstrap configuration object.
+   * @returns {Promise<BootstrapConfig>} The requested bootstrap configuration object.
    * @throws {Error} - If the bootstrap configuration cannot be fetched.
    */
 
-  public async ViewBootstrap(
+  public async get(
     clientId: string,
     domainId: string,
     token: string
@@ -219,14 +219,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method UpdateBootstrapCerts - Updates the details of a specific role in a domain.
+   * Updates the details of a specific role in a domain.
    * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<BootstrapConfig>} bootstrapConfig - The updated bootstrap configuration.
+   * @returns {Promise<BootstrapConfig>} The updated bootstrap configuration.
    * @throws {Error} - If the certs cannot be updated.
    */
-  public async UpdateBootstrapCerts(
+  public async updateCerts(
     bootstrapConfig: BootstrapConfig,
     domainId: string,
     token: string
@@ -259,14 +259,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method DeleteBootstrap - Deletes bootstrap configuration with specified id.
+   * Deletes bootstrap configuration with specified id.
    * @param {string} clientId - The unique ID of the client.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the bootstrap configuration is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is deleted.
    * @throws {Error} - If the bootstrap configuration cannot be deleted.
    */
-  public async DeleteBootstrap(
+  public async delete(
     clientId: string,
     domainId: string,
     token: string
@@ -301,13 +301,13 @@ export default class Bootstrap {
   }
 
   /**
-   * @method Bootstrap - Retrieves a configuration with given external ID and encrypted external key.
+   * Retrieves a configuration with given external ID and encrypted external key.
    * @param {string} externalId - The external ID of the configuration to be retrieved.
    * @param {string} externalKey - The encrypted external key of the configuration to be retrieved.
    * @return {Promise<BootstrapConfig>} bootstrapConfig -  Returns the requested bootstrap configuration.
    * @throws {Error} - If the bootstrap configuration cannot be retrieved.
    */
-  public async Bootstrap(
+  public async getByExternalId(
     externalId: string,
     externalKey: string
   ): Promise<BootstrapConfig> {
@@ -338,14 +338,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method Bootstraps -Retrieves all bootstrap configuration matching the provided query parameters.
+   * Retrieves all bootstrap configuration matching the provided query parameters.
    * @param {PageMetadata} queryParams - Query parameters for the request.
    * @param {string} domainId -The unique ID of the domain.
    * @param {String} token - Authorization token.
-   * @returns {Promise<BootstrapPage>} bootstrapPage - A page of bootstrap configurations.
+   * @returns {Promise<BootstrapPage>} A page of bootstrap configurations.
    * @throws {Error} - If the bootstrap configurations cannot be fetched.
    */
-  public async Bootstraps(
+  public async list(
     queryParams: PageMetadata,
     domainId: string,
     token: string
@@ -383,15 +383,15 @@ export default class Bootstrap {
   }
 
   /**
-   * @method UpdateBootstrapConnection - Updates the connection of a bootstrap configuration.
+   * Updates the connection of a bootstrap configuration.
    * @param {string} clientId - The unique identifier of the client.
    * @param {string[]} channels - An array of unique channels ids to be updated.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the bootstrap configuration connection are updated.
+   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration connection are updated.
    * @throws {Error} - If the bootstrap configuration cannot be updated.
    */
-  public async UpdateBootstrapConnection(
+  public async updateConnection(
     clientId: string,
     domainId: string,
     channels: string[],
@@ -428,14 +428,14 @@ export default class Bootstrap {
   }
 
   /**
-   * @method SecureBootstrap - Secures a bootstrap configuration by encrypting it.
+   * Secures a bootstrap configuration by encrypting it.
    * @param {string} externalId - The unique external ID of the bootstrap configuration.
    * @param {string[]} externalKey - The unique external key of the bootstrap configuration.
    * @param {string} cryptoKey -The unique crypto key to be used to secure the bootstrap configuration.
    * @returns {Promise<BootstrapConfig>}  - bootstrapConfig -  Returns the secured bootstrap configuration.
    * @throws {Error} - If the bootstrap configuration cannot be scured.
    */
-  public async SecureBootstrap(
+  public async getSecure(
     externalId: string,
     externalKey: string,
     cryptoKey: string

@@ -59,7 +59,7 @@ export default class Reports {
    * @returns {Promise<ReportPage>} - The generated report data.
    * @throws {Error} - If the report generation fails.
    */
-  public async generateReport(
+  public async generate(
     domainId: string,
     reportConfig: ReportConfig,
     token: string
@@ -99,7 +99,7 @@ export default class Reports {
    * @returns {Promise<ReportConfig>} - The added report configuration.
    * @throws {Error} - If the configuration cannot be added.
    */
-  public async addReportConfig(
+  public async addConfig(
     domainId: string,
     reportConfig: ReportConfig,
     token: string
@@ -140,7 +140,7 @@ export default class Reports {
    * @returns {Promise<ReportConfig>} - The requested report configuration.
    * @throws {Error} - If the configuration cannot be fetched.
    */
-  public async viewReportConfig(
+  public async getConfig(
     domainId: string,
     configId: string,
     token: string,
@@ -181,7 +181,7 @@ export default class Reports {
    * @returns {Promise<ReportConfigPage>} - Paginated report configurations.
    * @throws {Error} - If configurations cannot be listed.
    */
-  public async listReportConfigs(
+  public async listConfigs(
     domainId: string,
     queryParams: ReportConfigPageMeta,
     token: string
@@ -226,7 +226,7 @@ export default class Reports {
    * @throws {Error} - If the configuration cannot be updated.
    */
 
-  public async updateReportConfig(
+  public async updateConfig(
     domainId: string,
     config: ReportConfig,
     token: string
@@ -268,7 +268,7 @@ export default class Reports {
    * @throws {Error} - If the schedule cannot be updated.
    */
 
-  public async updateReportSchedule(
+  public async updateSchedule(
     domainId: string,
     configId: string,
     schedule: Schedule,
@@ -309,7 +309,7 @@ export default class Reports {
    * @returns {Promise<Response>} - Deletion status.
    * @throws {Error} - If the configuration cannot be deleted.
    */
-  public async deleteReportConfig(
+  public async deleteConfig(
     domainId: string,
     configId: string,
     token: string
@@ -351,7 +351,7 @@ export default class Reports {
    * @returns {Promise<ReportConfig>} - The enabled report configuration.
    * @throws {Error} - If the configuration cannot be enabled.
    */
-  public async enableReportConfig(
+  public async enableConfig(
     domainId: string,
     configId: string,
     token: string
@@ -390,7 +390,7 @@ export default class Reports {
    * @returns {Promise<ReportConfig>} - The disabled report configuration.
    * @throws {Error} - If the configuration cannot be disabled.
    */
-  public async disableReportConfig(
+  public async disableConfig(
     domainId: string,
     configId: string,
     token: string
@@ -430,7 +430,7 @@ export default class Reports {
    * @returns {Promise<void>} - Resolves if the template was successfully updated.
    * @throws {Error} - If the configuration cannot be disabled.
    */
-  public async updateReportTemplate(
+  public async updateTemplate(
     domainId: string,
     reportId: string,
     reportTemplate: string,
@@ -469,7 +469,7 @@ export default class Reports {
    * @returns {Promise<Template>} - The template used to generate report configuration.
    * @throws {Error} - If the report template cannot be retrieved.
    */
-  public async viewReportTemplate(
+  public async getTemplate(
     domainId: string,
     reportId: string,
     token: string
@@ -508,7 +508,7 @@ export default class Reports {
    *  @returns {Promise<void>} - Resolves if the template was successfully deleted.
    * @throws {Error} - If the report template cannot be deleted.
    */
-  public async deleteReportTemplate(
+  public async deleteTemplate(
     domainId: string,
     reportId: string,
     token: string
@@ -538,18 +538,18 @@ export default class Reports {
   }
 
   /**
-   * @method listReportConfigActions - Lists all actions available for the report configs entity type.
+   * Lists all actions available for the report configs entity type.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of available actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of available actions.
    * @throws {Error} - If report config actions cannot be fetched.
    */
-  public async listReportConfigActions(
+  public async listActions(
     domainId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const actions: string[] = await this.reportRoles.ListAvailableActions(
+      const actions: string[] = await this.reportRoles.listAvailableActions(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}`,
         token
@@ -561,17 +561,17 @@ export default class Reports {
   }
 
   /**
-   * @method createReportConfigRole - Creates a new role within a specific report config.
+   * Creates a new role within a specific report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} roleName - The name of the role to create.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @param {string[]} optionalActions - Optional actions assigned to the role.
    * @param {string[]} optionalMembers - Optional members assigned to the role.
-   * @returns {Promise<Role>} role - A promise that resolves with the created role.
+   * @returns {Promise<Role>} A promise that resolves with the created role.
    * @throws {Error} - If the role cannot be created.
    */
-  public async createReportConfigRole(
+  public async createRole(
     configId: string,
     roleName: string,
     domainId: string,
@@ -580,7 +580,7 @@ export default class Reports {
     optionalMembers?: string[]
   ): Promise<Role> {
     try {
-      const role: Role = await this.reportRoles.CreateRole(
+      const role: Role = await this.reportRoles.createRole(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -596,22 +596,22 @@ export default class Reports {
   }
 
   /**
-   * @method listReportConfigRoles - Lists all roles within a specific report config.
+   * Lists all roles within a specific report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RolePage>} rolePage - A promise that resolves with a page of roles.
+   * @returns {Promise<RolePage>} A promise that resolves with a page of roles.
    * @throws {Error} - If the roles cannot be fetched.
    */
-  public async listReportConfigRoles(
+  public async listRoles(
     configId: string,
     domainId: string,
     queryParams: PageMetadata,
     token: string
   ): Promise<RolePage> {
     try {
-      const rolesPage: RolePage = await this.reportRoles.ListRoles(
+      const rolesPage: RolePage = await this.reportRoles.listRoles(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -625,22 +625,22 @@ export default class Reports {
   }
 
   /**
-   * @method viewReportConfigRole - Retrieves details about a specific role in a report config.
+   * Retrieves details about a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the role details.
+   * @returns {Promise<Role>} A promise that resolves with the role details.
    * @throws {Error} - If the role cannot be retrieved.
    */
-  public async viewReportConfigRole(
+  public async getRole(
     configId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Role> {
     try {
-      const role: Role = await this.reportRoles.ViewRole(
+      const role: Role = await this.reportRoles.viewRole(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -654,16 +654,16 @@ export default class Reports {
   }
 
   /**
-   * @method updateReportConfigRole - Updates the details of a specific role in a report config.
+   * Updates the details of a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {Role} role - The role object with updated properties.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Role>} role - A promise that resolves with the updated role.
+   * @returns {Promise<Role>} A promise that resolves with the updated role.
    * @throws {Error} - If the role cannot be updated.
    */
-  public async updateReportConfigRole(
+  public async updateRole(
     configId: string,
     domainId: string,
     roleId: string,
@@ -671,7 +671,7 @@ export default class Reports {
     token: string
   ): Promise<Role> {
     try {
-      const updatedRole: Role = await this.reportRoles.UpdateRole(
+      const updatedRole: Role = await this.reportRoles.updateRole(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -686,22 +686,22 @@ export default class Reports {
   }
 
   /**
-   * @method deleteReportConfigRole - Deletes a specific role from a report config.
+   * Deletes a specific role from a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the role is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the role is deleted.
    * @throws {Error} - If the role cannot be deleted.
    */
-  public async deleteReportConfigRole(
+  public async deleteRole(
     configId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reportRoles.DeleteRole(
+      const response: Response = await this.reportRoles.deleteRole(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -715,16 +715,16 @@ export default class Reports {
   }
 
   /**
-   * @method addReportConfigRoleActions - Adds actions to a specific role in a report config.
+   * Adds actions to a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to add to the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If the actions cannot be added.
    */
-  public async addReportConfigRoleActions(
+  public async addRoleActions(
     configId: string,
     domainId: string,
     roleId: string,
@@ -732,7 +732,7 @@ export default class Reports {
     token: string
   ): Promise<string[]> {
     try {
-      const response: string[] = await this.reportRoles.AddRoleActions(
+      const response: string[] = await this.reportRoles.addRoleActions(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -747,22 +747,22 @@ export default class Reports {
   }
 
   /**
-   * @method listReportConfigRoleActions - Lists all actions associated with a specific role in a report config.
+   * Lists all actions associated with a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} actions - A promise that resolves with an array of actions.
+   * @returns {Promise<string[]>} A promise that resolves with an array of actions.
    * @throws {Error} - If actions cannot be retrieved.
    */
-  public async listReportConfigRoleActions(
+  public async listRoleActions(
     configId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<string[]> {
     try {
-      const actions: string[] = await this.reportRoles.ListRoleActions(
+      const actions: string[] = await this.reportRoles.listRoleActions(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -776,16 +776,16 @@ export default class Reports {
   }
 
   /**
-   * @method deleteReportConfigRoleActions - Deletes specific actions from a role in a report config.
+   * Deletes specific actions from a role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} actions - The actions to delete from the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async deleteReportConfigRoleActions(
+  public async deleteRoleActions(
     configId: string,
     domainId: string,
     roleId: string,
@@ -793,7 +793,7 @@ export default class Reports {
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reportRoles.DeleteRoleActions(
+      const response: Response = await this.reportRoles.deleteRoleActions(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -808,22 +808,22 @@ export default class Reports {
   }
 
   /**
-   * @method deleteAllReportConfigRoleActions - Deletes all actions associated with a specific role in a report config.
+   * Deletes all actions associated with a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all actions are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all actions are deleted.
    * @throws {Error} - If the actions cannot be deleted.
    */
-  public async deleteAllReportConfigRoleActions(
+  public async deleteAllRoleActions(
     configId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reportRoles.DeleteAllRoleActions(
+      const response: Response = await this.reportRoles.deleteAllRoleActions(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -837,16 +837,16 @@ export default class Reports {
   }
 
   /**
-   * @method addReportConfigRoleMembers - Adds members to a specific role in a report config.
+   * Adds members to a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to add.
    * @param {string} token - Authorization token.
-   * @returns {Promise<string[]>} members - A promise that resolves with an array of member IDs.
+   * @returns {Promise<string[]>} A promise that resolves with an array of member IDs.
    * @throws {Error} - If the members cannot be added.
    */
-  public async addReportConfigRoleMembers(
+  public async addRoleMembers(
     configId: string,
     domainId: string,
     roleId: string,
@@ -854,7 +854,7 @@ export default class Reports {
     token: string
   ): Promise<string[]> {
     try {
-      const response: string[] = await this.reportRoles.AddRoleMembers(
+      const response: string[] = await this.reportRoles.addRoleMembers(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -869,16 +869,16 @@ export default class Reports {
   }
 
   /**
-   * @method listReportConfigRoleMembers - Lists all members associated with a specific role in a report config.
+   * Lists all members associated with a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {BasicPageMeta} queryParams - Pagination parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MembersPage>} membersPage - A promise that resolves with a page of members.
+   * @returns {Promise<MembersPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async listReportConfigRoleMembers(
+  public async listRoleMembers(
     configId: string,
     domainId: string,
     roleId: string,
@@ -886,7 +886,7 @@ export default class Reports {
     token: string
   ): Promise<MembersPage> {
     try {
-      const membersPage: MembersPage = await this.reportRoles.ListRoleMembers(
+      const membersPage: MembersPage = await this.reportRoles.listRoleMembers(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -901,16 +901,16 @@ export default class Reports {
   }
 
   /**
-   * @method deleteReportConfigRoleMembers - Deletes specific members from a role in a report config.
+   * Deletes specific members from a role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string[]} members - The IDs of the members to delete.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async deleteReportConfigRoleMembers(
+  public async deleteRoleMembers(
     configId: string,
     domainId: string,
     roleId: string,
@@ -918,7 +918,7 @@ export default class Reports {
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reportRoles.DeleteRoleMembers(
+      const response: Response = await this.reportRoles.deleteRoleMembers(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -933,22 +933,22 @@ export default class Reports {
   }
 
   /**
-   * @method deleteAllReportConfigRoleMembers - Deletes all members associated with a specific role in a report config.
+   * Deletes all members associated with a specific role in a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} roleId - The unique identifier of the role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when all members are deleted.
+   * @returns {Promise<Response>} A promise that resolves when all members are deleted.
    * @throws {Error} - If the members cannot be deleted.
    */
-  public async deleteAllReportConfigRoleMembers(
+  public async deleteAllRoleMembers(
     configId: string,
     domainId: string,
     roleId: string,
     token: string
   ): Promise<Response> {
     try {
-      const response: Response = await this.reportRoles.DeleteAllRoleMembers(
+      const response: Response = await this.reportRoles.deleteAllRoleMembers(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,
@@ -962,22 +962,22 @@ export default class Reports {
   }
 
   /**
-   * @method listReportConfigMembers - Lists all members associated with a report config.
+   * Lists all members associated with a report config.
    * @param {string} configId - The unique identifier of the report config.
    * @param {string} domainId - The unique ID of the domain.
    * @param {MembersRolePageQuery} queryParams - Pagination and filter parameters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<MemberRolesPage>} members - A promise that resolves with a page of members.
+   * @returns {Promise<MemberRolesPage>} A promise that resolves with a page of members.
    * @throws {Error} - If members cannot be retrieved.
    */
-  public async listReportConfigMembers(
+  public async listMembers(
     configId: string,
     domainId: string,
     queryParams: MembersRolePageQuery,
     token: string
   ): Promise<MemberRolesPage> {
     try {
-      const members: MemberRolesPage = await this.reportRoles.ListEntityMembers(
+      const members: MemberRolesPage = await this.reportRoles.listEntityMembers(
         this.reportsUrl,
         `${domainId}/${this.reportsEndpoint}/${this.configsEndpoint}`,
         configId,

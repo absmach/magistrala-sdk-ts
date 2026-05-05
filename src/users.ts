@@ -56,13 +56,13 @@ export default class Users {
   }
 
   /**
-   * @method Create - Creates a new user.
+   * Creates a new user.
    * @param {User} user - User object containing details like name, username and password.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The created user object.
+   * @returns {Promise<User>} The created user object.
    * @throws {Error} - If the user cannot be created.
    */
-  public async Create(user: User, token?: string): Promise<User> {
+  public async create(user: User, token?: string): Promise<User> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -89,12 +89,12 @@ export default class Users {
   }
 
   /**
-   * @method CreateToken - Issue Access and Refresh Token used for authenticating into the system. A user can use either their email or username to login.
+   * Issues access and refresh tokens used for authenticating into the system. A user can use either their email or username to login.
    * @param {Login} login - Login object with username and password. The username can either be the email or the username of the user to be logged in.
-   * @returns {Promise<Token>} token - The created token object.
+   * @returns {Promise<Token>} The created token object.
    * @throws {Error} - If the token cannot be created.
    */
-  public async CreateToken(login: Login): Promise<Token> {
+  public async createToken(login: Login): Promise<Token> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -119,12 +119,12 @@ export default class Users {
   }
 
   /**
-   * @method RefreshToken - Provides a new access token and refresh token.
+   * Provides a new access token and refresh token.
    * @param {string} refreshToken - refresh_token which is gotten from the token struct and used to get a new access token.
-   * @returns {Promise<Token>} token - The created token object.
+   * @returns {Promise<Token>} The created token object.
    * @throws {Error} - If the token cannot be created.
    */
-  public async RefreshToken(refreshToken: string): Promise<Token> {
+  public async refreshToken(refreshToken: string): Promise<Token> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -153,13 +153,13 @@ export default class Users {
   }
 
   /**
-   * @method Update - Updates a user's firstName, lastName and metadata.
+   * Updates a user's firstName, lastName and metadata.
    * @param {User} user - User object.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The updated user object.
+   * @returns {Promise<User>} The updated user object.
    * @throws {Error} - If the user cannot be updated.
    */
-  public async Update(user: User, token: string): Promise<User> {
+  public async update(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -186,13 +186,13 @@ export default class Users {
   }
 
   /**
-   * @method UpdateEmail - Update a user email for a currently logged in user.
+   * Updates a user email for a currently logged in user.
    * @param {User} user - User object with updated email.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object with the updated email.
+   * @returns {Promise<User>} The user object with the updated email.
    * @throws {Error} - If the user email cannot be updated.
    */
-  public async UpdateEmail(user: User, token: string): Promise<User> {
+  public async updateEmail(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -221,13 +221,13 @@ export default class Users {
   }
 
   /**
-   * @method UpdateUsername - Updates a user's username.
+   * Updates a user's username.
    * @param {User} user - User object with updated username.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object with the updated username.
+   * @returns {Promise<User>} The user object with the updated username.
    * @throws {Error} - If the user username cannot be updated.
    */
-  public async UpdateUsername(user: User, token: string): Promise<User> {
+  public async updateUsername(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -256,13 +256,13 @@ export default class Users {
   }
 
   /**
-   * @method UpdateProfilePicture - Updates the profile picture of a user.
+   * Updates the profile picture of a user.
    * @param {User} user - User object with the updated profile picture.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object with the updated profile picture.
+   * @returns {Promise<User>} The user object with the updated profile picture.
    * @throws {Error} - If the user profile picture cannot be updated.
    */
-  public async UpdateProfilePicture(user: User, token: string): Promise<User> {
+  public async updateProfilePicture(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -291,13 +291,13 @@ export default class Users {
   }
 
   /**
-   * @method UpdateUserTags - Update a user's tags.
+   * Updates a user's tags.
    * @param {User} user - User object with the updated tags.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object with the updated tags.
+   * @returns {Promise<User>} The user object with the updated tags.
    * @throws {Error} - If the user tags cannot be updated.
    */
-  public async UpdateUserTags(user: User, token: string): Promise<User> {
+  public async updateTags(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -327,14 +327,14 @@ export default class Users {
   }
 
   /**
-   * @method UpdateUserPassword - Update a user's password.
+   * Updates a user's password.
    * @param {string} oldSecret - Old password.
    * @param {string} newSecret - New password.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object.
+   * @returns {Promise<User>} The user object.
    * @throws {Error} - If the user password cannot be updated.
    */
-  public async UpdateUserPassword(
+  public async updatePassword(
     oldSecret: string,
     newSecret: string,
     token: string
@@ -365,13 +365,13 @@ export default class Users {
   }
 
   /**
-   * @method UpdateUserRole - Update a user's role.
+   * Updates a user's role.
    * @param {User} user - User object with the updated role.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object with the updated role.
+   * @returns {Promise<User>} The user object with the updated role.
    * @throws {Error} - If the user role cannot be updated.
    */
-  public async UpdateUserRole(user: User, token: string): Promise<User> {
+  public async updateRole(user: User, token: string): Promise<User> {
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -401,13 +401,13 @@ export default class Users {
   }
 
   /**
-   * @method User - Gets a user.
+   * Gets a user.
    * @param {string} userId - User ID.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user object.
+   * @returns {Promise<User>} The user object.
    * @throws {Error} - If the user cannot be fetched.
    */
-  public async User(userId: string, token: string): Promise<User> {
+  public async get(userId: string, token: string): Promise<User> {
     const options: RequestInit = {
       method: "GET",
       headers: {
@@ -433,12 +433,12 @@ export default class Users {
   }
 
   /**
-   * @method UserProfile - Gets a user's Profile.
+   * Gets a user's profile.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The user's profile.
+   * @returns {Promise<User>} The user's profile.
    * @throws {Error} - If the user's profile cannot be fetched.
    */
-  public async UserProfile(token: string): Promise<User> {
+  public async getProfile(token: string): Promise<User> {
     const options: RequestInit = {
       method: "GET",
       headers: {
@@ -464,13 +464,13 @@ export default class Users {
   }
 
   /**
-   * @method Users -Retrieves all users matching the provided query parameters.
+   * Retrieves all users matching the provided query parameters.
    * @param {PageMetadata} queryParams - Metadata for pagination or filters.
    * @param {string} token - Authorization token.
-   * @returns {Promise<UsersPage>} usersPage - A page of users.
+   * @returns {Promise<UsersPage>} A page of users.
    * @throws {Error} - If the users cannot be fetched.
    */
-  public async Users(
+  public async list(
     queryParams: PageMetadata,
     token: string
   ): Promise<UsersPage> {
@@ -508,13 +508,13 @@ export default class Users {
   }
 
   /**
-   * @method Disable - Disable a user.
+   * Disables a user.
    * @param {string} userId - The unique identifier of the user to disable.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The disabled user object.
+   * @returns {Promise<User>} The disabled user object.
    * @throws {Error} - If the user cannot be disabled.
    */
-  public async Disable(userId: string, token: string): Promise<User> {
+  public async disable(userId: string, token: string): Promise<User> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -543,13 +543,13 @@ export default class Users {
   }
 
   /**
-   * @method Enable - Enable a user.
+   * Enables a user.
    * @param {string} userId - The unique identifier of the user to enable.
    * @param {string} token - Authorization token.
-   * @returns {Promise<User>} user - The enabled user object.
+   * @returns {Promise<User>} The enabled user object.
    * @throws {Error} - If the user cannot be enabled.
    */
-  public async Enable(userId: string, token: string): Promise<User> {
+  public async enable(userId: string, token: string): Promise<User> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -577,15 +577,15 @@ export default class Users {
   }
 
   /**
-   * @method ListUserGroups - Get memberships of a user.
-   * @param {string} userId - The unique identifier of the member.
+   * Gets group memberships of a user.
    * @param {string} domainId - The unique identifier of the domain.
+   * @param {string} userId - The unique identifier of the member.
    * @param {PageMetadata} queryParams - Query parameters for example offset and limit.
    * @param {string} token - Authorization token.
-   * @returns {Promise<GroupsPage>} groupsPage - A paginated list of groups.
+   * @returns {Promise<GroupsPage>} A paginated list of groups.
    * @throws {Error} - If the groups cannot be retrieved.
    */
-  public async ListUserGroups(
+  public async listGroups(
     domainId: string,
     userId: string,
     queryParams: PageMetadata,
@@ -624,15 +624,15 @@ export default class Users {
   }
 
   /**
-   * @method ListUserClients - Get memberships of a user.
+   * Gets client memberships of a user.
    * @param {string} userId - The unique identifier of the member.
    * @param {string} domainId - The unique identifier of the domain.
    * @param {PageMetadata} queryParams - Query parameters for example offset and limit.
    * @param {string} token - Authorization token.
-   * @returns {Promise<ClientsPage>} clientsPage - A page of clients.
+   * @returns {Promise<ClientsPage>} A page of clients.
    * @throws {Error} - If the clients cannot be fetched.
    */
-  public async ListUserClients(
+  public async listClients(
     userId: string,
     domainId: string,
     queryParams: PageMetadata,
@@ -671,16 +671,15 @@ export default class Users {
   }
 
   /**
-   * @method ListUserChannels - Retrieves the various channels a user owns.
-   * @param {string} userId - The unique identifier of the member.
+   * Retrieves the various channels a user owns.
    * @param {string} domainId - The unique identifier of the domain.
+   * @param {string} userId - The unique identifier of the member.
    * @param {PageMetadata} queryParams - Query parameters for example offset and limit.
    * @param {string} token - Authorization token.
-   * @returns {Promise<ChannelsPage>} channelsPage - A page of channels.
+   * @returns {Promise<ChannelsPage>} A page of channels.
    * @throws {Error} - If the channels cannot be fetched.
    */
-
-  public async ListUserChannels(
+  public async listChannels(
     domainId: string,
     userId: string,
     queryParams: PageMetadata,
@@ -719,13 +718,13 @@ export default class Users {
   }
 
   /**
-   * @method ResetPasswordRequest - Sends a request to reset the password to the given email.
+   * Sends a request to reset the password to the given email.
    * @param {string} email - User email.
    * @param {string} hostUrl - URL of the host UI.
-   * @returns {Promise<Response>} response - A promise that resolves when the email is sent.
+   * @returns {Promise<Response>} A promise that resolves when the email is sent.
    * @throws {Error} - If the reset request email cannot be sent.
    */
-  public async ResetPasswordRequest(
+  public async resetPasswordRequest(
     email: string,
     hostUrl: string
   ): Promise<Response> {
@@ -757,14 +756,14 @@ export default class Users {
   }
 
   /**
-   * @method ResetPassword - Resets a user's password.
-   * @param {string} password - updated user password.
+   * Resets a user's password.
+   * @param {string} password - Updated user password.
    * @param {string} confPass - Confirmation password.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the password is reset.
+   * @returns {Promise<Response>} A promise that resolves when the password is reset.
    * @throws {Error} - If the password cannot be reset.
    */
-  public async ResetPassword(
+  public async resetPassword(
     password: string,
     confPass: string,
     token: string
@@ -797,13 +796,13 @@ export default class Users {
   }
 
   /**
-   * @method DeleteUser - Deletes a user.
-   * @param {string} userId - The unique identifier of the user to enable.
+   * Deletes a user.
+   * @param {string} userId - The unique identifier of the user to delete.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the user is deleted.
+   * @returns {Promise<Response>} A promise that resolves when the user is deleted.
    * @throws {Error} - If the user cannot be deleted.
    */
-  public async DeleteUser(userId: string, token: string): Promise<Response> {
+  public async delete(userId: string, token: string): Promise<Response> {
     const options: RequestInit = {
       method: "DELETE",
       headers: {
@@ -831,13 +830,13 @@ export default class Users {
   }
 
   /**
-   * @method SearchUsers - Search for users.
+   * Searches for users.
    * @param {PageMetadata} queryParams - Query parameters for the request.
    * @param {string} token - Authorization token.
-   * @returns {Promise<UsersPage>} usersPage - A page of users.
+   * @returns {Promise<UsersPage>} A page of users.
    * @throws {Error} - If the users cannot be fetched.
    */
-  public async SearchUsers(
+  public async search(
     queryParams: PageMetadata,
     token: string
   ): Promise<UsersPage> {
@@ -874,12 +873,12 @@ export default class Users {
   }
 
   /**
-   * @method SendVerification - Sends a verification email to the authenticated user.
+   * Sends a verification email to the authenticated user.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} sendVerificationResponse - A promise that resolves when the verification email is sent.
+   * @returns {Promise<Response>} A promise that resolves when the verification email is sent.
    * @throws {Error} - If the verification email cannot be sent.
    */
-  public async SendVerification(token: string): Promise<Response> {
+  public async sendVerification(token: string): Promise<Response> {
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -910,12 +909,12 @@ export default class Users {
   }
 
   /**
-   * @method VerifyEmail - Verifies a user's email address using a verification token.
+   * Verifies a user's email address using a verification token.
    * @param {string} token - Email verification token received by the user.
-   * @returns {Promise<Response>} verifyEmailResponse - A promise that resolves when the user's email has been verified.
+   * @returns {Promise<Response>} A promise that resolves when the user's email has been verified.
    * @throws {Error} - If the email verification fails.
    */
-  public async VerifyEmail(token: string): Promise<Response> {
+  public async verifyEmail(token: string): Promise<Response> {
     const options: RequestInit = {
       method: "GET",
       headers: {
@@ -942,13 +941,13 @@ export default class Users {
   }
 
   /**
-   * @method RevokeRefreshToken - Revokes a specific refresh token.
+   * Revokes a specific refresh token.
    * @param {string} tokenId - The ID of the refresh token to revoke.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} response - A promise that resolves when the refresh token is revoked.
+   * @returns {Promise<Response>} A promise that resolves when the refresh token is revoked.
    * @throws {Error} - If the refresh token cannot be revoked.
    */
-  public async RevokeRefreshToken(
+  public async revokeRefreshToken(
     tokenId: string,
     token: string
   ): Promise<Response> {
@@ -983,12 +982,12 @@ export default class Users {
   }
 
   /**
-   * @method ListActiveRefreshTokens - Lists all active refresh tokens for the authenticated user.
+   * Lists all active refresh tokens for the authenticated user.
    * @param {string} token - Authorization token.
-   * @returns {Promise<RefreshToken[]>} refreshTokens - A promise that resolves with an array of active refresh tokens.
+   * @returns {Promise<RefreshToken[]>} A promise that resolves with an array of active refresh tokens.
    * @throws {Error} - If the refresh tokens cannot be fetched.
    */
-  public async ListActiveRefreshTokens(token: string): Promise<RefreshToken[]> {
+  public async listActiveRefreshTokens(token: string): Promise<RefreshToken[]> {
     const options: RequestInit = {
       method: "GET",
       headers: {

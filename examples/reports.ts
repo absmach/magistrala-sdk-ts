@@ -12,7 +12,7 @@ const mgSdk = new SDK({
 const token = "<token>";
 const domainId = "<domainId>";
 
-mgSdk.Reports.generateReport(
+mgSdk.Reports.generate(
   domainId,
   {
     name: "report 1",
@@ -45,7 +45,7 @@ mgSdk.Reports.generateReport(
     console.error(error);
   });
 
-mgSdk.Reports.addReportConfig(
+mgSdk.Reports.addConfig(
   domainId,
   {
     name: "report 1",
@@ -84,7 +84,7 @@ mgSdk.Reports.addReportConfig(
     console.error(error);
   });
 
-mgSdk.Reports.viewReportConfig(domainId, "<configId>", token)
+mgSdk.Reports.getConfig(domainId, "<configId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -92,7 +92,7 @@ mgSdk.Reports.viewReportConfig(domainId, "<configId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigs(domainId, { offset: 0, limit: 10 }, token)
+mgSdk.Reports.listConfigs(domainId, { offset: 0, limit: 10 }, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -100,7 +100,7 @@ mgSdk.Reports.listReportConfigs(domainId, { offset: 0, limit: 10 }, token)
     console.error(error);
   });
 
-mgSdk.Reports.updateReportConfig(
+mgSdk.Reports.updateConfig(
   domainId,
   { id: "<configId>", name: "<updatedName>" },
   token
@@ -112,7 +112,7 @@ mgSdk.Reports.updateReportConfig(
     console.error(error);
   });
 
-mgSdk.Reports.updateReportSchedule(
+mgSdk.Reports.updateSchedule(
   domainId,
   "<configId>",
   {
@@ -130,7 +130,7 @@ mgSdk.Reports.updateReportSchedule(
     console.error(error);
   });
 
-mgSdk.Reports.deleteReportConfig(domainId, "<configId>", token)
+mgSdk.Reports.deleteConfig(domainId, "<configId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -138,7 +138,7 @@ mgSdk.Reports.deleteReportConfig(domainId, "<configId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.enableReportConfig(domainId, "<configId>", token)
+mgSdk.Reports.enableConfig(domainId, "<configId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -146,7 +146,7 @@ mgSdk.Reports.enableReportConfig(domainId, "<configId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.disableReportConfig(domainId, "<configId>", token)
+mgSdk.Reports.disableConfig(domainId, "<configId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -154,7 +154,7 @@ mgSdk.Reports.disableReportConfig(domainId, "<configId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.updateReportTemplate(
+mgSdk.Reports.updateTemplate(
   domainId,
   "<reportId>",
   "<report_template>",
@@ -167,7 +167,7 @@ mgSdk.Reports.updateReportTemplate(
     console.error(error);
   });
 
-mgSdk.Reports.viewReportTemplate(domainId, "<reportId>", token)
+mgSdk.Reports.getTemplate(domainId, "<reportId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -175,7 +175,7 @@ mgSdk.Reports.viewReportTemplate(domainId, "<reportId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.deleteReportTemplate(domainId, "<reportId>", token)
+mgSdk.Reports.deleteTemplate(domainId, "<reportId>", token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -183,7 +183,7 @@ mgSdk.Reports.deleteReportTemplate(domainId, "<reportId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigActions(domainId, token)
+mgSdk.Reports.listActions(domainId, token)
   .then((response: any) => {
     console.log("response: ", response);
   })
@@ -191,7 +191,7 @@ mgSdk.Reports.listReportConfigActions(domainId, token)
     console.error(error);
   });
 
-mgSdk.Reports.createReportConfigRole(
+mgSdk.Reports.createRole(
   "<configId>",
   "<roleName>",
   domainId,
@@ -204,7 +204,7 @@ mgSdk.Reports.createReportConfigRole(
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigRoles(
+mgSdk.Reports.listRoles(
   "<configId>",
   domainId,
   { offset: 0, limit: 10 },
@@ -217,7 +217,7 @@ mgSdk.Reports.listReportConfigRoles(
     console.error(error);
   });
 
-mgSdk.Reports.viewReportConfigRole("<configId>", domainId, "<roleId>", token)
+mgSdk.Reports.getRole("<configId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -225,7 +225,7 @@ mgSdk.Reports.viewReportConfigRole("<configId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.updateReportConfigRole(
+mgSdk.Reports.updateRole(
   "<configId>",
   domainId,
   "<roleId>",
@@ -239,7 +239,7 @@ mgSdk.Reports.updateReportConfigRole(
     console.error(error);
   });
 
-mgSdk.Reports.deleteReportConfigRole("<configId>", domainId, "<roleId>", token)
+mgSdk.Reports.deleteRole("<configId>", domainId, "<roleId>", token)
   .then((response) => {
     console.log("response: ", response);
   })
@@ -247,7 +247,7 @@ mgSdk.Reports.deleteReportConfigRole("<configId>", domainId, "<roleId>", token)
     console.error(error);
   });
 
-mgSdk.Reports.addReportConfigRoleActions(
+mgSdk.Reports.addRoleActions(
   "<configId>",
   domainId,
   "<roleId>",
@@ -261,7 +261,7 @@ mgSdk.Reports.addReportConfigRoleActions(
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigRoleActions(
+mgSdk.Reports.listRoleActions(
   "<configId>",
   domainId,
   "<roleId>",
@@ -274,7 +274,7 @@ mgSdk.Reports.listReportConfigRoleActions(
     console.error(error);
   });
 
-mgSdk.Reports.deleteReportConfigRoleActions(
+mgSdk.Reports.deleteRoleActions(
   "<configId>",
   domainId,
   "<roleId>",
@@ -288,7 +288,7 @@ mgSdk.Reports.deleteReportConfigRoleActions(
     console.error(error);
   });
 
-mgSdk.Reports.deleteAllReportConfigRoleActions(
+mgSdk.Reports.deleteAllRoleActions(
   "<configId>",
   domainId,
   "<roleId>",
@@ -301,7 +301,7 @@ mgSdk.Reports.deleteAllReportConfigRoleActions(
     console.error(error);
   });
 
-mgSdk.Reports.addReportConfigRoleMembers(
+mgSdk.Reports.addRoleMembers(
   "<configId>",
   domainId,
   "<roleId>",
@@ -315,7 +315,7 @@ mgSdk.Reports.addReportConfigRoleMembers(
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigRoleMembers(
+mgSdk.Reports.listRoleMembers(
   "<configId>",
   domainId,
   "<roleId>",
@@ -329,7 +329,7 @@ mgSdk.Reports.listReportConfigRoleMembers(
     console.error(error);
   });
 
-mgSdk.Reports.deleteReportConfigRoleMembers(
+mgSdk.Reports.deleteRoleMembers(
   "<configId>",
   domainId,
   "<roleId>",
@@ -343,7 +343,7 @@ mgSdk.Reports.deleteReportConfigRoleMembers(
     console.error(error);
   });
 
-mgSdk.Reports.deleteAllReportConfigRoleMembers(
+mgSdk.Reports.deleteAllRoleMembers(
   "<configId>",
   domainId,
   "<roleId>",
@@ -356,7 +356,7 @@ mgSdk.Reports.deleteAllReportConfigRoleMembers(
     console.error(error);
   });
 
-mgSdk.Reports.listReportConfigMembers(
+mgSdk.Reports.listMembers(
   "<configId>",
   domainId,
   { offset: 0, limit: 10 },
