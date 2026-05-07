@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.20.0
+
+### Minor Changes
+
+- 6745685: Rename SDK service methods to idiomatic camelCase and update JSDoc formatting.
+
 ## 0.18.6
 
 ### Patch Changes
