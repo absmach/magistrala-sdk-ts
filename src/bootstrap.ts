@@ -8,6 +8,11 @@ import {
   type PageMetadata,
   type BootstrapConfig,
   type BootstrapPage,
+  type BootstrapStatus,
+  type BootstrapProfile,
+  type BootstrapProfilesPage,
+  type BootstrapBindingRequest,
+  type BootstrapBindingSnapshot,
   type Response,
 } from "./defs";
 
@@ -24,11 +29,11 @@ export default class Bootstrap {
 
   private readonly configsEndpoint: string;
 
-  private readonly whitelistEndpoint: string;
-
   private readonly bootstrapCertsEndpoint: string;
 
-  private readonly bootstrapConnEndpoint: string;
+  private readonly bootstrapProfilesPath: string;
+
+  private readonly bootstrapEnrollmentsPath: string;
 
   private readonly secureEndpoint: string;
 
@@ -43,9 +48,9 @@ export default class Bootstrap {
     this.contentType = "application/json";
     this.bootstrapEndpoint = "clients/bootstrap";
     this.configsEndpoint = "clients/configs";
-    this.whitelistEndpoint = "clients/state";
     this.bootstrapCertsEndpoint = "clients/configs/certs";
-    this.bootstrapConnEndpoint = "clients/configs/connections";
+    this.bootstrapProfilesPath = "clients/bootstrap/profiles";
+    this.bootstrapEnrollmentsPath = "clients/bootstrap/enrollments";
     this.secureEndpoint = "secure";
   }
 
@@ -93,30 +98,37 @@ export default class Bootstrap {
   }
 
   /**
-   * Updates a bootstrap configuration and changes the status of the config to whitelisted.
-   * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
+   * Updates a bootstrap configuration's status (enable or disable).
+   * @param {string} id - The unique ID of the bootstrap configuration.
+   * @param {BootstrapStatus} status - The new status ("enabled" or "disabled").
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is whitelisted.
-   * @throws {Error} - If the bootstrap configuration cannot be whitelisted.
+   * @returns {Promise<Response>} A promise that resolves when the status is updated.
+   * @throws {Error} - If the status cannot be updated.
    */
   public async whitelist(
-    bootstrapConfig: BootstrapConfig,
+    id: string,
+    status: BootstrapStatus,
     domainId: string,
     token: string
   ): Promise<Response> {
+    if (status !== "enabled" && status !== "disabled") {
+      throw new Error(
+        "Invalid bootstrap status: must be 'enabled' or 'disabled'"
+      );
+    }
+    const action = status === "enabled" ? "enable" : "disable";
     const options: RequestInit = {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ state: bootstrapConfig.state }),
     };
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.whitelistEndpoint}/${bootstrapConfig.client_id}`,
+          `${domainId}/${this.configsEndpoint}/${id}/${action}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -127,7 +139,7 @@ export default class Bootstrap {
       }
       const whitelistResponse: Response = {
         status: response.status,
-        message: "Bootstrap configuration state updated successfully",
+        message: "Bootstrap configuration status updated successfully",
       };
       return whitelistResponse;
     } catch (error) {
@@ -137,7 +149,7 @@ export default class Bootstrap {
 
   /**
    * Updates an existing bootstrap configuration's details.
-   * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
+   * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is updated.
@@ -149,7 +161,7 @@ export default class Bootstrap {
     token: string
   ): Promise<Response> {
     const options = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
@@ -159,7 +171,7 @@ export default class Bootstrap {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.configsEndpoint}/${bootstrapConfig.client_id}`,
+          `${domainId}/${this.configsEndpoint}/${bootstrapConfig.id}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -242,7 +254,7 @@ export default class Bootstrap {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.bootstrapCertsEndpoint}/${bootstrapConfig.client_id}`,
+          `${domainId}/${this.bootstrapCertsEndpoint}/${bootstrapConfig.id}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -383,32 +395,41 @@ export default class Bootstrap {
   }
 
   /**
-   * Updates the connection of a bootstrap configuration.
-   * @param {string} clientId - The unique identifier of the client.
-   * @param {string[]} channels - An array of unique channels ids to be updated.
-   * @param {string} domainId - The unique ID of the domain.
-   * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration connection are updated.
-   * @throws {Error} - If the bootstrap configuration cannot be updated.
+   * @deprecated Bootstrap connection updates are no longer supported.
    */
   public async updateConnection(
-    clientId: string,
-    domainId: string,
-    channels: string[],
-    token: string
+    _clientId: string,
+    _domainId: string,
+    _channels: string[],
+    _token: string
   ): Promise<Response> {
+    throw new Error("Bootstrap connection updates are no longer supported");
+  }
+
+  /**
+   * Creates a new bootstrap profile template.
+   * @param {BootstrapProfile} profile - The bootstrap profile object.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfile>} The created bootstrap profile.
+   */
+  public async createProfile(
+    profile: BootstrapProfile,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfile> {
     const options: RequestInit = {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ channels }),
+      body: JSON.stringify(profile),
     };
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.bootstrapConnEndpoint}/${clientId}`,
+          `${domainId}/${this.bootstrapProfilesPath}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -417,11 +438,340 @@ export default class Bootstrap {
         const errorRes = await response.json();
         throw Errors.HandleError(errorRes.message, response.status);
       }
-      const connResponse: Response = {
+      const saved: BootstrapProfile = await response.json();
+      return saved;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieves a bootstrap profile by its ID.
+   * @param {string} id - The unique ID of the bootstrap profile.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfile>} The requested bootstrap profile.
+   */
+  public async viewProfile(
+    id: string,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfile> {
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/${id}`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const profile: BootstrapProfile = await response.json();
+      return profile;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Updates an existing bootstrap profile.
+   * @param {BootstrapProfile} profile - The bootstrap profile object with updated fields.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when the profile is updated.
+   */
+  public async updateProfile(
+    profile: BootstrapProfile,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(profile),
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/${profile.id}`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const updateResponse: Response = {
         status: response.status,
-        message: "Bootstrap connection successful",
+        message: "Bootstrap profile updated successfully",
       };
-      return connResponse;
+      return updateResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieves a list of bootstrap profiles.
+   * @param {PageMetadata} queryParams - Query parameters for the request.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfilesPage>} A page of bootstrap profiles.
+   */
+  public async listProfiles(
+    queryParams: PageMetadata,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfilesPage> {
+    const stringParams: Record<string, string> = Object.fromEntries(
+      Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+    );
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}?${new URLSearchParams(
+            stringParams
+          ).toString()}`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const page: BootstrapProfilesPage = await response.json();
+      return page;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Deletes a bootstrap profile by its ID.
+   * @param {string} id - The unique ID of the bootstrap profile.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when the profile is deleted.
+   */
+  public async deleteProfile(
+    id: string,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/${id}`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const deleteResponse: Response = {
+        status: response.status,
+        message: "Bootstrap profile deleted",
+      };
+      return deleteResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Assigns a bootstrap profile to an enrollment.
+   * @param {string} configId - The unique ID of the bootstrap enrollment.
+   * @param {string} profileId - The unique ID of the profile to assign.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when the profile is assigned.
+   */
+  public async assignProfile(
+    configId: string,
+    profileId: string,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ profile_id: profileId }),
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/profile`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const assignResponse: Response = {
+        status: response.status,
+        message: "Bootstrap profile assigned successfully",
+      };
+      return assignResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Stores resolved binding snapshots for a bootstrap enrollment.
+   * @param {string} configId - The unique ID of the bootstrap enrollment.
+   * @param {BootstrapBindingRequest[]} bindings - The bindings to store.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when bindings are stored.
+   */
+  public async bindResources(
+    configId: string,
+    bindings: BootstrapBindingRequest[],
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "PUT",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ bindings }),
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const bindResponse: Response = {
+        status: response.status,
+        message: "Bootstrap resources bound successfully",
+      };
+      return bindResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Lists stored binding snapshots for a bootstrap enrollment.
+   * @param {string} configId - The unique ID of the bootstrap enrollment.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapBindingSnapshot[]>} The list of binding snapshots.
+   */
+  public async listBindings(
+    configId: string,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapBindingSnapshot[]> {
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const res: { bindings: BootstrapBindingSnapshot[] } =
+        await response.json();
+      return res.bindings ?? [];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Refreshes stored binding snapshots for a bootstrap enrollment.
+   * @param {string} configId - The unique ID of the bootstrap enrollment.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when bindings are refreshed.
+   */
+  public async refreshBindings(
+    configId: string,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings/refresh`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const refreshResponse: Response = {
+        status: response.status,
+        message: "Bootstrap bindings refreshed successfully",
+      };
+      return refreshResponse;
     } catch (error) {
       throw error;
     }

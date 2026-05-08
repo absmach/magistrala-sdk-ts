@@ -16,7 +16,7 @@ mgSdk.Bootstrap.add(
   {
     external_id: "<externalId>",
     external_key: "externalKey",
-    client_id: "<clientId>",
+    id: "<clientId>",
     name: "<bootstrapName>",
   },
   domainId,
@@ -29,16 +29,7 @@ mgSdk.Bootstrap.add(
     console.error(error);
   });
 
-mgSdk.Bootstrap.whitelist(
-  {
-    external_id: "<externalId>",
-    external_key: "<externalKey>",
-    client_id: "<clientId>",
-    name: "<bootstrapName>",
-  },
-  domainId,
-  token
-)
+mgSdk.Bootstrap.whitelist("<clientId>", "enabled", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -49,7 +40,7 @@ mgSdk.Bootstrap.whitelist(
 mgSdk.Bootstrap.update(
   {
     name: "<updatedBootstrapName>",
-    client_id: "<clientId>",
+    id: "<clientId>",
   },
   domainId,
   token
@@ -71,7 +62,7 @@ mgSdk.Bootstrap.get("<clientId>", domainId, token)
 
 mgSdk.Bootstrap.updateCerts(
   {
-    client_id: "<clientId>",
+    id: "<clientId>",
     client_cert: "<clientCert>",
     client_key: "<clientKey>",
     ca_cert: "<caCert>",
