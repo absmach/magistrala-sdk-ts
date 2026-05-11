@@ -4,7 +4,15 @@
 import fetchMock, { enableFetchMocks } from "jest-fetch-mock";
 
 import SDK from "../src/sdk";
-import type { BootstrapConfig, BootstrapPage, PageMetadata } from "../src/sdk";
+import type {
+  BootstrapConfig,
+  BootstrapPage,
+  BootstrapProfile,
+  BootstrapProfilesPage,
+  BootstrapBindingRequest,
+  BootstrapBindingSnapshot,
+  PageMetadata,
+} from "../src/sdk";
 
 enableFetchMocks();
 
@@ -130,5 +138,166 @@ describe("Bootstraps", () => {
     await expect(
       sdk.Bootstrap.updateConnection(clientId, domainId, channels, token)
     ).rejects.toThrow("Bootstrap connection updates are no longer supported");
+  });
+
+  test("Create bootstrap profile should create a profile", async () => {
+    const profile: BootstrapProfile = {
+      id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      name: "test-profile",
+      description: "A test profile",
+      template_format: "json",
+      content_template: '{"key": "{{ .value }}"}',
+      defaults: { value: "default" },
+      binding_slots: [
+        { name: "sensor", type: "client", required: true, fields: ["id"] },
+      ],
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(profile));
+
+    const response = await sdk.Bootstrap.createProfile(
+      profile,
+      domainId,
+      token
+    );
+    expect(response).toEqual(profile);
+  });
+
+  test("View bootstrap profile should return a profile", async () => {
+    const profile: BootstrapProfile = {
+      id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      name: "test-profile",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(profile));
+
+    const response = await sdk.Bootstrap.viewProfile(
+      "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      domainId,
+      token
+    );
+    expect(response).toEqual(profile);
+  });
+
+  test("Update bootstrap profile should update a profile", async () => {
+    const updateResponse = {
+      status: 200,
+      message: "Bootstrap profile updated successfully",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(updateResponse));
+
+    const response = await sdk.Bootstrap.updateProfile(
+      {
+        id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+        name: "updated-profile",
+      },
+      domainId,
+      token
+    );
+    expect(response).toEqual(updateResponse);
+  });
+
+  test("List bootstrap profiles should return a profiles page", async () => {
+    const profile: BootstrapProfile = {
+      id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      name: "test-profile",
+    };
+    const profilesPage: BootstrapProfilesPage = {
+      profiles: [profile],
+      total: 1,
+      offset: 0,
+      limit: 10,
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(profilesPage));
+
+    const response = await sdk.Bootstrap.listProfiles(
+      queryParams,
+      domainId,
+      token
+    );
+    expect(response).toEqual(profilesPage);
+  });
+
+  test("Delete bootstrap profile should delete a profile", async () => {
+    const deleteResponse = {
+      status: 200,
+      message: "Bootstrap profile deleted",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(deleteResponse));
+
+    const response = await sdk.Bootstrap.deleteProfile(
+      "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      domainId,
+      token
+    );
+    expect(response).toEqual(deleteResponse);
+  });
+
+  test("Assign bootstrap profile should assign a profile to an enrollment", async () => {
+    const assignResponse = {
+      status: 200,
+      message: "Bootstrap profile assigned successfully",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(assignResponse));
+
+    const response = await sdk.Bootstrap.assignProfile(
+      clientId,
+      "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      domainId,
+      token
+    );
+    expect(response).toEqual(assignResponse);
+  });
+
+  test("Bind bootstrap resources should store binding snapshots", async () => {
+    const bindResponse = {
+      status: 200,
+      message: "Bootstrap resources bound successfully",
+    };
+    const bindings: BootstrapBindingRequest[] = [
+      { slot: "sensor", type: "client", resource_id: clientId },
+    ];
+    fetchMock.mockResponseOnce(JSON.stringify(bindResponse));
+
+    const response = await sdk.Bootstrap.bindResources(
+      clientId,
+      bindings,
+      domainId,
+      token
+    );
+    expect(response).toEqual(bindResponse);
+  });
+
+  test("List bootstrap bindings should return binding snapshots", async () => {
+    const snapshots: BootstrapBindingSnapshot[] = [
+      {
+        config_id: clientId,
+        slot: "sensor",
+        type: "client",
+        resource_id: "cc2fdb32-2eac-4aad-aebe-ed96fe073879",
+        snapshot: { id: "cc2fdb32-2eac-4aad-aebe-ed96fe073879" },
+      },
+    ];
+    fetchMock.mockResponseOnce(JSON.stringify({ bindings: snapshots }));
+
+    const response = await sdk.Bootstrap.listBindings(
+      clientId,
+      domainId,
+      token
+    );
+    expect(response).toEqual(snapshots);
+  });
+
+  test("Refresh bootstrap bindings should refresh binding snapshots", async () => {
+    const refreshResponse = {
+      status: 200,
+      message: "Bootstrap bindings refreshed successfully",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(refreshResponse));
+
+    const response = await sdk.Bootstrap.refreshBindings(
+      clientId,
+      domainId,
+      token
+    );
+    expect(response).toEqual(refreshResponse);
   });
 });

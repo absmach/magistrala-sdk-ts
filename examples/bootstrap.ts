@@ -101,10 +101,26 @@ mgSdk.Bootstrap.list({ offset: 0, limit: 10 }, domainId, token)
     console.error(error);
   });
 
-mgSdk.Bootstrap.updateConnection(
-  "<clientId>",
+mgSdk.Bootstrap.getSecure("<externalId>", "<externalKey>", "<cryptoKey>")
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.createProfile(
+  {
+    name: "<profileName>",
+    description: "<profileDescription>",
+    template_format: "json",
+    content_template: '{"key": "{{ .value }}"}',
+    defaults: { value: "default" },
+    binding_slots: [
+      { name: "sensor", type: "client", required: true, fields: ["id"] },
+    ],
+  },
   domainId,
-  ["<channelId>", "<channelId2>"],
   token
 )
   .then((response: any) => {
@@ -114,7 +130,79 @@ mgSdk.Bootstrap.updateConnection(
     console.error(error);
   });
 
-mgSdk.Bootstrap.getSecure("<externalId>", "<externalKey>", "<cryptoKey>")
+mgSdk.Bootstrap.viewProfile("<profileId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.updateProfile(
+  {
+    id: "<profileId>",
+    name: "<updatedProfileName>",
+    description: "<updatedDescription>",
+  },
+  domainId,
+  token
+)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.listProfiles({ offset: 0, limit: 10 }, domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.deleteProfile("<profileId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.assignProfile("<configId>", "<profileId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.bindResources(
+  "<configId>",
+  [
+    { slot: "sensor", type: "client", resource_id: "<clientId>" },
+    { slot: "data", type: "channel", resource_id: "<channelId>" },
+  ],
+  domainId,
+  token
+)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.listBindings("<configId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.refreshBindings("<configId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
