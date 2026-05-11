@@ -395,18 +395,6 @@ export default class Bootstrap {
   }
 
   /**
-   * @deprecated Bootstrap connection updates are no longer supported.
-   */
-  public async updateConnection(
-    _clientId: string,
-    _domainId: string,
-    _channels: string[],
-    _token: string
-  ): Promise<Response> {
-    throw new Error("Bootstrap connection updates are no longer supported");
-  }
-
-  /**
    * Creates a new bootstrap profile template.
    * @param {BootstrapProfile} profile - The bootstrap profile object.
    * @param {string} domainId - The unique ID of the domain.

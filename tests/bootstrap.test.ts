@@ -36,10 +36,6 @@ describe("Bootstraps", () => {
     offset: 0,
     limit: 10,
   };
-  const channels = [
-    "bb7edb32-2eac-4aad-aebe-ed96fe073879",
-    "bb7edb32-2eac-4aad-aebe-ed96fe073879",
-  ];
   const clientId = "77cbb344-7c41-47f3-a53a-a3d435b67207";
   const token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9";
   const domainId = "886b4266-77d1-4258-abae-2931fb4f16de";
@@ -132,12 +128,6 @@ describe("Bootstraps", () => {
 
     const response = await sdk.Bootstrap.list(queryParams, domainId, token);
     expect(response).toEqual(bootstrapPage);
-  });
-
-  test("Update bootstrap connection should throw deprecated error", async () => {
-    await expect(
-      sdk.Bootstrap.updateConnection(clientId, domainId, channels, token)
-    ).rejects.toThrow("Bootstrap connection updates are no longer supported");
   });
 
   test("Create bootstrap profile should create a profile", async () => {

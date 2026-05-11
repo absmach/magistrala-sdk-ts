@@ -17,6 +17,7 @@
     "no-useless-catch": "off",
     "max-len": "off",
     "no-console": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "operator-linebreak": "off"
   }
 }
