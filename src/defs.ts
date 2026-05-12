@@ -410,6 +410,12 @@ export interface BootstrapBindingSnapshot {
   updated_at?: Date;
 }
 
+export interface RenderPreviewRequest {
+  config?: BootstrapConfig;
+  render_context?: Record<string, unknown>;
+  bindings?: BootstrapBindingSnapshot[];
+}
+
 export interface JournalsPageMetadata extends PageMetadata {
   operation?: string;
   with_metadata?: boolean;

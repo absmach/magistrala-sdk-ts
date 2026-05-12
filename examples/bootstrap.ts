@@ -29,7 +29,7 @@ mgSdk.Bootstrap.add(
     console.error(error);
   });
 
-mgSdk.Bootstrap.whitelist("<clientId>", "enabled", domainId, token)
+mgSdk.Bootstrap.whitelist("<configId>", "enabled", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -40,7 +40,7 @@ mgSdk.Bootstrap.whitelist("<clientId>", "enabled", domainId, token)
 mgSdk.Bootstrap.update(
   {
     name: "<updatedBootstrapName>",
-    id: "<clientId>",
+    id: "<configId>",
   },
   domainId,
   token
@@ -52,7 +52,7 @@ mgSdk.Bootstrap.update(
     console.error(error);
   });
 
-mgSdk.Bootstrap.get("<clientId>", domainId, token)
+mgSdk.Bootstrap.get("<configId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -62,7 +62,7 @@ mgSdk.Bootstrap.get("<clientId>", domainId, token)
 
 mgSdk.Bootstrap.updateCerts(
   {
-    id: "<clientId>",
+    id: "<configId>",
     client_cert: "<clientCert>",
     client_key: "<clientKey>",
     ca_cert: "<caCert>",
@@ -77,7 +77,7 @@ mgSdk.Bootstrap.updateCerts(
     console.error(error);
   });
 
-mgSdk.Bootstrap.delete("<clientId>", domainId, token)
+mgSdk.Bootstrap.delete("<configId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -85,7 +85,7 @@ mgSdk.Bootstrap.delete("<clientId>", domainId, token)
     console.error(error);
   });
 
-mgSdk.Bootstrap.getByExternalId("externalId", "externalKey")
+mgSdk.Bootstrap.getByExternalId("<externalId>", "<externalKey>")
   .then((response: any) => {
     console.log("response:", response);
   })
@@ -203,6 +203,39 @@ mgSdk.Bootstrap.listBindings("<configId>", domainId, token)
   });
 
 mgSdk.Bootstrap.refreshBindings("<configId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.profileSlots("<profileId>", domainId, token)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+mgSdk.Bootstrap.renderPreview(
+  "<profileId>",
+  {
+    config: { id: "<configId>" },
+    render_context: { value: "example" },
+    bindings: [
+      {
+        config_id: "<configId>",
+        slot: "sensor",
+        type: "client",
+        resource_id: "<clientId>",
+        snapshot: { id: "<clientId>" },
+      },
+    ],
+  },
+  domainId,
+  token
+)
   .then((response: any) => {
     console.log("response:", response);
   })

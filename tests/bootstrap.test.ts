@@ -11,6 +11,8 @@ import type {
   BootstrapProfilesPage,
   BootstrapBindingRequest,
   BootstrapBindingSnapshot,
+  RenderPreviewRequest,
+  BindingSlot,
   PageMetadata,
 } from "../src/sdk";
 
@@ -289,5 +291,37 @@ describe("Bootstraps", () => {
       token
     );
     expect(response).toEqual(refreshResponse);
+  });
+
+  test("Profile slots should return binding slots for a profile", async () => {
+    const slots: BindingSlot[] = [
+      { name: "sensor", type: "client", required: true, fields: ["id"] },
+    ];
+    fetchMock.mockResponseOnce(JSON.stringify({ binding_slots: slots }));
+
+    const response = await sdk.Bootstrap.profileSlots(
+      "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      domainId,
+      token
+    );
+    expect(response).toEqual(slots);
+  });
+
+  test("Render preview should return rendered content string", async () => {
+    fetchMock.mockResponseOnce(
+      JSON.stringify({ content: '{"key": "example"}' })
+    );
+
+    const request: RenderPreviewRequest = {
+      config: { id: clientId },
+      render_context: { value: "example" },
+    };
+    const response = await sdk.Bootstrap.renderPreview(
+      "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      request,
+      domainId,
+      token
+    );
+    expect(response).toEqual('{"key": "example"}');
   });
 });

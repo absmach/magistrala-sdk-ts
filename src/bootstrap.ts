@@ -13,6 +13,8 @@ import {
   type BootstrapProfilesPage,
   type BootstrapBindingRequest,
   type BootstrapBindingSnapshot,
+  type RenderPreviewRequest,
+  type BindingSlot,
   type Response,
 } from "./defs";
 
@@ -192,7 +194,7 @@ export default class Bootstrap {
 
   /**
    * Retrieves a bootstrap config by its ID.
-   * @param {string} clientId - The unique identifier of the client.
+   * @param {string} configId - The unique identifier of the configuration.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @returns {Promise<BootstrapConfig>} The requested bootstrap configuration object.
@@ -200,7 +202,7 @@ export default class Bootstrap {
    */
 
   public async get(
-    clientId: string,
+    configId: string,
     domainId: string,
     token: string
   ): Promise<BootstrapConfig> {
@@ -214,7 +216,7 @@ export default class Bootstrap {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.configsEndpoint}/${clientId}`,
+          `${domainId}/${this.configsEndpoint}/${configId}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -272,14 +274,14 @@ export default class Bootstrap {
 
   /**
    * Deletes bootstrap configuration with specified id.
-   * @param {string} clientId - The unique ID of the client.
+   * @param {string} configId - The unique ID of the configuration.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @returns {Promise<Response>} A promise that resolves when the bootstrap configuration is deleted.
    * @throws {Error} - If the bootstrap configuration cannot be deleted.
    */
   public async delete(
-    clientId: string,
+    configId: string,
     domainId: string,
     token: string
   ): Promise<Response> {
@@ -293,7 +295,7 @@ export default class Bootstrap {
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.configsEndpoint}/${clientId}`,
+          `${domainId}/${this.configsEndpoint}/${configId}`,
           this.bootstrapUrl
         ).toString(),
         options
@@ -716,9 +718,9 @@ export default class Bootstrap {
         const errorRes = await response.json();
         throw Errors.HandleError(errorRes.message, response.status);
       }
-      const res: { bindings: BootstrapBindingSnapshot[] } =
+      const bindingsPage: { bindings: BootstrapBindingSnapshot[] } =
         await response.json();
-      return res.bindings ?? [];
+      return bindingsPage.bindings ?? [];
     } catch (error) {
       throw error;
     }
@@ -760,6 +762,85 @@ export default class Bootstrap {
         message: "Bootstrap bindings refreshed successfully",
       };
       return refreshResponse;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Retrieves the binding slots for a bootstrap profile.
+   * @param {string} profileId - The unique ID of the bootstrap profile.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BindingSlot[]>} The list of binding slots defined by the profile.
+   */
+  public async profileSlots(
+    profileId: string,
+    domainId: string,
+    token: string
+  ): Promise<BindingSlot[]> {
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/${profileId}/slots`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const slotsPage: { binding_slots: BindingSlot[] } = await response.json();
+      return slotsPage.binding_slots ?? [];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Renders a preview of a bootstrap profile template with the given context and bindings.
+   * @param {string} profileId - The unique ID of the bootstrap profile.
+   * @param {RenderPreviewRequest} request - The render context and optional bindings.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<string>} The rendered content string.
+   */
+  public async renderPreview(
+    profileId: string,
+    request: RenderPreviewRequest,
+    domainId: string,
+    token: string
+  ): Promise<string> {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(request),
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/${profileId}/render-preview`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const preview: { content: string } = await response.json();
+      return preview.content;
     } catch (error) {
       throw error;
     }

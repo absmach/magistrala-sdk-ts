@@ -59,6 +59,7 @@ export type {
   BindingSlot,
   BootstrapBindingRequest,
   BootstrapBindingSnapshot,
+  RenderPreviewRequest,
   Journal,
   JournalsPage,
   JournalsPageMetadata,
