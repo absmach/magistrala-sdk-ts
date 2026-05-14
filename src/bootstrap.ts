@@ -157,13 +157,14 @@ export default class Bootstrap {
     if (!bootstrapConfig.id) {
       throw new Error("Bootstrap config id is required for update");
     }
+    const { id, ...updateBody } = bootstrapConfig;
     const options = {
       method: "PATCH",
       headers: {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(bootstrapConfig),
+      body: JSON.stringify(updateBody),
     };
     const response = await fetch(
       new URL(
@@ -713,12 +714,9 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
-    const bindingsPage: { bindings?: BootstrapBindingSnapshot[] | null } =
+    const bindingsPage: { bindings?: BootstrapBindingSnapshot[] } =
       await response.json();
-    if (bindingsPage.bindings === undefined || bindingsPage.bindings === null) {
-      throw new Error("Unexpected response: missing 'bindings' key");
-    }
-    return bindingsPage.bindings;
+    return bindingsPage.bindings ?? [];
   }
 
   /**
@@ -788,15 +786,8 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
-    const slotsPage: { binding_slots?: BindingSlot[] | null } =
-      await response.json();
-    if (
-      slotsPage.binding_slots === undefined ||
-      slotsPage.binding_slots === null
-    ) {
-      throw new Error("Unexpected response: missing 'binding_slots' key");
-    }
-    return slotsPage.binding_slots;
+    const slotsPage: { binding_slots?: BindingSlot[] } = await response.json();
+    return slotsPage.binding_slots ?? [];
   }
 
   /**

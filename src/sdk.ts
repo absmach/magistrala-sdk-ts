@@ -54,6 +54,7 @@ export type {
   BootstrapConfig,
   BootstrapPage,
   BootstrapStatus,
+  BootstrapTemplateFormat,
   BootstrapProfile,
   BootstrapProfilesPage,
   BindingSlot,
