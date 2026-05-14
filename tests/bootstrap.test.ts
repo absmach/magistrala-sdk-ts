@@ -59,20 +59,20 @@ describe("Bootstraps", () => {
     expect(response).toEqual(createResponse);
   });
 
-  test("Whitelist should update bootstrap configuration status", async () => {
-    const whitelistResponse = {
+  test("UpdateStatus should update bootstrap configuration status", async () => {
+    const updateStatusResponse = {
       status: 200,
       message: "Bootstrap configuration status updated successfully",
     };
-    fetchMock.mockResponseOnce(JSON.stringify(whitelistResponse));
+    fetchMock.mockResponseOnce(JSON.stringify(updateStatusResponse));
 
-    const response = await sdk.Bootstrap.whitelist(
+    const response = await sdk.Bootstrap.updateStatus(
       clientId,
       "enabled",
       domainId,
       token
     );
-    expect(response).toEqual(whitelistResponse);
+    expect(response).toEqual(updateStatusResponse);
   });
 
   test("Update bootstrap should update a bootstrap configuration", async () => {

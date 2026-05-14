@@ -29,7 +29,7 @@ mgSdk.Bootstrap.add(
     console.error(error);
   });
 
-mgSdk.Bootstrap.whitelist("<configId>", "enabled", domainId, token)
+mgSdk.Bootstrap.updateStatus("<configId>", "enabled", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
   })

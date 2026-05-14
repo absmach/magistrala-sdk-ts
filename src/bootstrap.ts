@@ -77,26 +77,22 @@ export default class Bootstrap {
       },
       body: JSON.stringify(bootstrapConfig),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const createResponse: Response = {
-        status: response.status,
-        message: "Bootstrap configuration created",
-      };
-      return createResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const createResponse: Response = {
+      status: response.status,
+      message: "Bootstrap configuration created",
+    };
+    return createResponse;
   }
 
   /**
@@ -108,7 +104,7 @@ export default class Bootstrap {
    * @returns {Promise<Response>} A promise that resolves when the status is updated.
    * @throws {Error} - If the status cannot be updated.
    */
-  public async whitelist(
+  public async updateStatus(
     id: string,
     status: BootstrapStatus,
     domainId: string,
@@ -116,7 +112,7 @@ export default class Bootstrap {
   ): Promise<Response> {
     if (status !== "enabled" && status !== "disabled") {
       throw new Error(
-        "Invalid bootstrap status: must be 'enabled' or 'disabled'"
+        `Invalid bootstrap status '${status}': must be 'enabled' or 'disabled'`
       );
     }
     const action = status === "enabled" ? "enable" : "disable";
@@ -127,26 +123,22 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}/${id}/${action}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const whitelistResponse: Response = {
-        status: response.status,
-        message: "Bootstrap configuration status updated successfully",
-      };
-      return whitelistResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}/${id}/${action}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const statusResponse: Response = {
+      status: response.status,
+      message: "Bootstrap configuration status updated successfully",
+    };
+    return statusResponse;
   }
 
   /**
@@ -162,6 +154,9 @@ export default class Bootstrap {
     domainId: string,
     token: string
   ): Promise<Response> {
+    if (!bootstrapConfig.id) {
+      throw new Error("Bootstrap config id is required for update");
+    }
     const options = {
       method: "PATCH",
       headers: {
@@ -170,26 +165,22 @@ export default class Bootstrap {
       },
       body: JSON.stringify(bootstrapConfig),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}/${bootstrapConfig.id}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const updateResponse: Response = {
-        status: response.status,
-        message: "Bootstrap configuration updated successfully",
-      };
-      return updateResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}/${bootstrapConfig.id}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const updateResponse: Response = {
+      status: response.status,
+      message: "Bootstrap configuration updated successfully",
+    };
+    return updateResponse;
   }
 
   /**
@@ -200,7 +191,6 @@ export default class Bootstrap {
    * @returns {Promise<BootstrapConfig>} The requested bootstrap configuration object.
    * @throws {Error} - If the bootstrap configuration cannot be fetched.
    */
-
   public async get(
     configId: string,
     domainId: string,
@@ -213,28 +203,24 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}/${configId}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const bootstrapConfig: BootstrapConfig = await response.json();
-      return bootstrapConfig;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}/${configId}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const bootstrapConfig: BootstrapConfig = await response.json();
+    return bootstrapConfig;
   }
 
   /**
-   * Updates the details of a specific role in a domain.
-   * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing details like external key, channels, externalId, clientId, etc.
+   * Updates the certs of a bootstrap configuration.
+   * @param {BootstrapConfig} bootstrapConfig - The bootstrap configuration object containing cert fields.
    * @param {string} domainId - The unique ID of the domain.
    * @param {string} token - Authorization token.
    * @returns {Promise<BootstrapConfig>} The updated bootstrap configuration.
@@ -253,23 +239,19 @@ export default class Bootstrap {
       },
       body: JSON.stringify(bootstrapConfig),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapCertsEndpoint}/${bootstrapConfig.id}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const updatedBootstrapConfig: BootstrapConfig = await response.json();
-      return updatedBootstrapConfig;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapCertsEndpoint}/${bootstrapConfig.id}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const updatedBootstrapConfig: BootstrapConfig = await response.json();
+    return updatedBootstrapConfig;
   }
 
   /**
@@ -292,33 +274,29 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}/${configId}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const removeResponse: Response = {
-        status: response.status,
-        message: "Bootstrap configuration deleted",
-      };
-      return removeResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}/${configId}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const removeResponse: Response = {
+      status: response.status,
+      message: "Bootstrap configuration deleted",
+    };
+    return removeResponse;
   }
 
   /**
    * Retrieves a configuration with given external ID and encrypted external key.
    * @param {string} externalId - The external ID of the configuration to be retrieved.
    * @param {string} externalKey - The encrypted external key of the configuration to be retrieved.
-   * @return {Promise<BootstrapConfig>} bootstrapConfig -  Returns the requested bootstrap configuration.
+   * @return {Promise<BootstrapConfig>} Returns the requested bootstrap configuration.
    * @throws {Error} - If the bootstrap configuration cannot be retrieved.
    */
   public async getByExternalId(
@@ -332,30 +310,26 @@ export default class Bootstrap {
         Authorization: `Client ${externalKey}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${this.bootstrapEndpoint}/${externalId}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const bootstrap: BootstrapConfig = await response.json();
-      return bootstrap;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${this.bootstrapEndpoint}/${externalId}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const bootstrap: BootstrapConfig = await response.json();
+    return bootstrap;
   }
 
   /**
    * Retrieves all bootstrap configuration matching the provided query parameters.
    * @param {PageMetadata} queryParams - Query parameters for the request.
-   * @param {string} domainId -The unique ID of the domain.
-   * @param {String} token - Authorization token.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
    * @returns {Promise<BootstrapPage>} A page of bootstrap configurations.
    * @throws {Error} - If the bootstrap configurations cannot be fetched.
    */
@@ -367,7 +341,6 @@ export default class Bootstrap {
     const stringParams: Record<string, string> = Object.fromEntries(
       Object.entries(queryParams).map(([key, value]) => [key, String(value)])
     );
-
     const options: RequestInit = {
       method: "GET",
       headers: {
@@ -375,25 +348,21 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.configsEndpoint}?${new URLSearchParams(
-            stringParams
-          ).toString()}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const Bootstraps: BootstrapPage = await response.json();
-      return Bootstraps;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.configsEndpoint}?${new URLSearchParams(
+          stringParams
+        ).toString()}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const bootstraps: BootstrapPage = await response.json();
+    return bootstraps;
   }
 
   /**
@@ -416,187 +385,19 @@ export default class Bootstrap {
       },
       body: JSON.stringify(profile),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const saved: BootstrapProfile = await response.json();
-      return saved;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  /**
-   * Retrieves a bootstrap profile by its ID.
-   * @param {string} id - The unique ID of the bootstrap profile.
-   * @param {string} domainId - The unique ID of the domain.
-   * @param {string} token - Authorization token.
-   * @returns {Promise<BootstrapProfile>} The requested bootstrap profile.
-   */
-  public async viewProfile(
-    id: string,
-    domainId: string,
-    token: string
-  ): Promise<BootstrapProfile> {
-    const options: RequestInit = {
-      method: "GET",
-      headers: {
-        "Content-Type": this.contentType,
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/${id}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const profile: BootstrapProfile = await response.json();
-      return profile;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  /**
-   * Updates an existing bootstrap profile.
-   * @param {BootstrapProfile} profile - The bootstrap profile object with updated fields.
-   * @param {string} domainId - The unique ID of the domain.
-   * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} A promise that resolves when the profile is updated.
-   */
-  public async updateProfile(
-    profile: BootstrapProfile,
-    domainId: string,
-    token: string
-  ): Promise<Response> {
-    const options: RequestInit = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": this.contentType,
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(profile),
-    };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/${profile.id}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const updateResponse: Response = {
-        status: response.status,
-        message: "Bootstrap profile updated successfully",
-      };
-      return updateResponse;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  /**
-   * Retrieves a list of bootstrap profiles.
-   * @param {PageMetadata} queryParams - Query parameters for the request.
-   * @param {string} domainId - The unique ID of the domain.
-   * @param {string} token - Authorization token.
-   * @returns {Promise<BootstrapProfilesPage>} A page of bootstrap profiles.
-   */
-  public async listProfiles(
-    queryParams: PageMetadata,
-    domainId: string,
-    token: string
-  ): Promise<BootstrapProfilesPage> {
-    const stringParams: Record<string, string> = Object.fromEntries(
-      Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
     );
-    const options: RequestInit = {
-      method: "GET",
-      headers: {
-        "Content-Type": this.contentType,
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}?${new URLSearchParams(
-            stringParams
-          ).toString()}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const page: BootstrapProfilesPage = await response.json();
-      return page;
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
-  }
-
-  /**
-   * Deletes a bootstrap profile by its ID.
-   * @param {string} id - The unique ID of the bootstrap profile.
-   * @param {string} domainId - The unique ID of the domain.
-   * @param {string} token - Authorization token.
-   * @returns {Promise<Response>} A promise that resolves when the profile is deleted.
-   */
-  public async deleteProfile(
-    id: string,
-    domainId: string,
-    token: string
-  ): Promise<Response> {
-    const options: RequestInit = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": this.contentType,
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/${id}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const deleteResponse: Response = {
-        status: response.status,
-        message: "Bootstrap profile deleted",
-      };
-      return deleteResponse;
-    } catch (error) {
-      throw error;
-    }
+    const saved: BootstrapProfile = await response.json();
+    return saved;
   }
 
   /**
@@ -621,23 +422,170 @@ export default class Bootstrap {
       },
       body: content,
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/upload`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const saved: BootstrapProfile = await response.json();
-      return saved;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/upload`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const saved: BootstrapProfile = await response.json();
+    return saved;
+  }
+
+  /**
+   * Retrieves a bootstrap profile by its ID.
+   * @param {string} id - The unique ID of the bootstrap profile.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfile>} The requested bootstrap profile.
+   */
+  public async viewProfile(
+    id: string,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfile> {
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/${id}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
+    }
+    const profile: BootstrapProfile = await response.json();
+    return profile;
+  }
+
+  /**
+   * Updates an existing bootstrap profile.
+   * @param {BootstrapProfile} profile - The bootstrap profile object with updated fields.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when the profile is updated.
+   */
+  public async updateProfile(
+    profile: BootstrapProfile,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    if (!profile.id) {
+      throw new Error("Bootstrap profile id is required for update");
+    }
+    const options: RequestInit = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(profile),
+    };
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/${profile.id}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
+    }
+    const updateResponse: Response = {
+      status: response.status,
+      message: "Bootstrap profile updated successfully",
+    };
+    return updateResponse;
+  }
+
+  /**
+   * Retrieves a list of bootstrap profiles.
+   * @param {PageMetadata} queryParams - Query parameters for the request.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfilesPage>} A page of bootstrap profiles.
+   */
+  public async listProfiles(
+    queryParams: PageMetadata,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfilesPage> {
+    const stringParams: Record<string, string> = Object.fromEntries(
+      Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+    );
+    const options: RequestInit = {
+      method: "GET",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}?${new URLSearchParams(
+          stringParams
+        ).toString()}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
+    }
+    const page: BootstrapProfilesPage = await response.json();
+    return page;
+  }
+
+  /**
+   * Deletes a bootstrap profile by its ID.
+   * @param {string} id - The unique ID of the bootstrap profile.
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<Response>} A promise that resolves when the profile is deleted.
+   */
+  public async deleteProfile(
+    id: string,
+    domainId: string,
+    token: string
+  ): Promise<Response> {
+    const options: RequestInit = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": this.contentType,
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/${id}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
+    }
+    const deleteResponse: Response = {
+      status: response.status,
+      message: "Bootstrap profile deleted",
+    };
+    return deleteResponse;
   }
 
   /**
@@ -662,26 +610,22 @@ export default class Bootstrap {
       },
       body: JSON.stringify({ profile_id: profileId }),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/profile`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const assignResponse: Response = {
-        status: response.status,
-        message: "Bootstrap profile assigned successfully",
-      };
-      return assignResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/profile`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const assignResponse: Response = {
+      status: response.status,
+      message: "Bootstrap profile assigned successfully",
+    };
+    return assignResponse;
   }
 
   /**
@@ -706,26 +650,22 @@ export default class Bootstrap {
       },
       body: JSON.stringify({ bindings }),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const bindResponse: Response = {
-        status: response.status,
-        message: "Bootstrap resources bound successfully",
-      };
-      return bindResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const bindResponse: Response = {
+      status: response.status,
+      message: "Bootstrap resources bound successfully",
+    };
+    return bindResponse;
   }
 
   /**
@@ -747,24 +687,20 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const bindingsPage: { bindings: BootstrapBindingSnapshot[] } =
-        await response.json();
-      return bindingsPage.bindings ?? [];
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const bindingsPage: { bindings: BootstrapBindingSnapshot[] } =
+      await response.json();
+    return bindingsPage.bindings ?? [];
   }
 
   /**
@@ -786,26 +722,22 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings/refresh`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const refreshResponse: Response = {
-        status: response.status,
-        message: "Bootstrap bindings refreshed successfully",
-      };
-      return refreshResponse;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapEnrollmentsPath}/${configId}/bindings/refresh`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const refreshResponse: Response = {
+      status: response.status,
+      message: "Bootstrap bindings refreshed successfully",
+    };
+    return refreshResponse;
   }
 
   /**
@@ -827,23 +759,19 @@ export default class Bootstrap {
         Authorization: `Bearer ${token}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/${profileId}/slots`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const slotsPage: { binding_slots: BindingSlot[] } = await response.json();
-      return slotsPage.binding_slots ?? [];
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/${profileId}/slots`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const slotsPage: { binding_slots: BindingSlot[] } = await response.json();
+    return slotsPage.binding_slots ?? [];
   }
 
   /**
@@ -868,32 +796,28 @@ export default class Bootstrap {
       },
       body: JSON.stringify(request),
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${domainId}/${this.bootstrapProfilesPath}/${profileId}/render-preview`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const preview: { content: string } = await response.json();
-      return preview.content;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${domainId}/${this.bootstrapProfilesPath}/${profileId}/render-preview`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const preview: { content: string } = await response.json();
+    return preview.content ?? "";
   }
 
   /**
    * Secures a bootstrap configuration by encrypting it.
    * @param {string} externalId - The unique external ID of the bootstrap configuration.
-   * @param {string[]} externalKey - The unique external key of the bootstrap configuration.
-   * @param {string} cryptoKey -The unique crypto key to be used to secure the bootstrap configuration.
-   * @returns {Promise<BootstrapConfig>}  - bootstrapConfig -  Returns the secured bootstrap configuration.
-   * @throws {Error} - If the bootstrap configuration cannot be scured.
+   * @param {string} externalKey - The unique external key of the bootstrap configuration.
+   * @param {string} cryptoKey - The unique crypto key to be used to secure the bootstrap configuration.
+   * @returns {Promise<BootstrapConfig>} Returns the secured bootstrap configuration.
+   * @throws {Error} - If the bootstrap configuration cannot be secured.
    */
   public async getSecure(
     externalId: string,
@@ -911,27 +835,23 @@ export default class Bootstrap {
         Authorization: `Client ${encryptedKey}`,
       },
     };
-    try {
-      const response = await fetch(
-        new URL(
-          `${this.bootstrapEndpoint}/${this.secureEndpoint}/${externalId}`,
-          this.bootstrapUrl
-        ).toString(),
-        options
-      );
-      if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
-      }
-      const decryptedData = await Bootstrap.bootstrapDecrypt(
-        JSON.stringify(options.body),
-        cryptoKey
-      );
-      const secureBootstrap: BootstrapConfig = decryptedData;
-      return secureBootstrap;
-    } catch (error) {
-      throw error;
+    const response = await fetch(
+      new URL(
+        `${this.bootstrapEndpoint}/${this.secureEndpoint}/${externalId}`,
+        this.bootstrapUrl
+      ).toString(),
+      options
+    );
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw Errors.HandleError(errorRes.message, response.status);
     }
+    const decryptedData = await Bootstrap.bootstrapDecrypt(
+      JSON.stringify(options.body),
+      cryptoKey
+    );
+    const secureBootstrap: BootstrapConfig = decryptedData;
+    return secureBootstrap;
   }
 
   static async bootstrapEncrypt(
