@@ -345,4 +345,34 @@ describe("Bootstraps", () => {
     );
     expect(response).toEqual('{"key": "example"}');
   });
+
+  test("UpdateStatus should throw on invalid status value", async () => {
+    await expect(
+      sdk.Bootstrap.updateStatus(clientId, "invalid" as any, domainId, token)
+    ).rejects.toThrow("Invalid bootstrap status 'invalid'");
+  });
+
+  test("Update should throw when id is missing", async () => {
+    await expect(
+      sdk.Bootstrap.update({ name: "test" }, domainId, token)
+    ).rejects.toThrow("Bootstrap config id is required for update");
+  });
+
+  test("UpdateCerts should throw when id is missing", async () => {
+    await expect(
+      sdk.Bootstrap.updateCerts({ client_cert: "cert" }, domainId, token)
+    ).rejects.toThrow("Bootstrap config id is required for updateCerts");
+  });
+
+  test("UpdateProfile should throw when id is missing", async () => {
+    await expect(
+      sdk.Bootstrap.updateProfile({ name: "profile" }, domainId, token)
+    ).rejects.toThrow("Bootstrap profile id is required for update");
+  });
+
+  test("UploadProfile should throw on unsupported content type", async () => {
+    await expect(
+      sdk.Bootstrap.uploadProfile("content", "text/plain", domainId, token)
+    ).rejects.toThrow("Unsupported content type 'text/plain'");
+  });
 });

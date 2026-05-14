@@ -713,9 +713,12 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
-    const bindingsPage: { bindings: BootstrapBindingSnapshot[] } =
+    const bindingsPage: { bindings?: BootstrapBindingSnapshot[] | null } =
       await response.json();
-    return bindingsPage.bindings ?? [];
+    if (bindingsPage.bindings === undefined || bindingsPage.bindings === null) {
+      throw new Error("Unexpected response: missing 'bindings' key");
+    }
+    return bindingsPage.bindings;
   }
 
   /**
@@ -785,8 +788,15 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
-    const slotsPage: { binding_slots: BindingSlot[] } = await response.json();
-    return slotsPage.binding_slots ?? [];
+    const slotsPage: { binding_slots?: BindingSlot[] | null } =
+      await response.json();
+    if (
+      slotsPage.binding_slots === undefined ||
+      slotsPage.binding_slots === null
+    ) {
+      throw new Error("Unexpected response: missing 'binding_slots' key");
+    }
+    return slotsPage.binding_slots;
   }
 
   /**
@@ -822,7 +832,7 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
-    const preview: { content: string } = await response.json();
+    const preview: { content?: string | null } = await response.json();
     if (preview.content === undefined || preview.content === null) {
       throw new Error("Render preview response missing content");
     }
