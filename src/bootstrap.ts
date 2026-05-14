@@ -600,6 +600,47 @@ export default class Bootstrap {
   }
 
   /**
+   * Uploads a bootstrap profile from a JSON, YAML, or TOML file.
+   * @param {string} content - Raw file content.
+   * @param {string} contentType - MIME type matching the file format (application/json, application/yaml, application/toml).
+   * @param {string} domainId - The unique ID of the domain.
+   * @param {string} token - Authorization token.
+   * @returns {Promise<BootstrapProfile>} The created bootstrap profile.
+   */
+  public async uploadProfile(
+    content: string,
+    contentType: string,
+    domainId: string,
+    token: string
+  ): Promise<BootstrapProfile> {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": contentType,
+        Authorization: `Bearer ${token}`,
+      },
+      body: content,
+    };
+    try {
+      const response = await fetch(
+        new URL(
+          `${domainId}/${this.bootstrapProfilesPath}/upload`,
+          this.bootstrapUrl
+        ).toString(),
+        options
+      );
+      if (!response.ok) {
+        const errorRes = await response.json();
+        throw Errors.HandleError(errorRes.message, response.status);
+      }
+      const saved: BootstrapProfile = await response.json();
+      return saved;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * Assigns a bootstrap profile to an enrollment.
    * @param {string} configId - The unique ID of the bootstrap enrollment.
    * @param {string} profileId - The unique ID of the profile to assign.

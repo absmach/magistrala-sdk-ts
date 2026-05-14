@@ -154,6 +154,27 @@ describe("Bootstraps", () => {
     expect(response).toEqual(profile);
   });
 
+  test("Upload bootstrap profile should create a profile from file content", async () => {
+    const profile: BootstrapProfile = {
+      id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
+      name: "uploaded-profile",
+    };
+    fetchMock.mockResponseOnce(JSON.stringify(profile));
+
+    const content = JSON.stringify({
+      name: "uploaded-profile",
+      template_format: "json",
+      content_template: '{"key": "{{ .value }}"}',
+    });
+    const response = await sdk.Bootstrap.uploadProfile(
+      content,
+      "application/json",
+      domainId,
+      token
+    );
+    expect(response).toEqual(profile);
+  });
+
   test("View bootstrap profile should return a profile", async () => {
     const profile: BootstrapProfile = {
       id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",

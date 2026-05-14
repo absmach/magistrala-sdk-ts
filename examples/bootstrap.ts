@@ -130,6 +130,19 @@ mgSdk.Bootstrap.createProfile(
     console.error(error);
   });
 
+mgSdk.Bootstrap.uploadProfile(
+  '{"name":"<profileName>","template_format":"json","content_template":"{"key":"{{.value}}"}","defaults":{"value":"default"}}',
+  "application/json",
+  domainId,
+  token
+)
+  .then((response: any) => {
+    console.log("response:", response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 mgSdk.Bootstrap.viewProfile("<profileId>", domainId, token)
   .then((response: any) => {
     console.log("response:", response);
