@@ -231,6 +231,9 @@ export default class Bootstrap {
     domainId: string,
     token: string
   ): Promise<BootstrapConfig> {
+    if (!bootstrapConfig.id) {
+      throw new Error("Bootstrap config id is required for updateCerts");
+    }
     const options: RequestInit = {
       method: "PATCH",
       headers: {
@@ -808,7 +811,10 @@ export default class Bootstrap {
       throw Errors.HandleError(errorRes.message, response.status);
     }
     const preview: { content: string } = await response.json();
-    return preview.content ?? "";
+    if (!preview.content) {
+      throw new Error("Render preview response missing content");
+    }
+    return preview.content;
   }
 
   /**
@@ -846,8 +852,9 @@ export default class Bootstrap {
       const errorRes = await response.json();
       throw Errors.HandleError(errorRes.message, response.status);
     }
+    const encryptedBody = await response.text();
     const decryptedData = await Bootstrap.bootstrapDecrypt(
-      JSON.stringify(options.body),
+      encryptedBody,
       cryptoKey
     );
     const secureBootstrap: BootstrapConfig = decryptedData;

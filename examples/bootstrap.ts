@@ -131,7 +131,12 @@ mgSdk.Bootstrap.createProfile(
   });
 
 mgSdk.Bootstrap.uploadProfile(
-  '{"name":"<profileName>","template_format":"json","content_template":"{"key":"{{.value}}"}","defaults":{"value":"default"}}',
+  JSON.stringify({
+    name: "<profileName>",
+    template_format: "json",
+    content_template: '{"key": "{{.value}}"}',
+    defaults: { value: "default" },
+  }),
   "application/json",
   domainId,
   token
