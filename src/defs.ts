@@ -383,8 +383,8 @@ export interface BootstrapProfile {
   defaults?: Record<string, unknown>;
   binding_slots?: BindingSlot[];
   version?: number;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface BootstrapProfilesPage {
@@ -407,7 +407,7 @@ export interface BootstrapBindingSnapshot {
   resource_id: string;
   snapshot?: Record<string, unknown>;
   secret_snapshot?: Record<string, unknown>;
-  updated_at?: Date;
+  updated_at?: string;
 }
 
 export interface RenderPreviewRequest {

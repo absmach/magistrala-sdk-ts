@@ -417,6 +417,18 @@ export default class Bootstrap {
     domainId: string,
     token: string
   ): Promise<BootstrapProfile> {
+    const allowedContentTypes = [
+      "application/json",
+      "application/yaml",
+      "application/toml",
+    ];
+    if (!allowedContentTypes.includes(contentType)) {
+      throw new Error(
+        `Unsupported content type '${contentType}': must be one of ${allowedContentTypes.join(
+          ", "
+        )}`
+      );
+    }
     const options: RequestInit = {
       method: "POST",
       headers: {
@@ -811,7 +823,7 @@ export default class Bootstrap {
       throw Errors.HandleError(errorRes.message, response.status);
     }
     const preview: { content: string } = await response.json();
-    if (!preview.content) {
+    if (preview.content === undefined || preview.content === null) {
       throw new Error("Render preview response missing content");
     }
     return preview.content;
