@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.20.1
+
+### Patch Changes
+
+- 95e5957: update bootstrap service and add new endpoints
+
 ## 0.20.0
 
 ### Minor Changes
