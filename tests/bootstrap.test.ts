@@ -137,7 +137,7 @@ describe("Bootstraps", () => {
       id: "aa1edb32-2eac-4aad-aebe-ed96fe073879",
       name: "test-profile",
       description: "A test profile",
-      template_format: "json",
+      content_format: "json",
       content_template: '{"key": "{{ .value }}"}',
       defaults: { value: "default" },
       binding_slots: [
@@ -163,7 +163,7 @@ describe("Bootstraps", () => {
 
     const content = JSON.stringify({
       name: "uploaded-profile",
-      template_format: "json",
+      content_format: "json",
       content_template: '{"key": "{{ .value }}"}',
     });
     const response = await sdk.Bootstrap.uploadProfile(

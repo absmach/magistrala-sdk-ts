@@ -372,14 +372,19 @@ export interface BindingSlot {
   fields?: string[];
 }
 
-export type BootstrapTemplateFormat = "json" | "yaml" | "toml";
+export type BootstrapContentFormat =
+  | "go-template"
+  | "raw"
+  | "json"
+  | "yaml"
+  | "toml";
 
 export interface BootstrapProfile {
   id?: string;
   domain_id?: string;
   name?: string;
   description?: string;
-  template_format?: BootstrapTemplateFormat;
+  content_format?: BootstrapContentFormat;
   content_template?: string;
   defaults?: Record<string, unknown>;
   binding_slots?: BindingSlot[];
