@@ -102,3 +102,6 @@ Thumbs.db
 
 # Build files
 /dist
+
+# Runnable example state files may contain access tokens and client/PAT secrets.
+examples/setup/.runs/
