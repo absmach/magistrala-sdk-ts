@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.20.2
+
+### Patch Changes
+
+- 1bb1565: Renames the corresponding field on BootstrapProfile from template_format to content_format.
+
 ## 0.20.1
 
 ### Patch Changes
