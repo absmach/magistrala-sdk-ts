@@ -5,6 +5,7 @@
 
 import SDK, {
   type Channel,
+  type Client,
   type Domain,
   type Group,
   type Aggregation,
@@ -22,6 +23,7 @@ import {
   type DomainResources,
   type SetupState,
   type StoredClient,
+  type UserResources,
   saveState,
 } from "./state";
 
@@ -41,11 +43,49 @@ export const page = { offset: 0, limit: 10 };
 
 export const sampleMessageNames = ["temperature", "voltage"];
 
+const messageSampleCount = 50;
+
 const safe = (value: string): string => value.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
 
 const stateSuffix = (state: SetupState): string => state.createdAt.replace(/[-:.TZ]/g, "").slice(0, 14);
 
 export const prefixFor = (config: SetupConfig, state: SetupState): string => safe(`setup-${config.runId}-${stateSuffix(state)}`).slice(0, 48);
+
+const shouldAdoptExisting = (): boolean => process.env.MG_SETUP_ADOPT_EXISTING === "true";
+
+const namePool = [
+  ["John", "Doe"],
+  ["Jane", "Stone"],
+  ["Maya", "Cole"],
+  ["Noah", "Reed"],
+  ["Ava", "Lane"],
+  ["Leo", "Grant"],
+];
+
+const stableNumber = (value: string): number => value
+  .split("")
+  .reduce((total, char) => total + char.charCodeAt(0), 0);
+
+const digitsOnly = (value: string): string => value.replace(/[^a-z0-9]/gi, "").toLowerCase();
+
+const createGeneratedUserIdentity = (
+  config: SetupConfig,
+  state: SetupState,
+  suffix: "primary" | "secondary"
+) => {
+  const nameIndex = stableNumber(`${config.runId}-${suffix}`) % namePool.length;
+  const [firstName, lastName] = namePool[nameIndex];
+  const uniquePart = digitsOnly(`${config.runId}${stateSuffix(state)}${suffix}`).slice(-18);
+  const username = `${firstName[0]}${lastName}${uniquePart}`.toLowerCase();
+
+  return {
+    firstName,
+    lastName,
+    username,
+    email: `${username}@example.com`,
+    password: `Mg${uniquePart}${suffix}Secret1`,
+  };
+};
 
 export const requireId = (
   resource: { id?: string },
@@ -134,6 +174,63 @@ export const tryStep = async <T>(
   }
 };
 
+const sleep = (milliseconds: number): Promise<void> => new Promise((resolve) => {
+  setTimeout(resolve, milliseconds);
+});
+
+const isTransportFailure = (error: unknown): boolean => {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+  const cause = "cause" in error ? error.cause : undefined;
+  return error.message === "fetch failed" || (
+    cause instanceof Error && cause.message.includes("other side closed")
+  );
+};
+
+const toStoredClient = (client: Client): StoredClient => {
+  const secret = client.credentials?.secret;
+  if (!secret) {
+    throw new Error("Client response did not include credentials.secret");
+  }
+  const identity = client.credentials?.identity ?? client.identity;
+
+  return {
+    data: {
+      ...client,
+      identity,
+      credentials: {
+        ...client.credentials,
+        ...(identity ? { identity } : {}),
+        secret,
+      },
+    },
+    identity,
+    secret,
+  };
+};
+
+const refreshUserResources = async (
+  context: ScenarioContext,
+  label: "user" | "secondaryUser",
+  resources: UserResources
+): Promise<void> => {
+  const { config, sdk, state, logger } = context;
+  try {
+    const token = await runStep(logger, `${label}.token.refresh`, () => sdk.Users.refreshToken(resources.token.refresh_token));
+    resources.token = token;
+  } catch (error) {
+    logger.error(`${label}.token.refresh`, error);
+    const token = await runStep(logger, `${label}.token.issue`, () => sdk.Users.createToken({
+      username: resources.credentials.username,
+      password: resources.credentials.password,
+    }));
+    resources.token = token;
+  }
+
+  saveState(config, state);
+};
+
 const createUserResources = async (
   context: ScenarioContext,
   label: "user" | "secondaryUser"
@@ -141,35 +238,36 @@ const createUserResources = async (
   const { config, sdk, state, logger } = context;
   const existing = label === "user" ? state.user : state.secondaryUser;
   if (existing) {
-    logger.skipped(label, "already present in run state");
+    logger.skipped(label, "already present in run state; refreshing token");
+    await refreshUserResources(context, label, existing);
     return;
   }
 
-  const prefix = prefixFor(config, state);
   const suffix = label === "user" ? "primary" : "secondary";
-  const username = `${prefix}-${suffix}`;
-  const password = `${prefix}-${suffix}-secret`;
-  const email = `${username}@example.com`;
+  const identity = createGeneratedUserIdentity(config, state, suffix);
   const user = await runStep(logger, `${label}.create`, () => sdk.Users.create({
-    first_name: "Setup",
-    last_name: suffix,
-    email,
+    first_name: identity.firstName,
+    last_name: identity.lastName,
+    email: identity.email,
     credentials: {
-      username,
-      secret: password,
+      username: identity.username,
+      secret: identity.password,
     },
     metadata: {
       run_id: config.runId,
       source: "examples/setup",
     },
   }));
-  const token = await runStep(logger, `${label}.token`, () => sdk.Users.createToken({ username, password }));
+  const token = await runStep(logger, `${label}.token`, () => sdk.Users.createToken({
+    username: identity.username,
+    password: identity.password,
+  }));
   const resources = {
     data: user,
     credentials: {
-      username,
-      password,
-      email,
+      username: identity.username,
+      password: identity.password,
+      email: identity.email,
     },
     token,
   };
@@ -201,6 +299,102 @@ const emptyDomainResources = (domain: Domain): DomainResources => ({
   reports: [],
 });
 
+const findDomainByName = async (
+  context: ScenarioContext,
+  name: string
+): Promise<Domain | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const domains = await tryStep(logger, `domain.${name}.lookup`, () => sdk.Domains.list({
+    ...page,
+    name,
+  }, token));
+  return (domains?.domains ?? []).find((domain) => domain.name === name || domain.route === name);
+};
+
+const findGroupByName = async (
+  context: ScenarioContext,
+  domainId: string,
+  name: string
+): Promise<Group | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const groups = await tryStep(logger, `group.${name}.lookup`, () => sdk.Groups.list({
+    ...page,
+    name,
+  }, domainId, token));
+  return (groups?.groups ?? []).find((group) => group.name === name);
+};
+
+const findClientByName = async (
+  context: ScenarioContext,
+  domainId: string,
+  name: string
+): Promise<StoredClient | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const clients = await tryStep(logger, `client.${name}.lookup`, () => sdk.Clients.list({
+    ...page,
+    name,
+  }, domainId, token));
+  const client = (clients?.clients ?? []).find((item) => item.name === name);
+  if (!client) {
+    return undefined;
+  }
+
+  return toStoredClient(client);
+};
+
+const findChannelByName = async (
+  context: ScenarioContext,
+  domainId: string,
+  name: string
+): Promise<Channel | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const channels = await tryStep(logger, `channel.${name}.lookup`, () => sdk.Channels.list({
+    ...page,
+    name,
+  }, domainId, token));
+  return (channels?.channels ?? []).find((channel) => channel.name === name);
+};
+
+const findRuleByName = async (
+  context: ScenarioContext,
+  domainId: string,
+  name: string
+): Promise<Rule | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const rules = await tryStep(logger, `rule.${name}.lookup`, () => sdk.Rules.list(
+    domainId,
+    {
+      ...page,
+      name,
+    },
+    token
+  ));
+  return (rules?.rules ?? []).find((rule) => rule.name === name);
+};
+
+const findReportConfigByName = async (
+  context: ScenarioContext,
+  domainId: string,
+  name: string
+): Promise<ReportConfig | undefined> => {
+  const { sdk, state, logger } = context;
+  const token = requireToken(state).access_token;
+  const configs = await tryStep(logger, `reportConfig.${name}.lookup`, () => sdk.Reports.listConfigs(
+    domainId,
+    {
+      offset: 0,
+      limit: 100,
+    },
+    token
+  ));
+  return (configs?.report_configs ?? []).find((config) => config.name === name);
+};
+
 export const createDomain = async (
   context: ScenarioContext,
   index: number
@@ -208,10 +402,22 @@ export const createDomain = async (
   const { config, sdk, state, logger } = context;
   const prefix = prefixFor(config, state);
   const token = requireToken(state).access_token;
+  const name = `${prefix}-domain-${index + 1}`;
+  if (shouldAdoptExisting()) {
+    const existing = await findDomainByName(context, name);
+    if (existing) {
+      logger.resource(`domain.${index}.adopt`, existing);
+      const resources = emptyDomainResources(existing);
+      state.domains.push(resources);
+      saveState(config, state);
+      return resources;
+    }
+  }
+
   const domain = await runStep(logger, `domain.${index}.create`, () => sdk.Domains.create(
     {
-      name: `${prefix}-domain-${index + 1}`,
-      route: `${prefix}-domain-${index + 1}`,
+      name,
+      route: name,
       tags: ["setup", config.runId],
       metadata: {
         run_id: config.runId,
@@ -234,20 +440,47 @@ export const createGroup = async (
   const { config, sdk, state, logger } = context;
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
-  const group = await runStep(logger, `group.${index}.create`, () => sdk.Groups.create(
-    {
-      name: `${prefixFor(config, state)}-group-${index + 1}`,
-      description: `Setup group ${index + 1}`,
-      metadata: {
-        run_id: config.runId,
+  const name = `${prefixFor(config, state)}-group-${index + 1}`;
+  if (shouldAdoptExisting()) {
+    const existing = await findGroupByName(context, domainId, name);
+    if (existing) {
+      logger.resource(`group.${index}.adopt`, existing);
+      domain.groups.push(existing);
+      saveState(config, state);
+      return existing;
+    }
+  }
+
+  try {
+    const group = await runStep(logger, `group.${index}.create`, () => sdk.Groups.create(
+      {
+        name,
+        description: `Setup group ${index + 1}`,
+        metadata: {
+          run_id: config.runId,
+        },
       },
-    },
-    domainId,
-    token
-  ));
-  domain.groups.push(group);
-  saveState(config, state);
-  return group;
+      domainId,
+      token
+    ));
+    domain.groups.push(group);
+    saveState(config, state);
+    return group;
+  } catch (error) {
+    if (!isTransportFailure(error)) {
+      throw error;
+    }
+    logger.error(`group.${index}.create`, error);
+    await sleep(1000);
+    const recovered = await findGroupByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource(`group.${index}.recover`, recovered);
+    domain.groups.push(recovered);
+    saveState(config, state);
+    return recovered;
+  }
 };
 
 export const createClient = async (
@@ -258,23 +491,48 @@ export const createClient = async (
   const { config, sdk, state, logger } = context;
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
-  const secret = `${prefixFor(config, state)}-client-${index + 1}-secret`;
-  const client = await runStep(logger, `client.${index}.create`, () => sdk.Clients.create(
-    {
-      name: `${prefixFor(config, state)}-client-${index + 1}`,
-      credentials: { secret },
-      tags: ["setup", config.runId],
-      metadata: {
-        run_id: config.runId,
+  const name = `${prefixFor(config, state)}-client-${index + 1}`;
+  if (shouldAdoptExisting()) {
+    const existing = await findClientByName(context, domainId, name);
+    if (existing) {
+      logger.resource(`client.${index}.adopt`, existing);
+      domain.clients.push(existing);
+      saveState(config, state);
+      return existing;
+    }
+  }
+
+  try {
+    const client = await runStep(logger, `client.${index}.create`, () => sdk.Clients.create(
+      {
+        name,
+        tags: ["setup", config.runId],
+        metadata: {
+          run_id: config.runId,
+        },
       },
-    },
-    domainId,
-    token
-  ));
-  const storedClient = { data: client, secret };
-  domain.clients.push(storedClient);
-  saveState(config, state);
-  return storedClient;
+      domainId,
+      token
+    ));
+    const storedClient = toStoredClient(client);
+    domain.clients.push(storedClient);
+    saveState(config, state);
+    return storedClient;
+  } catch (error) {
+    if (!isTransportFailure(error)) {
+      throw error;
+    }
+    logger.error(`client.${index}.create`, error);
+    await sleep(1000);
+    const recovered = await findClientByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource(`client.${index}.recover`, recovered);
+    domain.clients.push(recovered);
+    saveState(config, state);
+    return recovered;
+  }
 };
 
 export const createChannel = async (
@@ -285,20 +543,47 @@ export const createChannel = async (
   const { config, sdk, state, logger } = context;
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
-  const channel = await runStep(logger, `channel.${index}.create`, () => sdk.Channels.create(
-    {
-      name: `${prefixFor(config, state)}-channel-${index + 1}`,
-      tags: ["setup", config.runId],
-      metadata: {
-        run_id: config.runId,
+  const name = `${prefixFor(config, state)}-channel-${index + 1}`;
+  if (shouldAdoptExisting()) {
+    const existing = await findChannelByName(context, domainId, name);
+    if (existing) {
+      logger.resource(`channel.${index}.adopt`, existing);
+      domain.channels.push(existing);
+      saveState(config, state);
+      return existing;
+    }
+  }
+
+  try {
+    const channel = await runStep(logger, `channel.${index}.create`, () => sdk.Channels.create(
+      {
+        name,
+        tags: ["setup", config.runId],
+        metadata: {
+          run_id: config.runId,
+        },
       },
-    },
-    domainId,
-    token
-  ));
-  domain.channels.push(channel);
-  saveState(config, state);
-  return channel;
+      domainId,
+      token
+    ));
+    domain.channels.push(channel);
+    saveState(config, state);
+    return channel;
+  } catch (error) {
+    if (!isTransportFailure(error)) {
+      throw error;
+    }
+    logger.error(`channel.${index}.create`, error);
+    await sleep(1000);
+    const recovered = await findChannelByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource(`channel.${index}.recover`, recovered);
+    domain.channels.push(recovered);
+    saveState(config, state);
+    return recovered;
+  }
 };
 
 export const connectClientToChannel = async (
@@ -427,27 +712,53 @@ export const createSaveSenmlRule = async (
 
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
-  const rule = await runStep(logger, "rule.save_senml.create", () => sdk.Rules.create(
-    domainId,
-    {
-      name: `${prefixFor(config, state)}-save-senml`,
-      input_channel: requireId(channel, "channel"),
-      input_topic: "",
-      logic: {
-        type: 0,
-        value: saveSenmlLua,
+  const name = `${prefixFor(config, state)}-save-senml`;
+  if (shouldAdoptExisting()) {
+    const existing = await findRuleByName(context, domainId, name);
+    if (existing) {
+      logger.resource("rule.save_senml.adopt", existing);
+      domain.saveRule = existing;
+      saveState(config, state);
+      return existing;
+    }
+  }
+
+  try {
+    const rule = await runStep(logger, "rule.save_senml.create", () => sdk.Rules.create(
+      domainId,
+      {
+        name,
+        input_channel: requireId(channel, "channel"),
+        input_topic: "",
+        logic: {
+          type: 0,
+          value: saveSenmlLua,
+        },
+        outputs: [{ type: "save_senml" as OutputType }],
+        tags: ["setup", "save_senml"],
+        metadata: {
+          run_id: config.runId,
+        },
       },
-      outputs: [{ type: "save_senml" as OutputType }],
-      tags: ["setup", "save_senml"],
-      metadata: {
-        run_id: config.runId,
-      },
-    },
-    token
-  ));
-  domain.saveRule = rule;
-  saveState(config, state);
-  return rule;
+      token
+    ));
+    domain.saveRule = rule;
+    saveState(config, state);
+    return rule;
+  } catch (error) {
+    logger.error("rule.save_senml.create", error);
+    if (isTransportFailure(error)) {
+      await sleep(1000);
+    }
+    const recovered = await findRuleByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource("rule.save_senml.recover", recovered);
+    domain.saveRule = recovered;
+    saveState(config, state);
+    return recovered;
+  }
 };
 
 export const createAlarmRule = async (
@@ -463,46 +774,99 @@ export const createAlarmRule = async (
 
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
-  const rule = await runStep(logger, "rule.alarm.create", () => sdk.Rules.create(
-    domainId,
-    {
-      name: `${prefixFor(config, state)}-alarm`,
-      input_channel: requireId(channel, "channel"),
-      input_topic: "",
-      logic: {
-        type: 0,
-        value: alarmLua,
+  const name = `${prefixFor(config, state)}-alarm`;
+  if (shouldAdoptExisting()) {
+    const existing = await findRuleByName(context, domainId, name);
+    if (existing) {
+      logger.resource("rule.alarm.adopt", existing);
+      domain.alarmRule = existing;
+      saveState(config, state);
+      return existing;
+    }
+  }
+
+  try {
+    const rule = await runStep(logger, "rule.alarm.create", () => sdk.Rules.create(
+      domainId,
+      {
+        name,
+        input_channel: requireId(channel, "channel"),
+        input_topic: "",
+        logic: {
+          type: 0,
+          value: alarmLua,
+        },
+        outputs: [{ type: "alarms" as OutputType }],
+        tags: ["setup", "alarm"],
+        metadata: {
+          run_id: config.runId,
+        },
       },
-      outputs: [{ type: "alarms" as OutputType }],
-      tags: ["setup", "alarm"],
-      metadata: {
-        run_id: config.runId,
-      },
-    },
-    token
-  ));
-  domain.alarmRule = rule;
-  saveState(config, state);
-  return rule;
+      token
+    ));
+    domain.alarmRule = rule;
+    saveState(config, state);
+    return rule;
+  } catch (error) {
+    logger.error("rule.alarm.create", error);
+    if (isTransportFailure(error)) {
+      await sleep(1000);
+    }
+    const recovered = await findRuleByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource("rule.alarm.recover", recovered);
+    domain.alarmRule = recovered;
+    saveState(config, state);
+    return recovered;
+  }
 };
 
-const messagePayload = (highValue = false): Record<string, unknown>[] => {
-  const baseTime = Date.now() / 1000;
-  return [
-    {
-      bn: "setup:",
-      bt: baseTime,
-      n: "temperature",
-      u: "C",
-      v: highValue ? 95 : 24.5,
-    },
-    {
-      n: "voltage",
-      u: "V",
-      v: 120.1,
-    },
-  ];
+const messagePayload = (
+  highValue = false,
+  sampleCount = messageSampleCount
+): Record<string, unknown>[] => {
+  const baseTime = Math.floor(Date.now() / 1000) - ((sampleCount - 1) * 60);
+
+  return Array.from({ length: sampleCount }).flatMap((_, index) => {
+    const temperature = highValue && index === sampleCount - 1
+      ? 95
+      : Number((23.5 + Math.sin(index / 4) * 4 + index * 0.04).toFixed(2));
+    const voltage = Number((119.8 + Math.cos(index / 5) * 1.6).toFixed(2));
+    const timeOffset = index * 60;
+
+    return [
+      {
+        ...(index === 0 ? { bn: "setup:", bt: baseTime } : { t: timeOffset }),
+        n: "temperature",
+        u: "C",
+        v: temperature,
+      },
+      {
+        t: timeOffset,
+        n: "voltage",
+        u: "V",
+        v: voltage,
+      },
+    ];
+  });
 };
+
+const countStoredValues = (
+  domain: DomainResources,
+  name: string
+): number => domain.messages.reduce((total, message) => {
+  try {
+    const records = JSON.parse(message.payload) as Array<{ n?: string }>;
+    if (!Array.isArray(records)) {
+      return total;
+    }
+    return total + records.filter((record) => record.n === name).length;
+  } catch {
+    return total;
+  }
+}, 0);
 
 export const sendSenmlMessages = async (
   context: ScenarioContext,
@@ -517,7 +881,8 @@ export const sendSenmlMessages = async (
   const channelId = requireId(channel, "channel");
   const clientId = requireId(client.data, "client");
   const topic = channelId;
-  const payload = JSON.stringify(messagePayload(highValue));
+  const records = messagePayload(highValue);
+  const payload = JSON.stringify(records);
 
   await runStep(logger, "messages.send", () => sdk.Messages.send(domainId, topic, payload, client.secret));
   domain.messages.push({
@@ -526,6 +891,8 @@ export const sendSenmlMessages = async (
     topic,
     payload,
     names: sampleMessageNames,
+    recordCount: records.length,
+    sampleCount: messageSampleCount,
   });
   saveState(config, state);
 
@@ -557,8 +924,10 @@ export const ensureMessaging = async (
     const client = requireClient(domain);
     await createSaveSenmlRule(context, domain, channel);
     await createAlarmRule(context, domain, channel);
-    if (domain.messages.length === 0) {
-      await sendSenmlMessages(context, domain, client, channel);
+    const hasEnoughMessages = sampleMessageNames.every((name) => (
+      countStoredValues(domain, name) >= messageSampleCount
+    ));
+    if (!hasEnoughMessages) {
       await sendSenmlMessages(context, domain, client, channel, true);
     } else {
       logger.skipped("messages.send", "already present in run state");
@@ -605,8 +974,19 @@ export const createReportConfig = async (
 
   const token = requireToken(state).access_token;
   const domainId = requireDomainId(domain);
+  const name = `${prefixFor(config, state)}-report-${index + 1}`;
+  if (shouldAdoptExisting()) {
+    const existingConfig = await findReportConfigByName(context, domainId, name);
+    if (existingConfig) {
+      logger.resource(`reportConfig.${index}.adopt`, existingConfig);
+      domain.reportConfigs.push(existingConfig);
+      saveState(config, state);
+      return existingConfig;
+    }
+  }
+
   const reportConfig: ReportConfig = {
-    name: `${prefixFor(config, state)}-report-${index + 1}`,
+    name,
     description: "Created by examples/setup",
     config: {
       title: `Setup Report ${index + 1}`,
@@ -636,10 +1016,25 @@ export const createReportConfig = async (
     },
   };
 
-  const created = await runStep(logger, `reportConfig.${index}.add`, () => sdk.Reports.addConfig(domainId, reportConfig, token));
-  domain.reportConfigs.push(created);
-  saveState(config, state);
-  return created;
+  try {
+    const created = await runStep(logger, `reportConfig.${index}.add`, () => sdk.Reports.addConfig(domainId, reportConfig, token));
+    domain.reportConfigs.push(created);
+    saveState(config, state);
+    return created;
+  } catch (error) {
+    logger.error(`reportConfig.${index}.add`, error);
+    if (isTransportFailure(error)) {
+      await sleep(1000);
+    }
+    const recovered = await findReportConfigByName(context, domainId, name);
+    if (!recovered) {
+      throw error;
+    }
+    logger.resource(`reportConfig.${index}.recover`, recovered);
+    domain.reportConfigs.push(recovered);
+    saveState(config, state);
+    return recovered;
+  }
 };
 
 interface RoleLifecycle {

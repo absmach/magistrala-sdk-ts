@@ -47,36 +47,23 @@ export default class Messages {
   ): Promise<Response> {
     const topicParts = topic.split(".");
     const chanId = topicParts.shift()!;
-    const brokerTopic = `m/${domainId}/c/${chanId}${topicParts.length ? `/${topicParts.join("/")}` : ""
+    const adapterTopic = `m/${domainId}/c/${chanId}${topicParts.length ? `/${topicParts.join("/")}` : ""
     }`;
-
-    const payload = typeof Buffer !== "undefined"
-      ? Buffer.from(msg).toString("base64")
-      : btoa(String.fromCharCode(...new TextEncoder().encode(msg)));
-
-    const publishRequest = {
-      topic: brokerTopic,
-      payload,
-    };
-
-    const basicAuth = typeof Buffer !== "undefined"
-      ? Buffer.from(`${domainId}:${secret}`).toString("base64")
-      : btoa(`${domainId}:${secret}`);
 
     const baseUrl = this.httpAdapterUrl.href.replace(/\/$/, "");
     const options: RequestInit = {
       method: "POST",
       headers: {
-        "Content-Type": this.contentType,
-        Authorization: `Basic ${basicAuth}`,
+        "Content-Type": "application/senml+json",
+        Authorization: `Client ${secret}`,
       },
-      body: JSON.stringify(publishRequest),
+      body: msg,
     };
     try {
-      const response = await fetch(`${baseUrl}/publish`, options);
+      const response = await fetch(`${baseUrl}/${adapterTopic}`, options);
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        const message = await response.text();
+        throw Errors.HandleError(message.trim(), response.status);
       }
       const sendResponse: Response = {
         status: response.status,

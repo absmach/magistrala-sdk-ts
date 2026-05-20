@@ -30,6 +30,7 @@ import type { SetupConfig } from "./config";
 
 export interface StoredClient {
   data: Client;
+  identity?: string;
   secret: string;
 }
 
@@ -46,6 +47,8 @@ export interface SentMessageSummary {
   topic: string;
   payload: string;
   names: string[];
+  recordCount?: number;
+  sampleCount?: number;
 }
 
 export interface DomainResources {

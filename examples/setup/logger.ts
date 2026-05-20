@@ -63,6 +63,7 @@ export class SetupLogger {
         clients: domain.clients.map((client) => ({
           id: client.data.id,
           name: client.data.name,
+          identity: client.identity,
           secret: client.secret,
         })),
         channels: domain.channels.map((channel) => ({
@@ -74,6 +75,11 @@ export class SetupLogger {
         alarm_rule_id: domain.alarmRule?.id,
         message_names: Array.from(
           new Set(domain.messages.flatMap((message) => message.names))
+        ),
+        message_batches: domain.messages.length,
+        message_records: domain.messages.reduce(
+          (total, message) => total + (message.recordCount ?? 0),
+          0
         ),
         report_config_ids: domain.reportConfigs.map((config) => config.id),
       })),

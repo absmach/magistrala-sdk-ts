@@ -56,6 +56,17 @@ describe("Messages", () => {
       status: 200,
       message: "Message sent successfully",
     });
+    expect(fetchMock).toHaveBeenCalledWith(
+      `${httpAdapterUrl}/m/${domainId}/c/${channelId}`,
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/senml+json",
+          Authorization: `Client ${secret}`,
+        },
+        body: msg,
+      }),
+    );
   });
 
   test("read should read messages", async () => {

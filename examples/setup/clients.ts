@@ -67,6 +67,10 @@ const main = async (): Promise<void> => {
     token
   ));
   client.secret = updatedSecret;
+  client.data.credentials = {
+    ...client.data.credentials,
+    secret: updatedSecret,
+  };
   await tryStep(logger, "clients.updateTags", () => sdk.Clients.updateTags(
     { id: clientId, tags: ["setup", config.runId] },
     domainId,
