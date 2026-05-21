@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.20.3
+
+### Patch Changes
+
+- c4f8efe: Add runnable setup examples for local/e2e Magistrala SDK workflows.
+
 ## 0.20.2
 
 ### Patch Changes
