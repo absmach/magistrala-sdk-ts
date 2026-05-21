@@ -55,6 +55,7 @@ const main = async (): Promise<void> => {
   ));
   await tryStep(logger, "groups.disable", () => sdk.Groups.disable(groupId, domainId, token));
   await tryStep(logger, "groups.enable", () => sdk.Groups.enable(groupId, domainId, token));
+  await tryStep(logger, "groups.removeParent.initial", () => sdk.Groups.removeParent(childId, domainId, token));
   await tryStep(logger, "groups.addParent", () => sdk.Groups.addParent(childId, domainId, groupId, token));
   await tryStep(logger, "groups.getHierarchy", () => sdk.Groups.getHierarchy(groupId, domainId, { direction: -1 }, token));
   await tryStep(logger, "groups.listChildren", () => sdk.Groups.listChildren(groupId, domainId, page, token));

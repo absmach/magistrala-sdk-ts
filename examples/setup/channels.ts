@@ -71,7 +71,6 @@ const main = async (): Promise<void> => {
   await tryStep(logger, "channels.connectClient", () => sdk.Channels.connectClient([clientId], channelId, ["publish", "subscribe"], domainId, token));
   await tryStep(logger, "channels.disconnect", () => sdk.Channels.disconnect([clientId], [channelId], ["subscribe"], domainId, token));
   await tryStep(logger, "channels.connect", () => sdk.Channels.connect([clientId], [channelId], ["publish", "subscribe"], domainId, token));
-  await tryStep(logger, "channels.setParentGroup", () => sdk.Channels.setParentGroup(domainId, channelId, groupId, token));
   await tryStep(logger, "channels.deleteParentGroup", () => sdk.Channels.deleteParentGroup(domainId, channelId, token));
   await tryStep(logger, "channels.setParentGroup.restore", () => sdk.Channels.setParentGroup(domainId, channelId, groupId, token));
 

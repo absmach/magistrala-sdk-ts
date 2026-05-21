@@ -78,7 +78,6 @@ const main = async (): Promise<void> => {
   ));
   await tryStep(logger, "clients.disable", () => sdk.Clients.disable(clientId, domainId, token));
   await tryStep(logger, "clients.enable", () => sdk.Clients.enable(clientId, domainId, token));
-  await tryStep(logger, "clients.setParentGroup", () => sdk.Clients.setParentGroup(domainId, clientId, groupId, token));
   await tryStep(logger, "clients.deleteParentGroup", () => sdk.Clients.deleteParentGroup(domainId, clientId, token));
   await tryStep(logger, "clients.setParentGroup.restore", () => sdk.Clients.setParentGroup(domainId, clientId, groupId, token));
 

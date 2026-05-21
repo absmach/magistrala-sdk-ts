@@ -3,7 +3,42 @@
 
 /* eslint-disable class-methods-use-this, no-console, import/prefer-default-export */
 
-import type { SetupState } from "./state";
+import { statePathFor, type SetupState } from "./state";
+
+const secretValue = "***";
+
+const shouldShowSecrets = (): boolean => process.env.MG_SETUP_SHOW_SECRETS === "true";
+
+const isSensitiveKey = (key: string): boolean => {
+  const normalized = key.toLowerCase();
+  return normalized.includes("secret") ||
+    normalized.includes("token") ||
+    normalized.includes("password") ||
+    normalized === "external_key" ||
+    normalized === "private_key";
+};
+
+const redactSecrets = (value: unknown): unknown => {
+  if (shouldShowSecrets()) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(redactSecrets);
+  }
+
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  return Object.entries(value as Record<string, unknown>).reduce<Record<string, unknown>>(
+    (redacted, [key, entry]) => ({
+      ...redacted,
+      [key]: isSensitiveKey(key) ? secretValue : redactSecrets(entry),
+    }),
+    {}
+  );
+};
 
 export class SetupLogger {
   section(title: string): void {
@@ -16,7 +51,7 @@ export class SetupLogger {
 
   resource(label: string, value: unknown): void {
     console.log(`\n${label}`);
-    console.log(JSON.stringify(value, null, 2));
+    console.log(JSON.stringify(redactSecrets(value), null, 2));
   }
 
   skipped(label: string, reason: string): void {
@@ -24,7 +59,9 @@ export class SetupLogger {
   }
 
   error(label: string, error: unknown): void {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = error instanceof Error
+      ? error.message
+      : JSON.stringify(error, null, 2);
     console.error(`- ${label} failed: ${message}`);
   }
 
@@ -32,6 +69,8 @@ export class SetupLogger {
     const summary = {
       run_id: state.runId,
       state_contains_secrets: true,
+      state_file: statePathFor(state.runId),
+      secrets_redacted: !shouldShowSecrets(),
       user: state.user
         ? {
           id: state.user.data.id,

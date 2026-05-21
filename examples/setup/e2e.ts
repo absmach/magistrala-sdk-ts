@@ -15,6 +15,7 @@ import {
   requireDomainId,
   requireToken,
   runStep,
+  type ScenarioContext,
 } from "./helpers";
 import { createLogger } from "./logger";
 import { loadState, saveState } from "./state";
@@ -38,18 +39,13 @@ const readMode = (): E2EMode => {
   );
 };
 
-const runReports = async (): Promise<void> => {
-  const config = readSetupConfig();
-  const logger = createLogger();
-  const state = loadState(config);
-  const sdk = createSdk(config);
-  const context = {
+const runReports = async (context: ScenarioContext): Promise<void> => {
+  const {
     config,
     logger,
     sdk,
     state,
-  };
-
+  } = context;
   logger.section("Reports setup");
   await ensureMessaging(context);
   await createPat(context, 0);
@@ -110,34 +106,11 @@ const main = async (): Promise<void> => {
   }
 
   if (mode === "reports") {
-    await runReports();
+    await runReports(context);
     return;
   }
 
-  await ensureMessaging(context);
-  await createPat(context, 0);
-  await createPat(context, 1);
-
-  const token = requireToken(state).access_token;
-  const domain = requireDomain(state);
-  const domainId = requireDomainId(domain);
-  const client = requireClient(domain);
-  const channel = requireChannel(domain);
-
-  for (let index = 0; index < 2; index += 1) {
-    const configForReport = await createReportConfig(
-      context,
-      domain,
-      client,
-      channel,
-      index
-    );
-    const generated = await runStep(logger, `report.${index}.generate`, () => sdk.Reports.generate(domainId, configForReport, token));
-    domain.reports.push(generated);
-  }
-
-  saveState(config, state);
-  logger.summary(state);
+  await runReports(context);
 };
 
 main().catch((error) => {

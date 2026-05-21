@@ -14,6 +14,7 @@ import {
   requireGroup,
   requireId,
   requireToken,
+  runStep,
   tryStep,
 } from "./helpers";
 
@@ -35,13 +36,24 @@ const main = async (): Promise<void> => {
   const group = requireGroup(domain);
   const userId = state.user?.data.id;
 
-  await tryStep(logger, "journal.client", () => sdk.Journal.listByEntity(
-    "client",
-    requireId(client.data, "client"),
-    domainId,
-    page,
-    token
-  ));
+  try {
+    await runStep(logger, "journal.client", () => sdk.Journal.listByEntity(
+      "client",
+      requireId(client.data, "client"),
+      domainId,
+      page,
+      token
+    ));
+  } catch (error) {
+    logger.error("journal.client", error);
+    await tryStep(logger, "journal.client.retry", () => sdk.Journal.listByEntity(
+      "client",
+      requireId(client.data, "client"),
+      domainId,
+      page,
+      token
+    ));
+  }
   await tryStep(logger, "journal.channel", () => sdk.Journal.listByEntity(
     "channel",
     requireId(channel, "channel"),
@@ -57,7 +69,10 @@ const main = async (): Promise<void> => {
     token
   ));
   if (userId) {
-    await tryStep(logger, "journal.user", () => sdk.Journal.listByUser(userId, page, token));
+    const userJournal = await tryStep(logger, "journal.user", () => sdk.Journal.listByUser(userId, page, token));
+    if (!userJournal) {
+      logger.skipped("journal.user", "not authorized by local policy");
+    }
   }
   await tryStep(logger, "journal.clientTelemetry", () => sdk.Journal.clientTelemetry(requireId(client.data, "client"), domainId, token));
 

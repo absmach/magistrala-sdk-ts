@@ -38,15 +38,25 @@ const main = async (): Promise<void> => {
   const alarm = alarms?.alarms[0];
   if (alarm) {
     state.alarms.push(alarm);
-    await tryStep(logger, "alarms.view", () => sdk.Alarms.view(domainId, alarm.id as string, token));
-    await tryStep(logger, "alarms.update", () => sdk.Alarms.update(
+    const viewed = await tryStep(logger, "alarms.view", () => sdk.Alarms.view(domainId, alarm.id as string, token));
+    if (viewed) {
+      state.alarms[0] = viewed;
+    }
+    const updated = await tryStep(logger, "alarms.update", () => sdk.Alarms.update(
       domainId,
       {
         ...alarm,
         status: "cleared",
+        metadata: {
+          run_id: config.runId,
+          source: "examples/setup",
+        },
       },
       token
     ));
+    if (updated) {
+      state.alarms[0] = updated;
+    }
     if (config.destructive) {
       await tryStep(logger, "alarms.delete", () => sdk.Alarms.delete(domainId, alarm.id as string, token));
     } else {

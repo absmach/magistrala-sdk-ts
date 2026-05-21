@@ -1,5 +1,5 @@
 ---
-"@absmach/magistrala-sdk": minor
+"@absmach/magistrala-sdk": patch
 ---
 
-Add setup folder to improve how exaples are run
+Add runnable setup examples for local/e2e Magistrala SDK workflows.
