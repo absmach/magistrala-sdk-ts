@@ -89,7 +89,7 @@ const main = async (): Promise<void> => {
     {
       name: `${prefixFor(config, state)}-profile`,
       description: "Created by examples/setup",
-      template_format: "json",
+      content_format: "json",
       content_template:
           "{\"client\":\"{{ .client.id }}\",\"channel\":\"{{ .channel.id }}\"}",
       defaults: {
@@ -109,7 +109,7 @@ const main = async (): Promise<void> => {
   await tryStep(logger, "bootstrap.uploadProfile", () => sdk.Bootstrap.uploadProfile(
     JSON.stringify({
       name: `${prefixFor(config, state)}-uploaded-profile`,
-      template_format: "json",
+      content_format: "json",
       content_template: "{\"run_id\":\"{{ .run_id }}\"}",
       defaults: { run_id: config.runId },
     }),
