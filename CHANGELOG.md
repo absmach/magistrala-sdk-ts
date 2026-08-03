@@ -1,5 +1,11 @@
 # @absmach/magistrala-sdk
 
+## 0.21.0
+
+### Minor Changes
+
+- 7b5a877: Add `SAVE_JSON` output type for saving JSON-structured messages to the internal database via the Rules Engine, alongside the existing `SAVE_SENML` output.
+
 ## 0.20.3
 
 ### Patch Changes
