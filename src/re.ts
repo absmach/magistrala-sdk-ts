@@ -140,8 +140,13 @@ export default class Rules {
     queryParams: RulesPageMetadata,
     token: string
   ): Promise<RulesPage> {
+    // Unset filters are dropped rather than stringified. `mode` in particular is
+    // absent when the caller wants every execution mode, and `String(undefined)`
+    // would send the literal "undefined" for the server to reject.
     const stringParams: Record<string, string> = Object.fromEntries(
-      Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+      Object.entries(queryParams)
+        .filter(([, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => [key, String(value)])
     );
     const options: RequestInit = {
       method: "GET",

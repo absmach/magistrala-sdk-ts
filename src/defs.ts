@@ -537,9 +537,18 @@ export enum OutputType {
   SLACK = "slack",
 }
 
+/**
+ * Interpreter policy a rule's script runs under. `sandboxed` restricts the
+ * script to reviewed data-transformation facilities; `unrestricted` runs it
+ * with the Rules Engine's own access. Omitting it on create means
+ * `unrestricted`, and omitting it on update preserves the stored mode.
+ */
+export type ExecutionMode = "sandboxed" | "unrestricted";
+
 export interface Script {
   type: number;
   value: string;
+  mode?: ExecutionMode;
 }
 
 export type Recurring = "daily" | "weekly" | "monthly" | "none";
@@ -643,6 +652,7 @@ export interface RulesPageMetadata {
   tag?: string;
   order?: OrderByField;
   dir?: OrderDirection;
+  mode?: ExecutionMode;
 }
 
 export interface RulesPage extends RulesPageMetadata {

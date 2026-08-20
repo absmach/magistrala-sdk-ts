@@ -76,6 +76,7 @@ export type {
   EntityMemberRole,
   MembersPage,
   Script,
+  ExecutionMode,
   Recurring,
   Schedule,
   OutputType,
