@@ -117,8 +117,10 @@ export default class Messages {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const messageData: MessagesPage = await response.json();
       return messageData;

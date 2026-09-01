@@ -34,8 +34,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const actionsResponse: { available_actions: string[] } = await response.json();
       return actionsResponse.available_actions;
@@ -71,8 +73,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const role: Role = await response.json();
       return role;
@@ -109,8 +113,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const roles: RolePage = await response.json();
       return roles;
@@ -140,8 +146,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const role: Role = await response.json();
       return role;
@@ -173,8 +181,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedRole: Role = await response.json();
       return updatedRole;
@@ -204,8 +214,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -243,8 +255,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const addActionResponse: { actions: string[] } = await response.json();
       return addActionResponse.actions;
@@ -277,8 +291,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const { actions }: { actions: string[] } = await response.json();
       return actions;
@@ -313,8 +329,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -350,8 +368,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -389,8 +409,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const addMembersResponse: { members: string[] } = await response.json();
       return addMembersResponse.members;
@@ -430,8 +452,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const membersPage = await response.json();
       return membersPage;
@@ -466,8 +490,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -503,8 +529,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -546,8 +574,10 @@ export default class Roles {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const membersPage: MemberRolesPage = await response.json();
       return membersPage;

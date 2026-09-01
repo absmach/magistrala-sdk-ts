@@ -85,8 +85,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const createResponse: Response = {
       status: response.status,
@@ -131,8 +133,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const statusResponse: Response = {
       status: response.status,
@@ -174,8 +178,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const updateResponse: Response = {
       status: response.status,
@@ -212,8 +218,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const bootstrapConfig: BootstrapConfig = await response.json();
     return bootstrapConfig;
@@ -251,8 +259,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const updatedBootstrapConfig: BootstrapConfig = await response.json();
     return updatedBootstrapConfig;
@@ -286,8 +296,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const removeResponse: Response = {
       status: response.status,
@@ -322,8 +334,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const bootstrap: BootstrapConfig = await response.json();
     return bootstrap;
@@ -362,8 +376,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const bootstraps: BootstrapPage = await response.json();
     return bootstraps;
@@ -397,8 +413,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const saved: BootstrapProfile = await response.json();
     return saved;
@@ -446,8 +464,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const saved: BootstrapProfile = await response.json();
     return saved;
@@ -480,8 +500,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const profile: BootstrapProfile = await response.json();
     return profile;
@@ -518,8 +540,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const updateResponse: Response = {
       status: response.status,
@@ -560,8 +584,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const page: BootstrapProfilesPage = await response.json();
     return page;
@@ -594,8 +620,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const deleteResponse: Response = {
       status: response.status,
@@ -634,8 +662,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const assignResponse: Response = {
       status: response.status,
@@ -674,8 +704,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const bindResponse: Response = {
       status: response.status,
@@ -711,8 +743,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const bindingsPage: { bindings?: BootstrapBindingSnapshot[] } =
       await response.json();
@@ -746,8 +780,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const refreshResponse: Response = {
       status: response.status,
@@ -783,8 +819,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const slotsPage: { binding_slots?: BindingSlot[] } = await response.json();
     return slotsPage.binding_slots ?? [];
@@ -820,8 +858,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const preview: { content?: string | null } = await response.json();
     if (preview.content === undefined || preview.content === null) {
@@ -862,8 +902,10 @@ export default class Bootstrap {
       options
     );
     if (!response.ok) {
-      const errorRes = await response.json();
-      throw Errors.HandleError(errorRes.message, response.status);
+      throw Errors.HandleError(
+        await Errors.ParseErrorMessage(response),
+        response.status
+      );
     }
     const encryptedBody = await response.text();
     const decryptedData = await Bootstrap.bootstrapDecrypt(

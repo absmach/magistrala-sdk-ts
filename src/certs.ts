@@ -51,8 +51,10 @@ export default class Certs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const cert: Cert = await response.json();
       return cert;
@@ -87,8 +89,10 @@ export default class Certs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const certsPage: CertsPage = await response.json();
       return certsPage;
@@ -127,8 +131,10 @@ export default class Certs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const cert: Cert = await response.json();
       return cert;
@@ -167,8 +173,10 @@ export default class Certs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const revokeResponse: Response = {
         status: response.status,

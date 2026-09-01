@@ -375,4 +375,37 @@ describe("Bootstraps", () => {
       sdk.Bootstrap.uploadProfile("content", "text/plain", domainId, token)
     ).rejects.toThrow("Unsupported content type 'text/plain'");
   });
+
+  test("Bind bootstrap resources should fall back to the status text when the error response has no body", async () => {
+    fetchMock.mockResponseOnce("", {
+      status: 500,
+      statusText: "Internal Server Error",
+    });
+    const bindings: BootstrapBindingRequest[] = [
+      { slot: "sensor", type: "device", resource_id: deviceId },
+    ];
+
+    await expect(
+      sdk.Bootstrap.bindResources(deviceId, bindings, domainId, token)
+    ).rejects.toEqual({
+      status: 500,
+      error: "Internal Server Error",
+    });
+  });
+
+  test("Bind bootstrap resources should surface the server's message when the error response has a JSON body", async () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ message: "not found" }), {
+      status: 404,
+    });
+    const bindings: BootstrapBindingRequest[] = [
+      { slot: "sensor", type: "device", resource_id: deviceId },
+    ];
+
+    await expect(
+      sdk.Bootstrap.bindResources(deviceId, bindings, domainId, token)
+    ).rejects.toEqual({
+      status: 404,
+      error: "not found",
+    });
+  });
 });

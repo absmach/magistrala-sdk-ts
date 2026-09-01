@@ -67,8 +67,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patData: PAT = await response.json();
       return patData;
@@ -110,8 +112,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patsData: PATsPage = await response.json();
       return patsData;
@@ -142,8 +146,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patData: PAT = await response.json();
       return patData;
@@ -173,8 +179,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -214,8 +222,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patData: PAT = await response.json();
       return patData;
@@ -255,8 +265,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patData: PAT = await response.json();
       return patData;
@@ -287,8 +299,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,
@@ -331,8 +345,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const patData: PAT = await response.json();
       return patData;
@@ -366,8 +382,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const revokeResponse: Response = {
         status: response.status,
@@ -405,8 +423,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const addScopeResponse: Response = {
         status: response.status,
@@ -453,8 +473,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const scopesData: ScopesPage = await response.json();
       return scopesData;
@@ -490,8 +512,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const removeScopeResponse: Response = {
         status: response.status,
@@ -525,8 +549,10 @@ export default class PATs {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,

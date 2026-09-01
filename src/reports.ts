@@ -81,8 +81,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const report: ReportPage = await response.json();
       return report;
@@ -121,8 +123,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const newReportConfig: ReportConfig = await response.json();
       return newReportConfig;
@@ -163,8 +167,10 @@ export default class Reports {
       }
       const response = await fetch(url.toString(), options);
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const reportConfig: ReportConfig = await response.json();
       return reportConfig;
@@ -207,8 +213,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const reportConfigs: ReportConfigPage = await response.json();
       return reportConfigs;
@@ -248,8 +256,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedReportConfig: ReportConfig = await response.json();
       return updatedReportConfig;
@@ -291,8 +301,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedReportConfig: ReportConfig = await response.json();
       return updatedReportConfig;
@@ -330,8 +342,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const statusResponse: Response = {
         status: response.status,
@@ -372,8 +386,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const enabledReportConfig: ReportConfig = await response.json();
       return enabledReportConfig;
@@ -411,8 +427,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const disabledReportConfig: ReportConfig = await response.json();
       return disabledReportConfig;
@@ -453,8 +471,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
     } catch (error) {
       throw error;
@@ -490,8 +510,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const template: Template = await response.json();
       return template;
@@ -529,8 +551,10 @@ export default class Reports {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
     } catch (error) {
       throw error;

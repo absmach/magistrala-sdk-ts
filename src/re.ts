@@ -72,8 +72,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const newRule: Rule = await response.json();
       return newRule;
@@ -117,8 +119,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const rule: Rule = await response.json();
       return rule;
@@ -166,8 +170,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const rulesPage: RulesPage = await response.json();
       return rulesPage;
@@ -206,8 +212,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedRule: Rule = await response.json();
       return updatedRule;
@@ -248,8 +256,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedRule: Rule = await response.json();
       return updatedRule;
@@ -291,8 +301,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedSchedule: Rule = await response.json();
       return updatedSchedule;
@@ -330,8 +342,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const statusResponse: Response = {
         status: response.status,
@@ -372,8 +386,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const enabledRule: Rule = await response.json();
       return enabledRule;
@@ -411,8 +427,10 @@ export default class Rules {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const disabledRule: Rule = await response.json();
       return disabledRule;

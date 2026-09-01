@@ -91,8 +91,10 @@ export default class Health {
         new URL(this.healthEndpoint, url).toString()
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const userData: HealthInfo = await response.json();
       return userData;

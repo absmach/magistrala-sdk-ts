@@ -66,8 +66,10 @@ export default class Alarms {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const alarmsPage: AlarmsPage = await response.json();
       return alarmsPage;
@@ -106,8 +108,10 @@ export default class Alarms {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const alarm: Alarm = await response.json();
       return alarm;
@@ -150,8 +154,10 @@ export default class Alarms {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const updatedAlarm: Alarm = await response.json();
       return updatedAlarm;
@@ -190,8 +196,10 @@ export default class Alarms {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deleteResponse: Response = {
         status: response.status,

@@ -72,8 +72,10 @@ export default class Journal {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const journalsPage: JournalsPage = await response.json();
       return journalsPage;
@@ -117,8 +119,10 @@ export default class Journal {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const journalsPage: JournalsPage = await response.json();
       return journalsPage;
@@ -156,8 +160,10 @@ export default class Journal {
         options
       );
       if (!response.ok) {
-        const errorRes = await response.json();
-        throw Errors.HandleError(errorRes.message, response.status);
+        throw Errors.HandleError(
+          await Errors.ParseErrorMessage(response),
+          response.status
+        );
       }
       const deviceTelemetry: DeviceTelemetry = await response.json();
       return deviceTelemetry;
