@@ -75,15 +75,24 @@ describe("Alarms", () => {
     expect(response).toEqual(alarm);
   });
 
-  test("Update should update an alarm", async () => {
+  test("Update should partially update an alarm", async () => {
     const updatedAlarm = {
       ...alarm,
-      message: "Updated high temperature alert",
+      status: "cleared" as const,
     };
     fetchMock.mockResponseOnce(JSON.stringify(updatedAlarm));
 
-    const response = await sdk.update(domainId, updatedAlarm, token);
+    const response = await sdk.update(
+      domainId,
+      alarmId,
+      { status: "cleared" },
+      token
+    );
     expect(response).toEqual(updatedAlarm);
+
+    const request = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(request.method).toBe("PATCH");
+    expect(JSON.parse(request.body as string)).toEqual({ status: "cleared" });
   });
 
   test("Delete should delete an alarm", async () => {

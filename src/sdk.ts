@@ -100,6 +100,7 @@ export type {
   AlarmPageMeta,
   AlarmsPage,
   AlarmStatus,
+  AlarmUpdate,
   Report,
   Metric,
   ReportPage,

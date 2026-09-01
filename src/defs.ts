@@ -772,6 +772,19 @@ export interface Alarm {
   metadata?: Metadata;
 }
 
+/**
+ * Client-settable alarm fields. Lifecycle attribution (assigned_by/at,
+ * acknowledged_by/at, resolved_by/at) is derived by the service from the
+ * authenticated caller and the server clock, so it cannot be set here.
+ */
+export interface AlarmUpdate {
+  status?: Exclude<AlarmStatus, "all">;
+  severity?: number;
+  assignee_id?: string;
+  acknowledged?: boolean;
+  metadata?: Metadata;
+}
+
 export interface AlarmsPage {
   offset: number;
   limit: number;
