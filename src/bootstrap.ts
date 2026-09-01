@@ -49,10 +49,10 @@ export default class Bootstrap {
     this.bootstrapUrl = new URL(bootstrapUrl);
     this.contentType = "application/json";
     this.bootstrapEndpoint = "clients/bootstrap";
-    this.configsEndpoint = "clients/configs";
-    this.bootstrapCertsEndpoint = "clients/configs/certs";
-    this.bootstrapProfilesPath = "clients/bootstrap/profiles";
-    this.bootstrapEnrollmentsPath = "clients/bootstrap/enrollments";
+    this.configsEndpoint = "devices/configs";
+    this.bootstrapCertsEndpoint = "devices/configs/certs";
+    this.bootstrapProfilesPath = "devices/bootstrap/profiles";
+    this.bootstrapEnrollmentsPath = "devices/bootstrap/enrollments";
     this.secureEndpoint = "secure";
   }
 
