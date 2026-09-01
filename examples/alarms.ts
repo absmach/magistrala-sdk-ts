@@ -38,8 +38,8 @@ mgSdk.Alarms.view(domainId, "<alarm_id>", token)
 
 mgSdk.Alarms.update(
   domainId,
+  "<alarm_id>",
   {
-    id: "<alarm_id>",
     status: "cleared",
   },
   token

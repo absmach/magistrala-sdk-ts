@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import Errors from "./errors";
-import type { Alarm, AlarmPageMeta, AlarmsPage, Response } from "./defs";
+import type {
+  Alarm,
+  AlarmPageMeta,
+  AlarmsPage,
+  AlarmUpdate,
+  Response,
+} from "./defs";
 
 /**
  * @class Alarms
@@ -111,31 +117,34 @@ export default class Alarms {
   }
 
   /**
-   * Updates an existing alarm.
-   * @param {Alarm} alarm - Alarm object containing updated fields.
+   * Partially updates an existing alarm. Only the fields present in update are
+   * changed; omitted fields are left untouched.
    * @param {string} domainId - The unique ID of the domain.
+   * @param {string} alarmId - The unique ID of the alarm.
+   * @param {AlarmUpdate} update - The fields to change.
    * @param {string} token - Authorization token.
    * @returns {Promise<Alarm>} - The updated alarm.
    * @throws {Error} - If the update fails.
    */
   public async update(
     domainId: string,
-    alarm: Alarm,
+    alarmId: string,
+    update: AlarmUpdate,
     token: string
   ): Promise<Alarm> {
     const options: RequestInit = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": this.contentType,
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(alarm),
+      body: JSON.stringify(update),
     };
 
     try {
       const response = await fetch(
         new URL(
-          `${domainId}/${this.alarmsEndpoint}/${alarm.id}`,
+          `${domainId}/${this.alarmsEndpoint}/${alarmId}`,
           this.alarmsUrl
         ).toString(),
         options
